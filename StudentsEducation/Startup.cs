@@ -27,12 +27,6 @@ namespace StudentsEducation
         {
             services.AddDbContext<EducationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            /*          services.AddAuthorization(e =>
-            {
-                e.AddPolicy("Admin", e => e.RequireClaim("IsAdmin", bool.TrueString));
-                e.AddPolicy("Student", e => e.RequireClaim("IsStudent", bool.TrueString));
-                e.AddPolicy("Teacher", e => e.RequireClaim("IsTeacher", bool.TrueString));
-            });*/
             services.AddControllersWithViews();
         }
 
@@ -62,6 +56,7 @@ namespace StudentsEducation
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
