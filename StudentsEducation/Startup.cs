@@ -9,7 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
+using StudentsEducation.Infrastructure.Repository;
 
 namespace StudentsEducation
 {
@@ -25,9 +27,18 @@ namespace StudentsEducation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //also some services are in the identity/IdentityHostingStartup
+
+            //db
             services.AddDbContext<EducationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           
+
+            //mvc
             services.AddControllersWithViews();
+            
+            //repos injection
+            services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +51,6 @@ namespace StudentsEducation
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -48,6 +58,8 @@ namespace StudentsEducation
 
             app.UseRouting();
 
+
+            //identity
             app.UseAuthentication();
             app.UseAuthorization();
 
