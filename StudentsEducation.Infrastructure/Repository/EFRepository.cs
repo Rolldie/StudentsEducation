@@ -5,6 +5,7 @@ using StudentsEducation.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,35 +47,25 @@ namespace StudentsEducation.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public T Find(int id)
+        public T Find(int id)=> entityList.Find(id);
+
+        public async Task<T> FindAsync(int id)=> await entityList.FindAsync(id);
+
+        public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
-            return entityList.Find(id);
+            IQueryable<T> query = _context.Set<T>();
+            if (filter != null) query=query.Where(filter);
+            if (orderBy != null) return orderBy(query);
+            else return query.ToList<T>();
         }
 
-        public async Task<T> FindAsync(int id)
-        {
-            return await entityList.FindAsync(id);
-        }
+        public IEnumerable<T> GetAll()=> entityList.AsEnumerable();
 
-        public IEnumerable<T> GetAll()
-        {
-            return entityList.AsEnumerable();
-        }
+        public async Task<IEnumerable<T>> GetAllAsync()=> await entityList.ToListAsync(); 
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await entityList.ToListAsync(); 
-        }
+        public T GetById(int id)=> entityList.Find(id);
 
-        public T GetById(int id)
-        {
-            return entityList.Find(id);
-        }
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await entityList.FindAsync(id);
-        }
+        public async Task<T> GetByIdAsync(int id)=> await entityList.FindAsync(id);
 
         public void Update(T entity)
         {

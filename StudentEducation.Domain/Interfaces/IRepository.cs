@@ -1,6 +1,8 @@
 ﻿using StudentsEducation.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace StudentsEducation.Domain.Interfaces
@@ -9,6 +11,9 @@ namespace StudentsEducation.Domain.Interfaces
     {
         public IEnumerable<T> GetAll();
         public T GetById(int id);
+        public IEnumerable<T> Get(
+    Expression<Func<T, bool>> filter = null,
+    Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
         public void Update(T entity);
         public void Delete(int id);
         public T Create(T entity);

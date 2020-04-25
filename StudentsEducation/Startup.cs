@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudentsEducation.Domain.Interfaces;
+using StudentsEducation.Domain.Services;
 using StudentsEducation.Infrastructure.Data;
 using StudentsEducation.Infrastructure.Repository;
 
@@ -31,12 +32,13 @@ namespace StudentsEducation
 
             //db
             services.AddDbContext<EducationDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-           
+            options.UseLazyLoadingProxies()
+                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); ;
 
+           // services.AddRazorPages();
             //mvc
             services.AddControllersWithViews();
-            
+            services.AddTransient<StudentService>();
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
         }
@@ -65,10 +67,11 @@ namespace StudentsEducation
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                
             });
         }
     }

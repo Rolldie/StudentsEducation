@@ -8,6 +8,7 @@ namespace StudentsEducation.Infrastructure.Data
 {
     public class EducationDbContext:DbContext
     {
+        public virtual DbSet<Cathedra> Cathedras { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
 

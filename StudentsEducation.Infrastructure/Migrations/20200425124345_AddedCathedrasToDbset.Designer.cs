@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    partial class EducationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200425124345_AddedCathedrasToDbset")]
+    partial class AddedCathedrasToDbset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CathedraId")
+                    b.Property<int?>("CathedraId")
                         .HasColumnType("int");
 
                     b.Property<int>("CourseNumber")
@@ -105,9 +107,7 @@ namespace StudentsEducation.Infrastructure.Migrations
                 {
                     b.HasOne("StudentsEducation.Domain.Entities.Cathedra", "Cathedra")
                         .WithMany("Groups")
-                        .HasForeignKey("CathedraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CathedraId");
                 });
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Student", b =>

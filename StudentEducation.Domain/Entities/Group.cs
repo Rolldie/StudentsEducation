@@ -14,9 +14,12 @@ namespace StudentsEducation.Domain.Entities
         [Range(1,9)]
         public int CourseNumber{ get; set; }
         [Required]
+        [DataType(DataType.Date)]
         public DateTime StartEducationDate { get; set; }
         [Required]
+        [DataType(DataType.Date)]
         public DateTime EndEducationDate { get; set; }
+        [Required]
         public virtual Cathedra Cathedra { get; set; }
         public virtual IEnumerable<Student> Students { get; set; }
     }
