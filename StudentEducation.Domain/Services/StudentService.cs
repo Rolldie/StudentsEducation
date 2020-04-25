@@ -17,11 +17,11 @@ namespace StudentsEducation.Domain.Services
 
         public IEnumerable<Student> GetStudentWithActivity()
         {
-            return _context.Get(null,null, "Group,Cathedra");
+            return _context.Get(null,null);
         }
         public IEnumerable<Student> GetStudentsByGroup(int id)
         {
-            return _context.Get(e => e.Group.Id == id, null, includeProperties:"Group");
+            return _context.Get(e => e.Group.Id == id, null);
         }
 
 
