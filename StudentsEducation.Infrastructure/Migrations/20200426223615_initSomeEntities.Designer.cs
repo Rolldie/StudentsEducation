@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    partial class EducationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200426223615_initSomeEntities")]
+    partial class initSomeEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,54 +192,6 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("StudentsEducation.Domain.Entities.Work", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkControlTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.HasIndex("WorkControlTypeId");
-
-                    b.ToTable("Works");
-                });
-
-            modelBuilder.Entity("StudentsEducation.Domain.Entities.WorkControlType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ControlName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("ValueDifference")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkControlTypes");
-                });
-
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Group", b =>
                 {
                     b.HasOne("StudentsEducation.Domain.Entities.Cathedra", "Cathedra")
@@ -282,21 +236,6 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.HasOne("StudentsEducation.Domain.Entities.ControlType", "ControlType")
                         .WithMany("Subjects")
                         .HasForeignKey("ControlTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("StudentsEducation.Domain.Entities.Work", b =>
-                {
-                    b.HasOne("StudentsEducation.Domain.Entities.Subject", "Subject")
-                        .WithMany("Works")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentsEducation.Domain.Entities.WorkControlType", "WorkControlType")
-                        .WithMany("Works")
-                        .HasForeignKey("WorkControlTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

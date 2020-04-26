@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoolProof.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -18,9 +19,15 @@ namespace StudentsEducation.Domain.Entities
         public DateTime StartEducationDate { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime EndEducationDate { get; set; }
+        [GreaterThan("StartEducationDate")]
+        public DateTime EndEducationDate{get; set;}
+
+        //references
+        [Required]
+        public virtual int CathedraId { get; set; }
         [Required]
         public virtual Cathedra Cathedra { get; set; }
         public virtual IEnumerable<Student> Students { get; set; }
+        public virtual IEnumerable<Schedule> Schedules { get; set; }
     }
 }

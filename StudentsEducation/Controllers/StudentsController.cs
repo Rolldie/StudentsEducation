@@ -13,21 +13,21 @@ namespace StudentsEducation.Web.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly StudentService _service;
+        private readonly StudentsService _service;
 
-        public StudentsController(StudentService service)
+        public StudentsController(StudentsService service)
         {
             _service = service;
         }
 
-
+        //TODO: Сделать асинхронным...
         public async Task<IActionResult> Index(int ?id)
         {
             int value = id.GetValueOrDefault();
             if (value > 0)
-                return View(_service.GetStudentsByGroup(value));
+                return View(await _service.GetStudentsByGroupAsync(value));
             else
-                return View(_service.GetStudentWithActivity());
+                return View(await _service.GetStudentsAsync());
         }
 
 

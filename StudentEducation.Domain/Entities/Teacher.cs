@@ -5,14 +5,14 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
-    public class Student:BaseEntity
+    public class Teacher:BaseEntity
     {
         [Required]
-        [StringLength(200)]
         public string Name { get; set; }
-        [Required]
-        public DateTime BirthDate { get; set; }
-        [Required]
-        public virtual Group Group { get; set; }
+
+
+        //references
+        public virtual IEnumerable<Schedule> Schedules { get; set; }
+
     }
 }

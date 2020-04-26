@@ -38,7 +38,7 @@ namespace StudentsEducation
            // services.AddRazorPages();
             //mvc
             services.AddControllersWithViews();
-            services.AddTransient<StudentService>();
+            services.AddTransient<StudentsService>();
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
         }

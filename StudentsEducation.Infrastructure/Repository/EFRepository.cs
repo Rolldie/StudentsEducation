@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace StudentsEducation.Infrastructure.Repository
 {
-    public class EFRepository<T> : IAsyncRepository<T>, IRepository<T> where T : BaseEntity
+    public class EFRepository<T> : IAsyncRepository<T>, IRepository<T> where T :class
     {
         private readonly EducationDbContext _context;
-        private DbSet<T> entityList;
+        private readonly DbSet<T> entityList;
         public EFRepository(EducationDbContext context)
         {
             _context = context;
@@ -57,6 +57,13 @@ namespace StudentsEducation.Infrastructure.Repository
             if (filter != null) query=query.Where(filter);
             if (orderBy != null) return orderBy(query);
             else return query.ToList<T>();
+        }
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (filter != null) query = query.Where(filter);
+            if (orderBy != null) return orderBy(query);
+            else return await query.ToListAsync<T>();
         }
 
         public IEnumerable<T> GetAll()=> entityList.AsEnumerable();

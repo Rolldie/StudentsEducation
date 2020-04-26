@@ -7,7 +7,7 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Interfaces
 {
-    public interface IRepository<T> where T:BaseEntity
+    public interface IRepository<T> where T:class
     {
         public IEnumerable<T> GetAll();
         public T GetById(int id);
