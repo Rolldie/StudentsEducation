@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
-using StudentsEducation.Domain.Services;
+using StudentsEducation.Infrastructure.Services;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Controllers

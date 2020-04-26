@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
+    /*TODO:This is wrong, can be optimized */
    public class WorkControlType:BaseEntity
     {
         [Required]

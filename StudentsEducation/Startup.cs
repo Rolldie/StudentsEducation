@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Domain.Services;
+using StudentsEducation.Infrastructure.Services;
 using StudentsEducation.Infrastructure.Data;
 using StudentsEducation.Infrastructure.Repository;
 
@@ -71,7 +71,6 @@ namespace StudentsEducation
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                
             });
         }
     }

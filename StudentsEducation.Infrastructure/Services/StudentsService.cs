@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentsEducation.Domain.Services
+namespace StudentsEducation.Infrastructure.Services
 {
     public class StudentsService
     {
