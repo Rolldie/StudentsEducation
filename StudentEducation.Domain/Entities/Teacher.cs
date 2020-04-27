@@ -11,6 +11,8 @@ namespace StudentsEducation.Domain.Entities
         public string Name { get; set; }
 
 
+
+
         //references
         public virtual IEnumerable<Schedule> Schedules { get; set; }
 

@@ -15,6 +15,9 @@ namespace StudentsEducation.Domain.Entities
         public string MainPhoneNumber { get; set; }
         [StringLength(20)]
         public string SecondPhoneNumber { get; set; }
+       
+        
+        
         //references
         public virtual IEnumerable<Group> Groups { get; set; }
     }

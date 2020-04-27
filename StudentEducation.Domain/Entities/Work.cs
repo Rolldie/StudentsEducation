@@ -1,11 +1,12 @@
-﻿using System;
+﻿using StudentsEducation.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
-    public class Work:BaseEntity
+    public class Work:BaseEntity, ITypedByControl
     {
         [Required]
         public string Name { get; set; }
@@ -13,7 +14,14 @@ namespace StudentsEducation.Domain.Entities
         //references
         [Required]
         public virtual Subject Subject { get; set; }
-        [Required]
-        public virtual WorkControlType WorkControlType { get; set; }
+        public virtual ControlType ControlType { get; set; }
+
+
+
+        //interface method to use MarkValidation in subentities
+        public ControlType GetControlType()
+        {
+            return ControlType;
+        }
     }
 }

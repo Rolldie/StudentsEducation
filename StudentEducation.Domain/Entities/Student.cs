@@ -12,7 +12,11 @@ namespace StudentsEducation.Domain.Entities
         public string Name { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
+
+
+        //references
         [Required]
         public virtual Group Group { get; set; }
+        public virtual IEnumerable<FinalControl> FinalControls { get; set; }
     }
 }

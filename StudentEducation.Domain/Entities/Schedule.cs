@@ -10,6 +10,9 @@ namespace StudentsEducation.Domain.Entities
     {
 
 
+
+        //references
+
         [Required] 
         public virtual  Group Group { get; set; }
 

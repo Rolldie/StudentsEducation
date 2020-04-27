@@ -32,8 +32,8 @@ namespace StudentsEducation
 
             //db
             services.AddDbContext<EducationDbContext>(options => 
-            options.UseLazyLoadingProxies()
-                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); ;
+                options.UseLazyLoadingProxies()
+                       .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
            // services.AddRazorPages();
             //mvc
@@ -41,6 +41,7 @@ namespace StudentsEducation
             services.AddTransient<StudentsService>();
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

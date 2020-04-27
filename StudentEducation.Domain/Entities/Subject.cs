@@ -1,11 +1,12 @@
-﻿using System;
+﻿using StudentsEducation.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
-    public class Subject:BaseEntity
+    public class Subject:BaseEntity, ITypedByControl
     {
         [Required]
         public string Name { get; set; }
@@ -20,5 +21,11 @@ namespace StudentsEducation.Domain.Entities
         public virtual IEnumerable<Work> Works { get; set; }
         public virtual IEnumerable<Schedule> Schedules { get; set; }
 
+
+        //interface methods to use in MarkValidation
+        public ControlType GetControlType()
+        {
+            return ControlType;
+        }
     }
 }

@@ -22,6 +22,9 @@ namespace StudentsEducation.Domain.Entities
         [GreaterThan("StartEducationDate")]
         public DateTime EndEducationDate{get; set;}
 
+
+
+
         //references
         [Required]
         public virtual int CathedraId { get; set; }

@@ -14,7 +14,10 @@ namespace StudentsEducation.Domain.Entities
         [StringLength(10)]
         public string ValueDifference { get; set; }
 
+       
+        
         //Reference
+        public virtual IEnumerable<Work> Works { get; set; }
         public virtual IEnumerable<Subject> Subjects { get; set; }
     }
 }

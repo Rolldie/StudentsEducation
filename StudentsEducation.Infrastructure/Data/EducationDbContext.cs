@@ -16,7 +16,7 @@ namespace StudentsEducation.Infrastructure.Data
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Work> Works { get; set; }
-        public virtual DbSet<WorkControlType> WorkControlTypes { get; set; }
+        public virtual DbSet<FinalControl> FinalControls { get; set; }
 
         public EducationDbContext(DbContextOptions<EducationDbContext> options):base(options)
         {
