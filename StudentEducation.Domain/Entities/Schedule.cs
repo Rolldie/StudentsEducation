@@ -21,5 +21,8 @@ namespace StudentsEducation.Domain.Entities
 
         [Required]
         public virtual Teacher Teacher { get; set; }
+
+
+        public virtual IEnumerable<Skip> Skips { get; set; }
     }
 }

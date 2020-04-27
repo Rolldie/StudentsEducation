@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    partial class EducationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200427130746_addedMarks")]
+    partial class addedMarks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,33 +180,6 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.ToTable("Schedules");
                 });
 
-            modelBuilder.Entity("StudentsEducation.Domain.Entities.Skip", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Information")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Skips");
-                });
-
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -323,7 +298,7 @@ namespace StudentsEducation.Infrastructure.Migrations
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Marks", b =>
                 {
                     b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
-                        .WithMany("Marks")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -354,19 +329,6 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("StudentsEducation.Domain.Entities.Skip", b =>
-                {
-                    b.HasOne("StudentsEducation.Domain.Entities.Schedule", "Schedule")
-                        .WithMany("Skips")
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
-                        .WithMany("Skips")
-                        .HasForeignKey("StudentId");
                 });
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Student", b =>
