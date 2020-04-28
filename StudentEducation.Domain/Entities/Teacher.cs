@@ -8,6 +8,7 @@ namespace StudentsEducation.Domain.Entities
     public class Teacher:BaseEntity
     {
         [Required]
+        [StringLength(100)]
         public string Name { get; set; }
 
 

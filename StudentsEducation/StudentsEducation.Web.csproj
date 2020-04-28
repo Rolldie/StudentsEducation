@@ -28,4 +28,16 @@
     <ProjectReference Include="..\StudentsEducation.Infrastructure\StudentsEducation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Pages\" />
+    <Folder Include="Areas\Student\Controllers\" />
+    <Folder Include="Areas\Student\Data\" />
+    <Folder Include="Areas\Student\Pages\" />
+    <Folder Include="Areas\Student\Views\" />
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

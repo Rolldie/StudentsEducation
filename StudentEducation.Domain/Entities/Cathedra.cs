@@ -12,8 +12,10 @@ namespace StudentsEducation.Domain.Entities
         public string Name { get; set; }
         [Required]
         [StringLength(20)]
+        [Phone]
         public string MainPhoneNumber { get; set; }
         [StringLength(20)]
+        [Phone]
         public string SecondPhoneNumber { get; set; }
        
         

@@ -12,8 +12,9 @@ namespace StudentsEducation.Domain.Entities
         public string Name { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
-
-
+        [Required]
+        [StringLength(7)]
+        public string GradeBookNumber { get; set; }
         //references
         [Required]
         public virtual Group Group { get; set; }

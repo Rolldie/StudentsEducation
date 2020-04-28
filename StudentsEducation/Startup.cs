@@ -60,18 +60,15 @@ namespace StudentsEducation
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCookiePolicy();
 
             //identity
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

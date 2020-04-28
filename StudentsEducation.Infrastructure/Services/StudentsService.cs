@@ -18,7 +18,15 @@ namespace StudentsEducation.Infrastructure.Services
 
         public  async Task<IEnumerable<Student>> GetStudentsAsync()=>await _context.GetAsync(null,null);
        
-        public async Task<IEnumerable<Student>> GetStudentsByGroupAsync(int id)=> await _context.GetAsync(e => e.Group.Id == id, null);
+        public async Task<IEnumerable<Student>> GetStudentsByGroupAsync(int id) =>
+            await _context.GetAsync(e => e.Group.Id == id, null);
+
+        public async Task<Student> AddNewStudent(Student student)
+        {
+            return await _context.CreateAsync(student);
+        }
+            
+
 
 
     }

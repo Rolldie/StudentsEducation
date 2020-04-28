@@ -19,8 +19,6 @@ namespace StudentsEducation.Domain.Entities
         public DateTime Date { get; set; }
 
 
-
-
         //references
 
         [Required]

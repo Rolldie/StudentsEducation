@@ -9,8 +9,10 @@ namespace StudentsEducation.Domain.Entities
     public class Subject:BaseEntity, ITypedByControl
     {
         [Required]
+        [StringLength(200)]
         public string Name { get; set; }
         [Required]
+        [Range(1,9)]
         public int CourseNumber { get; set; }
 
 
