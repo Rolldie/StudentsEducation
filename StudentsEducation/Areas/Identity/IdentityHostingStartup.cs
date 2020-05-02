@@ -21,11 +21,13 @@ namespace StudentsEducation.Web.Areas.Identity
                 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AccountDbContext>();
+                services.AddAuthorization();
                 services.Configure<IdentityOptions>(options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase= false;
+                    
                 });
             });
         }

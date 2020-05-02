@@ -1,0 +1,31 @@
+﻿@page
+@model StudentsEducation.Web.Areas.Admin.Pages.Students.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<table>
+    <thead>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Students.First().Name)</td>
+            <td>@Html.DisplayNameFor(model => model.Students.First().BirthDate)</td>
+            <td>@Html.DisplayNameFor(model => model.Students.First().Group.Name)</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>@student.Name</td>
+                <td>@student.BirthDate</td>
+                <td>@student.Group.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

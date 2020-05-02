@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsEducation.Web", "StudentsEducation\StudentsEducation.Web.csproj", "{A1478427-27DC-45DF-96C6-D67FF30487C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsEducation.Web", "StudentsEducation\StudentsEducation.Web.csproj", "{A1478427-27DC-45DF-96C6-D67FF30487C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsEducation.Domain", "StudentEducation.Domain\StudentsEducation.Domain.csproj", "{DC2EF741-2AE9-4C94-8705-2297D2D98F99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsEducation.Domain", "StudentEducation.Domain\StudentsEducation.Domain.csproj", "{DC2EF741-2AE9-4C94-8705-2297D2D98F99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsEducation.Infrastructure", "StudentsEducation.Infrastructure\StudentsEducation.Infrastructure.csproj", "{548189F9-2FF6-4B8E-9182-43C91417082D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsEducation.Infrastructure", "StudentsEducation.Infrastructure\StudentsEducation.Infrastructure.csproj", "{548189F9-2FF6-4B8E-9182-43C91417082D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

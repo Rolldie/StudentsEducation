@@ -1,0 +1,38 @@
+﻿@page
+@model StudentsEducation.Web.Areas.Admin.Pages.IndexModel
+@using StudentsEducation.Infrastructure
+@namespace StudentsEducation.Web.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<h1>Administration panel</h1>
+
+<h2>GO to:</h2>
+<div class="nav-item">
+    <a class="nav-link" asp-area="Admin" asp-page="Students/Index">Студенты</a>
+</div>
+<div class="nav-item">
+    <a class="nav-link" asp-area="Admin" asp-page="Users/Index">Пользователи</a>
+</div>
+
+<div class="card">
+    <div class="card-b">
+
+        <div class="card-text">
+            Users
+        </div>
+        <div class="card-text">
+            DbMAnipulations
+        </div>
+    </div>
+</div>
+<ul>
+    <li>Roles</li>
+    <li>Db manipulations</li>
+    <li>Users</li>
+    <li></li>
+
+
+</ul>
