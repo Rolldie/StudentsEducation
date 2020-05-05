@@ -1,8 +1,5 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.Admin.Pages.IndexModel
-@using StudentsEducation.Infrastructure
-@namespace StudentsEducation.Web.Pages
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "_Layout";
 }
@@ -17,22 +14,25 @@
     <a class="nav-link" asp-area="Admin" asp-page="Users/Index">Пользователи</a>
 </div>
 
-<div class="card">
-    <div class="card-b">
+@{ 
+    Dictionary<string, string> pageAndName = new Dictionary<string, string>();
+    pageAndName.Add("./Users/Index", "User");
+    pageAndName.Add("./Roles/Index", "Roles");
 
-        <div class="card-text">
-            Users
-        </div>
-        <div class="card-text">
-            DbMAnipulations
+    pageAndName.Add("./Students/Index", "Students");
+    // pageAndName.Add("./Users/Index", "User");
+    // pageAndName.Add("./Users/Index", "User");
+    //pageAndName.Add("./Users/Index", "User");
+    // pageAndName.Add("./Users/Index", "User");
+    //pageAndName.Add("./Users/Index", "User");
+    foreach(var elem in pageAndName)
+    {
+    <div class="card">
+        <div class="card-body">
+            <div class="card-text">
+                <a asp-page="@elem.Key">@elem.Value</a>
+            </div>
         </div>
     </div>
-</div>
-<ul>
-    <li>Roles</li>
-    <li>Db manipulations</li>
-    <li>Users</li>
-    <li></li>
-
-
-</ul>
+    }
+} 

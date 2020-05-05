@@ -59,8 +59,8 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.Property<string>("ValueDifference")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(7)")
+                        .HasMaxLength(7);
 
                     b.HasKey("Id");
 

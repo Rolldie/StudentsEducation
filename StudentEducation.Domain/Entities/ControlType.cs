@@ -11,7 +11,7 @@ namespace StudentsEducation.Domain.Entities
         [StringLength(30)]
         public string ControlName { get; set; }
         [Required]
-        [StringLength(10)]
+        [StringLength(7)]
         public string ValueDifference { get; set; }
 
        

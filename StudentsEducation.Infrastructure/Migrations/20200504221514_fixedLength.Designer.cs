@@ -10,8 +10,8 @@ using StudentsEducation.Infrastructure.Data;
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    [Migration("20200426225023_TryAddWork")]
-    partial class TryAddWork
+    [Migration("20200504221514_fixedLength")]
+    partial class fixedLength
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,12 +61,40 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.Property<string>("ValueDifference")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(7)")
+                        .HasMaxLength(7);
 
                     b.HasKey("Id");
 
                     b.ToTable("ControlTypes");
+                });
+
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.FinalControl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("MarkValue")
+                        .HasColumnType("float");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("FinalControls");
                 });
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Group", b =>
@@ -100,6 +128,31 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.Marks", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("MarkValue")
+                        .HasColumnType("float");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("Marks");
+                });
+
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Schedule", b =>
                 {
                     b.Property<int>("Id")
@@ -107,8 +160,14 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("EndsIn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("StartsIn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
@@ -127,6 +186,33 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.ToTable("Schedules");
                 });
 
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.Skip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Information")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Skips");
+                });
+
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -136,6 +222,11 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("GradeBookNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(7)")
+                        .HasMaxLength(7);
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -167,7 +258,8 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 
@@ -185,7 +277,8 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -199,45 +292,39 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ControlTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkControlTypeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("ControlTypeId");
 
-                    b.HasIndex("WorkControlTypeId");
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Works");
                 });
 
-            modelBuilder.Entity("StudentsEducation.Domain.Entities.WorkControlType", b =>
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.FinalControl", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
+                        .WithMany("FinalControls")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("ControlName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("ValueDifference")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkControlTypes");
+                    b.HasOne("StudentsEducation.Domain.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Group", b =>
@@ -245,6 +332,21 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.HasOne("StudentsEducation.Domain.Entities.Cathedra", "Cathedra")
                         .WithMany("Groups")
                         .HasForeignKey("CathedraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.Marks", b =>
+                {
+                    b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
+                        .WithMany("Marks")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentsEducation.Domain.Entities.Work", "Work")
+                        .WithMany()
+                        .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -270,6 +372,19 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.Skip", b =>
+                {
+                    b.HasOne("StudentsEducation.Domain.Entities.Schedule", "Schedule")
+                        .WithMany("Skips")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
+                        .WithMany("Skips")
+                        .HasForeignKey("StudentId");
+                });
+
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Student", b =>
                 {
                     b.HasOne("StudentsEducation.Domain.Entities.Group", "Group")
@@ -290,15 +405,13 @@ namespace StudentsEducation.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Work", b =>
                 {
+                    b.HasOne("StudentsEducation.Domain.Entities.ControlType", "ControlType")
+                        .WithMany("Works")
+                        .HasForeignKey("ControlTypeId");
+
                     b.HasOne("StudentsEducation.Domain.Entities.Subject", "Subject")
                         .WithMany("Works")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentsEducation.Domain.Entities.WorkControlType", "WorkControlType")
-                        .WithMany("Works")
-                        .HasForeignKey("WorkControlTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
