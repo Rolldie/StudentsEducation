@@ -4,25 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Students
 {
     public class IndexModel : PageModel
     {
-        private readonly StudentsService studentService;
-        public IndexModel(StudentsService service)
+        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+
+        public IndexModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
         {
-            studentService = service;
+            _context = context;
         }
 
-        public IEnumerable<Student> Students { get; set; }
+        public IList<Student> Student { get;set; }
 
-
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Students = studentService.GetStudentsAsync().Result;
+            Student = await _context.Students.ToListAsync();
         }
     }
 }

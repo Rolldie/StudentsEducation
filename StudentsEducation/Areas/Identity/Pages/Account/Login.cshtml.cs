@@ -11,19 +11,21 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
+using StudentsEducation.Infrastructure.Identity.Data;
 
 namespace StudentsEducation.Web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<AppUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<AppUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,18 +41,20 @@ namespace StudentsEducation.Web.Areas.Identity.Pages.Account
 
         [TempData]
         public string ErrorMessage { get; set; }
-
+        
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [DisplayName("Имя пользователя или Email")]
+            
+            public string UserName { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [DisplayName("Пароль")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Запомнить меня?")]
             public bool RememberMe { get; set; }
         }
 
@@ -78,8 +82,8 @@ namespace StudentsEducation.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true 
+                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

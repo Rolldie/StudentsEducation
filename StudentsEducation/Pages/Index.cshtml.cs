@@ -12,11 +12,5 @@ namespace StudentsEducation.Web.Pages
     [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> signIn;
-        public void OnGet()
-        {
-            RedirectToPage("Error");
-        }
     }
 }

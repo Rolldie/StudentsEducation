@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StudentsEducation.Infrastructure.Identity;
+using StudentsEducation.Infrastructure.Identity.Data;
 
 [assembly: HostingStartup(typeof(StudentsEducation.Web.Areas.Identity.IdentityHostingStartup))]
 namespace StudentsEducation.Web.Areas.Identity
@@ -19,7 +20,7 @@ namespace StudentsEducation.Web.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AccountConnection")));
                 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AccountDbContext>();
                 services.AddAuthorization();
                 services.Configure<IdentityOptions>(options =>

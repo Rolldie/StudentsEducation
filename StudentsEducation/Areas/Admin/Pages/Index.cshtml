@@ -7,25 +7,8 @@
 <h1>Administration panel</h1>
 
 <h2>GO to:</h2>
-<div class="nav-item">
-    <a class="nav-link" asp-area="Admin" asp-page="Students/Index">Студенты</a>
-</div>
-<div class="nav-item">
-    <a class="nav-link" asp-area="Admin" asp-page="Users/Index">Пользователи</a>
-</div>
-
 @{ 
-    Dictionary<string, string> pageAndName = new Dictionary<string, string>();
-    pageAndName.Add("./Users/Index", "User");
-    pageAndName.Add("./Roles/Index", "Roles");
-
-    pageAndName.Add("./Students/Index", "Students");
-    // pageAndName.Add("./Users/Index", "User");
-    // pageAndName.Add("./Users/Index", "User");
-    //pageAndName.Add("./Users/Index", "User");
-    // pageAndName.Add("./Users/Index", "User");
-    //pageAndName.Add("./Users/Index", "User");
-    foreach(var elem in pageAndName)
+    foreach(var elem in Model.PageAndName)
     {
     <div class="card">
         <div class="card-body">
