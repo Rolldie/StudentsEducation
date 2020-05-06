@@ -6,24 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
 {
     public class IndexModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly ICathedrasAndGroupsService _service;
 
-        public IndexModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public IndexModel(ICathedrasAndGroupsService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        public IList<Cathedra> Cathedra { get;set; }
-
+        public IEnumerable<Cathedra> Cathedra { get;set; }
         public async Task OnGetAsync()
         {
-            Cathedra = await _context.Cathedras.ToListAsync();
+            Cathedra = await _service.GetCathedrasAsync();
+
         }
     }
 }

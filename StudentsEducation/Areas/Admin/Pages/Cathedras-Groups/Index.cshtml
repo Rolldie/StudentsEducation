@@ -14,34 +14,44 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Cathedra[0].Name)
+                @Html.DisplayNameFor(model => model.Cathedra.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cathedra[0].MainPhoneNumber)
+                @Html.DisplayNameFor(model => model.Cathedra.First().MainPhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cathedra[0].SecondPhoneNumber)
+                @Html.DisplayNameFor(model => model.Cathedra.First().SecondPhoneNumber)
             </th>
-            <th></th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Cathedra) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MainPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondPhoneNumber)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Cathedra)
+        {
+            <tr>
+                <td>
+                    <a href="#@item.Id" data-toggle="collapse">+</a>
+                    @Html.DisplayFor(modelItem => item.Name)
+                    <div class="collapse" id="@item.Id">
+                            @foreach (var group in item.Groups)
+                            {
+                                <p>@group.Name</p>
+                            }
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MainPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondPhoneNumber)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+
 </table>

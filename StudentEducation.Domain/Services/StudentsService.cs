@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentsEducation.Infrastructure.Services
+namespace StudentsEducation.Domain.Services
 {
-    public class StudentsService
+    public class StudentsService:IStudentsService
     {
         private readonly IAsyncRepository<Student> _context;
         public StudentsService(IAsyncRepository<Student> studentContext)
@@ -21,13 +21,14 @@ namespace StudentsEducation.Infrastructure.Services
         public async Task<IEnumerable<Student>> GetStudentsByGroupAsync(int id) =>
             await _context.GetAsync(e => e.Group.Id == id, null);
 
-        public async Task<Student> AddNewStudent(Student student)
+        public async Task<Student> AddNewStudentAsync(Student student)
         {
             return await _context.CreateAsync(student);
         }
-            
 
-
-
+        public async Task DeleteStudentAsync(Student student)
+        {
+            await _context.DeleteAsync(student.Id);
+        }
     }
 }

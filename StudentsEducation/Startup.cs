@@ -9,10 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StudentsEducation.Domain.Services;
 using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Services;
 using StudentsEducation.Infrastructure.Data;
 using StudentsEducation.Infrastructure.Repository;
+
 
 namespace StudentsEducation
 {
@@ -38,7 +40,13 @@ namespace StudentsEducation
             services.AddRazorPages();
             //mvc
             services.AddControllersWithViews();
-            services.AddTransient<StudentsService>();
+
+
+            //services
+            services.AddTransient<IStudentsService,StudentsService>();
+            services.AddTransient<ICathedrasAndGroupsService,CathedraManageService>();
+            services.AddTransient<UsersService>();
+
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));

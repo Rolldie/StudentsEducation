@@ -13,10 +13,12 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<IEnumerable<T>> GetAllAsync();
         public Task<T> GetByIdAsync(int id);
         public Task<T> CreateAsync(T entity);
-        public void DeleteAsync(int id);
-        public void UpdateAsync(T entity);
+        public Task DeleteAsync(int id);
+        public Task UpdateAsync(T entity);
         public Task<T> FindAsync(int id);
-        public Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+        public Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, 
+                IOrderedQueryable<T>> orderBy = null);
 
 
     }

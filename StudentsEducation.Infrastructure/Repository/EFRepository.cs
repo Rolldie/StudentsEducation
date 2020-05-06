@@ -41,7 +41,7 @@ namespace StudentsEducation.Infrastructure.Repository
             _context.SaveChanges();
         }
 
-        public  async void DeleteAsync(int id)
+        public  async Task DeleteAsync(int id)
         {
             entityList.Remove(await entityList.FindAsync(id));
             await _context.SaveChangesAsync();
@@ -80,7 +80,7 @@ namespace StudentsEducation.Infrastructure.Repository
             _context.SaveChanges();
         }
 
-        public async void UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             entityList.Update(entity);
             await _context.SaveChangesAsync();
