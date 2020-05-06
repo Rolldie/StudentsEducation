@@ -7,7 +7,8 @@ namespace StudentsEducation.Infrastructure.Identity.Data
 {
     public class Role: IdentityRole
     {
-
+        [System.ComponentModel.DataAnnotations.StringLength(255)]
+        public string Description { get; set; }
 
 
     }

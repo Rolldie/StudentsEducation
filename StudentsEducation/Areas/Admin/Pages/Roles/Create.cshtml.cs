@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,11 +13,11 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {
     public class CreateModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Identity.AccountDbContext _context;
+        private readonly RoleManager<Role> _roleManager;
 
-        public CreateModel(StudentsEducation.Infrastructure.Identity.AccountDbContext context)
+        public CreateModel(RoleManager<Role> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
         }
 
         public IActionResult OnGet()
@@ -36,8 +37,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return Page();
             }
 
-            _context.Roles.Add(Role);
-            await _context.SaveChangesAsync();
+            await _roleManager.CreateAsync(Role);
 
             return RedirectToPage("./Index");
         }

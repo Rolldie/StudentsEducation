@@ -5,15 +5,20 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
+
+    [Display(Name = "Студент")]
     public class Student:BaseEntity
     {
         [Required]
         [StringLength(200)]
+        [Display(Name = "ФИО студента")]
         public string Name { get; set; }
         [Required]
+        [Display(Name = "День рождения")]
         public DateTime BirthDate { get; set; }
         [Required]
         [StringLength(7)]
+        [Display(Name = "Номер зачетной книжки")]
         public string GradeBookNumber { get; set; }
         //references
         [Required]

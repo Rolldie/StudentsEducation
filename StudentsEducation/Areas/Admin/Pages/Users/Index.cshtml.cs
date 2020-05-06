@@ -19,11 +19,11 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Users
             _context = context;
         }
 
-        public IList<Role> Role { get;set; }
+        public IList<AppUser> Users { get;set; }
 
         public async Task OnGetAsync()
         {
-            Role = await _context.Roles.ToListAsync();
+            Users = await _context.Users.ToListAsync();
         }
     }
 }

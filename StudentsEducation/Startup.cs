@@ -35,7 +35,7 @@ namespace StudentsEducation
                 options.UseLazyLoadingProxies()
                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-           // services.AddRazorPages();
+            services.AddRazorPages();
             //mvc
             services.AddControllersWithViews();
             services.AddTransient<StudentsService>();

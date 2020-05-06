@@ -6,13 +6,16 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
+    [Display(Name = "Предмет")]
     public class Subject:BaseEntity, ITypedByControl
     {
         [Required]
         [StringLength(200)]
+        [Display(Name = "Название предмета")]
         public string Name { get; set; }
         [Required]
         [Range(1,9)]
+        [Display(Name = "Номер курса")]
         public int CourseNumber { get; set; }
 
 

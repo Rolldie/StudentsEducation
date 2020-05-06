@@ -6,10 +6,12 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
+    [Display(Name = "Название кафедры")]
     public class Work:BaseEntity, ITypedByControl
     {
         [Required]
         [StringLength(200)]
+        [Display(Name = "Название кафедры")]
         public string Name { get; set; }
 
         //references

@@ -5,13 +5,16 @@ using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {
+    [Display(Name = "Тип контроля")]
     public class ControlType:BaseEntity
     {
         [Required]
         [StringLength(30)]
+        [Display(Name = "Название типа контроля")]
         public string ControlName { get; set; }
         [Required]
         [StringLength(7)]
+        [Display(Name = "Числовой промежуток")]
         public string ValueDifference { get; set; }
 
        

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,11 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {
     public class DeleteModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Identity.AccountDbContext _context;
+        private readonly RoleManager<Role> _roleManager;
 
-        public DeleteModel(StudentsEducation.Infrastructure.Identity.AccountDbContext context)
+        public DeleteModel(RoleManager<Role> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -29,7 +30,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return NotFound();
             }
 
-            Role = await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            Role = await _roleManager.Roles.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Role == null)
             {
@@ -45,12 +46,12 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return NotFound();
             }
 
-            Role = await _context.Roles.FindAsync(id);
+            Role = await _roleManager.Roles.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Role != null)
             {
-                _context.Roles.Remove(Role);
-                await _context.SaveChangesAsync();
+                await _roleManager.DeleteAsync(Role);
+                
             }
 
             return RedirectToPage("./Index");

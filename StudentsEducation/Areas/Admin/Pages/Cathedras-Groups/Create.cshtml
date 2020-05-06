@@ -1,0 +1,44 @@
+﻿@page
+@model StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups.CreateModel
+
+@{
+    ViewData["Title"] = "Создание кафедры";
+}
+
+<h1>Создание</h1>
+
+<h4>Кафедра</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Cathedra.Name" class="control-label"></label>
+                <input asp-for="Cathedra.Name" class="form-control" />
+                <span asp-validation-for="Cathedra.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cathedra.MainPhoneNumber" class="control-label"></label>
+                <input asp-for="Cathedra.MainPhoneNumber" class="form-control" />
+                <span asp-validation-for="Cathedra.MainPhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cathedra.SecondPhoneNumber" class="control-label"></label>
+                <input asp-for="Cathedra.SecondPhoneNumber" class="form-control" />
+                <span asp-validation-for="Cathedra.SecondPhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Вернуться к списку Кафедр</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
