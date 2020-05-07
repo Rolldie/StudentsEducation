@@ -7,17 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
 {
     public class EditModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly ICathedrasAndGroupsService _service;
 
-        public EditModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public EditModel(ICathedrasAndGroupsService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [BindProperty]
@@ -30,7 +31,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
                 return NotFound();
             }
 
-            Cathedra = await _context.Cathedras.FirstOrDefaultAsync(m => m.Id == id);
+            Cathedra = await _service.GetCathedraByIdAsync(id.Value);
 
             if (Cathedra == null)
             {
@@ -48,11 +49,9 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
                 return Page();
             }
 
-            _context.Attach(Cathedra).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateCathedraAsync(Cathedra);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +70,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
 
         private bool CathedraExists(int id)
         {
-            return _context.Cathedras.Any(e => e.Id == id);
+            return _service.GetCathedraByIdAsync(id) != null;
         }
     }
 }

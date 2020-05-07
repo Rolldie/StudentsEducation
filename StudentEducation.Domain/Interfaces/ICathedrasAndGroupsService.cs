@@ -15,6 +15,8 @@ namespace StudentsEducation.Domain.Interfaces
         public Task UpdateCathedraAsync(Cathedra cathedra);
         public Task AddGroupToCathedraAsync(int cathedraId, Group group);
         public Task<IEnumerable<Group>> GetCatherdaGroupsAsync(int cathedraId);
+        public Task<Group> GetGroupAsync(int groupId);
+        public Task UpdateGroupAsync(Group group);
 
     }
 }

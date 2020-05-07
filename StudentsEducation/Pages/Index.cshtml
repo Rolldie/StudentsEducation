@@ -7,3 +7,7 @@
 
 <h1>Index</h1>
 
+
+
+
+@(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = 1, Editable=true}))

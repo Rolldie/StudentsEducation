@@ -31,7 +31,7 @@ namespace StudentsEducation
         public void ConfigureServices(IServiceCollection services)
         {
             //also some services are in the identity/IdentityHostingStartup
-
+                
             //db
             services.AddDbContext<EducationDbContext>(options => 
                 options.UseLazyLoadingProxies()
@@ -41,12 +41,11 @@ namespace StudentsEducation
             //mvc
             services.AddControllersWithViews();
 
-
+            services.AddServerSideBlazor();
             //services
             services.AddScoped<IStudentsService,StudentsService>();
             services.AddScoped<ICathedrasAndGroupsService,CathedraManageService>();
-            services.AddScoped<UsersService>();
-            services.AddServerSideBlazor();
+            services.AddScoped<UsersService>(); 
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
@@ -57,6 +56,7 @@ namespace StudentsEducation
         {
             if (env.IsDevelopment())
             {
+                
                 app.UseDeveloperExceptionPage();
             }
             else

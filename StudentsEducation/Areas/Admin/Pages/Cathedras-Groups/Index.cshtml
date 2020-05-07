@@ -1,9 +1,6 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups.IndexModel
-@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.Forms
-@using Microsoft.AspNetCore.Components.Routing
-@using Microsoft.AspNetCore.Components.Web
+
 @using StudentsEducation.Web.Components
 @{
     ViewData["Title"] = "Index";
@@ -17,6 +14,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cathedra.First().Name)
             </th>
@@ -35,11 +35,16 @@
         {
             <tr>
                 <td>
-                    <a href="#@item.Id" data-toggle="collapse">+</a>
+                    @if (item.Groups.Count() > 0)
+                    {
+                     <a href="#@item.Id" data-toggle="collapse" class="dropdown-toggle"></a>
+                    }
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
-                    <div class="collapse" id="@item.Id">
-                        @(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = item.Id, Editable=false}))
-                    </div>
+                <div class="collapse" id="@item.Id">
+                    @(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = item.Id, Editable=false}))
+                </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MainPhoneNumber)

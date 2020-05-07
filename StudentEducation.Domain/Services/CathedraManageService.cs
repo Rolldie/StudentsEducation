@@ -3,6 +3,7 @@ using StudentsEducation.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StudentsEducation.Domain.Services
@@ -57,6 +58,11 @@ namespace StudentsEducation.Domain.Services
         public async Task UpdateGroupAsync(Group group)
         {
             await _groupRepository.UpdateAsync(group);
+        }
+
+        public async Task<Group> GetGroupAsync(int groupId)
+        {
+            return await _groupRepository.GetByIdAsync(groupId);
         }
     }
 }

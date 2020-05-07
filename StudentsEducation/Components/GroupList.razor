@@ -1,19 +1,119 @@
-﻿
-@inject StudentsEducation.Domain.Interfaces.ICathedrasAndGroupsService service
+﻿@using Microsoft.Extensions.DependencyInjection
 @using StudentsEducation.Domain.Entities
-<h1>Groups</h1>
-@foreach (var item in service.GetCatherdaGroupsAsync(CathedraId).Result)
+@inherits OwningComponentBase
+
+<p class="small">Группы</p>
+@if (Groups == null)
 {
-    <h1>@item.Name</h1>
-    @if(Editable)
+    <div class="small spinner-grow"></div>
+}
+else
+{
+    @if (!Editable)
     {
-        <h1>Edit</h1>
+        foreach (var elem in Groups)
+        {
+            <p class="small text-info">@elem.Name</p>
+        }
+    }
+    else
+    {
+        @if (!AddingMode)
+        {
+            foreach (var elem in Groups)
+            {
+                <p class="text-info">
+                    @elem.Name  @elem.StartEducationDate.ToShortDateString()-@elem.EndEducationDate.ToShortDateString() Курс:@elem.CourseNumber
+                    <button class="btn btn-link" @onclick="@(() =>Edit(elem.Id))">Edit</button>
+                    @if (EditId == elem.Id)
+                    {
+                        <EditForm Model="@Group" OnValidSubmit="@(()=>StateHasChanged())">
+                            <DataAnnotationsValidator />
+                           <ValidationSummary  />
+                            <InputText id="name" @bind-Value="Group.Name" />
+                            <InputNumber id="course" @bind-Value="Group.CourseNumber"></InputNumber>
+                            <InputDate id="startDate" @bind-Value="Group.StartEducationDate"></InputDate>
+                            <InputDate id="endDate" @bind-Value="Group.EndEducationDate"></InputDate>
+                            <button type="submit" @onclick="ValidateUpdating">Submit</button>
+                        </EditForm>
+                    }
+                </p>
+            }
+            <button type="button" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> Add</button>
+        }
+        else
+        {
+
+
+
+            <form>
+
+
+                <button type="submit"></button>
+                <button type="button" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> closeAddingForm</button>
+            </form>
+        }
     }
 }
 
+
+
+
+
+
 @code {
+    public StudentsEducation.Domain.Interfaces.ICathedrasAndGroupsService service { get; set; }
+
     [Parameter]
     public int CathedraId { get; set; }
     [Parameter]
     public bool Editable { get; set; }
+
+    public bool AddingMode { get; set; }
+    public Group Group { get; set; }
+    public IEnumerable<Group> Groups { get; set; }
+    public int EditId { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        service = ScopedServices.GetRequiredService<StudentsEducation.Domain.Interfaces.ICathedrasAndGroupsService>();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        Groups = await service.GetCatherdaGroupsAsync(CathedraId);
+        await Task.Delay(100);
+        StateHasChanged();
+    }
+
+    public void Edit(int id)
+    {
+        if (EditId == id)
+        {
+            EditId = 0;
+            Group = null;
+            // StateHasChanged();
+        }
+        else
+        {
+            Group = service.GetGroupAsync(id).Result;
+            EditId = id;
+        }
+    }
+
+    public async Task ValidateUpdating()
+    {
+        try
+        {
+            await service.UpdateGroupAsync(Group);
+            EditId = 0;
+        }
+        catch (System.Data.DBConcurrencyException)
+        {
+
+            StateHasChanged();
+        }
+        StateHasChanged();
+    }
 }

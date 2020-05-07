@@ -1,6 +1,12 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups.EditModel
-
+@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
 @{
     ViewData["Title"] = "Edit";
 }
@@ -10,7 +16,7 @@
 <h4>Кафедра</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -30,9 +36,13 @@
             </div>
             <input type="hidden" asp-for="Cathedra.Id" />
             <div class="form-group">
-                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <input type="submit" value="Сохранить информацию про кафедру" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div class="col-md-5">
+        @(await Html.RenderComponentAsync<StudentsEducation.Web.Components.GroupList>(RenderMode.ServerPrerendered, 
+        new { CathedraId = Model.Cathedra.Id, Editable = true }))
     </div>
 </div>
 
