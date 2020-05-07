@@ -1,0 +1,19 @@
+﻿
+@inject StudentsEducation.Domain.Interfaces.ICathedrasAndGroupsService service
+@using StudentsEducation.Domain.Entities
+<h1>Groups</h1>
+@foreach (var item in service.GetCatherdaGroupsAsync(CathedraId).Result)
+{
+    <h1>@item.Name</h1>
+    @if(Editable)
+    {
+        <h1>Edit</h1>
+    }
+}
+
+@code {
+    [Parameter]
+    public int CathedraId { get; set; }
+    [Parameter]
+    public bool Editable { get; set; }
+}

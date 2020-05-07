@@ -1,6 +1,10 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups.IndexModel
-
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using StudentsEducation.Web.Components
 @{
     ViewData["Title"] = "Index";
 }
@@ -34,10 +38,7 @@
                     <a href="#@item.Id" data-toggle="collapse">+</a>
                     @Html.DisplayFor(modelItem => item.Name)
                     <div class="collapse" id="@item.Id">
-                            @foreach (var group in item.Groups)
-                            {
-                                <p>@group.Name</p>
-                            }
+                        @(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = item.Id, Editable=false}))
                     </div>
                 </td>
                 <td>
@@ -47,8 +48,8 @@
                     @Html.DisplayFor(modelItem => item.SecondPhoneNumber)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
             </tr>
         }

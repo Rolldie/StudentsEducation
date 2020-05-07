@@ -7,7 +7,7 @@
     <title>@ViewData["Title"] - StudentsEducation</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    
+    <base href="~/" />
 </head>
 <body>
     <header>
@@ -64,11 +64,10 @@
             &copy; 2020 - StudentsEducation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </f1ooter>
+    <script src="_framework/blazor.server.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/popper/popper.js"></script>
-    
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script><!--4.0.0 beta old but works, don't know why-->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

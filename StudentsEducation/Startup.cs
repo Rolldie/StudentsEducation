@@ -43,10 +43,10 @@ namespace StudentsEducation
 
 
             //services
-            services.AddTransient<IStudentsService,StudentsService>();
-            services.AddTransient<ICathedrasAndGroupsService,CathedraManageService>();
-            services.AddTransient<UsersService>();
-
+            services.AddScoped<IStudentsService,StudentsService>();
+            services.AddScoped<ICathedrasAndGroupsService,CathedraManageService>();
+            services.AddScoped<UsersService>();
+            services.AddServerSideBlazor();
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
@@ -77,6 +77,7 @@ namespace StudentsEducation
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapBlazorHub();
             });
         }
     }

@@ -4,14 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 
 namespace StudentsEducation.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        public void OnGet()
+        private readonly ICathedrasAndGroupsService _service;
+        public IndexModel(ICathedrasAndGroupsService service)
         {
+            _service = service;
+        }
 
+        public IEnumerable<Group> ListGroups { get; set; }
+        public async Task OnGetAsync()
+        {
+            ListGroups = await _service.GetCatherdaGroupsAsync(1);
         }
     }
 }
