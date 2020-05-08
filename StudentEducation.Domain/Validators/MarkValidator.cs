@@ -33,9 +33,9 @@ namespace StudentsEducation.Domain.Validators
             }
             else
             {
-                var marks = objWithTypedControl.GetControlType().ValueDifference.Split("-");
-                var left = Convert.ToInt32(marks[0]);
-                var right = Convert.ToInt32(marks[1]);
+                var marks = objWithTypedControl.GetControlType();
+                var left = marks.LowValue;
+                var right = marks.HighValue;
                 if (markValue >= left && markValue <= right) return null;
                 else return new ValidationResult($"Значение должно быть между {left} и {right}");
             }

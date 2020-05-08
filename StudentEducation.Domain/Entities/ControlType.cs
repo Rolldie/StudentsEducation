@@ -13,10 +13,13 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name = "Название типа контроля")]
         public string ControlName { get; set; }
         [Required]
-        [StringLength(7)]
-        [Display(Name = "Числовой промежуток")]
-        public string ValueDifference { get; set; }
-
+        [Range(-1,5)]
+        [Display(Name = "Нижняя граница")]
+        public int LowValue { get; set; }
+        [Required]
+        [Range(1,1000)]
+        [Display(Name = "Верхняя граница")]
+        public int HighValue { get; set; }
        
         
         //Reference

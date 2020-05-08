@@ -15,7 +15,7 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name = "Начало действия расписания")]
         public DateTime StartsIn { get; set; }
         [Required]
-        [GreaterThan("StartsFrom")]
+        [GreaterThan("StartsIn",DependentPropertyDisplayName ="Начало действия расписания",ErrorMessage ="Значение этого поля должно быть больше чем `Начало действия расписания`")]
         [DataType(DataType.Date)]
         [Display(Name = "Конец действия расписания")]
         public DateTime EndsIn { get; set; }

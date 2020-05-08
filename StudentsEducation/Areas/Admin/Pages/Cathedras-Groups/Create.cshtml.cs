@@ -6,17 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
 {
     public class CreateModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly ICathedrasAndGroupsService _service;
 
-        public CreateModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public CreateModel(ICathedrasAndGroupsService service)
         {
-            _context = context;
+            _service = service;
         }
 
         public IActionResult OnGet()
@@ -36,9 +37,8 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
                 return Page();
             }
 
-            _context.Cathedras.Add(Cathedra);
-            await _context.SaveChangesAsync();
-
+            await _service.CreateCathedraAsync(Cathedra);
+            
             return RedirectToPage("./Index");
         }
     }

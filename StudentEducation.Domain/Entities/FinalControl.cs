@@ -12,7 +12,7 @@ namespace StudentsEducation.Domain.Entities
 
         [Required]
         [Range(-1,9999)]
-        [MarkValidation("Subject")]
+        [MarkValidation("Subject",ErrorMessage ="Оценка должна соответствовать типу контроля, выставленного для этого предмета!")]
         [Display(Name = "Оценка")]
         public double MarkValue { get; set; }
 

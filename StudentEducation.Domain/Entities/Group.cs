@@ -24,7 +24,7 @@ namespace StudentsEducation.Domain.Entities
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Конец обучения")]
-        [GreaterThan("StartEducationDate")]
+        [GreaterThan("StartEducationDate",DependentPropertyDisplayName ="Начало обучения",ErrorMessage ="Значение этого поля должно быть больше значения поля `Начало обучения`")]
         public DateTime EndEducationDate{get; set;}
 
 

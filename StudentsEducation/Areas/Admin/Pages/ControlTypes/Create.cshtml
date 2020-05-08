@@ -2,12 +2,12 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.ControlTypes.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создание";
 }
 
-<h1>Create</h1>
+<h1>Создание</h1>
 
-<h4>ControlType</h4>
+<h4>Типы контроля</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,19 +19,24 @@
                 <span asp-validation-for="ControlType.ControlName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ControlType.ValueDifference" class="control-label"></label>
-                <input asp-for="ControlType.ValueDifference" class="form-control" />
-                <span asp-validation-for="ControlType.ValueDifference" class="text-danger"></span>
+                <label asp-for="ControlType.LowValue" class="control-label"></label>
+                <input asp-for="ControlType.LowValue" class="form-control" />
+                <span asp-validation-for="ControlType.LowValue" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="ControlType.HighValue" class="control-label"></label>
+                <input asp-for="ControlType.HighValue" class="form-control" />
+                <span asp-validation-for="ControlType.HighValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index">Вернуться к списку Типов контроля</a>
 </div>
 
 @section Scripts {

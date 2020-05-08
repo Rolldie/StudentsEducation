@@ -13,7 +13,7 @@ namespace StudentsEducation.Domain.Entities
     {
         [Required]
         [Range(-1,1000)]
-        [MarkValidation("Work")]
+        [MarkValidation("Work",ErrorMessage ="Оценка должна соответствовать типу контроля, выбранном для этой работы!")]
         [Display(Name = "Оценка")]
         public double MarkValue { get; set; }
         [Required]

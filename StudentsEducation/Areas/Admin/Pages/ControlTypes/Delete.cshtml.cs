@@ -6,17 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
 {
     public class DeleteModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly IAsyncRepository<ControlType> _repository;
 
-        public DeleteModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public DeleteModel(IAsyncRepository<ControlType> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -29,7 +30,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
                 return NotFound();
             }
 
-            ControlType = await _context.ControlTypes.FirstOrDefaultAsync(m => m.Id == id);
+            ControlType = await _repository.GetByIdAsync(id.Value);
 
             if (ControlType == null)
             {
@@ -45,13 +46,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
                 return NotFound();
             }
 
-            ControlType = await _context.ControlTypes.FindAsync(id);
-
-            if (ControlType != null)
-            {
-                _context.ControlTypes.Remove(ControlType);
-                await _context.SaveChangesAsync();
-            }
+            await _repository.DeleteAsync(id.Value);
 
             return RedirectToPage("./Index");
         }

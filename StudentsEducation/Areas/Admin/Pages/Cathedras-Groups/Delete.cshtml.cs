@@ -6,17 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
 {
     public class DeleteModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly ICathedrasAndGroupsService _service;
 
-        public DeleteModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public DeleteModel(ICathedrasAndGroupsService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [BindProperty]
@@ -29,12 +30,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
                 return NotFound();
             }
 
-            Cathedra = await _context.Cathedras.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Cathedra == null)
-            {
-                return NotFound();
-            }
+            Cathedra = await _service.GetCathedraByIdAsync(id.Value);
             return Page();
         }
 
@@ -45,13 +41,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
                 return NotFound();
             }
 
-            Cathedra = await _context.Cathedras.FindAsync(id);
-
-            if (Cathedra != null)
-            {
-                _context.Cathedras.Remove(Cathedra);
-                await _context.SaveChangesAsync();
-            }
+            await _service.DeleteCathedraAsync(id.Value);
 
             return RedirectToPage("./Index");
         }

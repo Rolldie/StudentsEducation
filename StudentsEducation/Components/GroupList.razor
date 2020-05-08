@@ -24,8 +24,8 @@ else
             {
                 <p class="text-info">
                     @elem.Name  @elem.StartEducationDate.ToShortDateString()-@elem.EndEducationDate.ToShortDateString() Курс:@elem.CourseNumber
-                    <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Edit</button>
-                    <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Delete</button>
+                    <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Изменить</button>
+                    <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Удалить</button>
                     @if (Group != null && Group.Id == elem.Id)
                     {
                 <EditForm Model="@EditGroup">
@@ -125,10 +125,11 @@ else
     {
         context = new EditContext(EditGroup);
         context.AddDataAnnotationsValidation();
-        if(EditGroup.CathedraId!=Group.CathedraId)
+        if (EditGroup.CathedraId != Group.CathedraId)
         {
             EditGroup.Cathedra = Cathedras.First(e => e.Id == EditGroup.CathedraId);
         }
+        else EditGroup.Cathedra = Group.Cathedra;
         if (context.Validate())
         {
             try

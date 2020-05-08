@@ -6,17 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
 {
     public class CreateModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly IAsyncRepository<ControlType> _repository;
 
-        public CreateModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public CreateModel(IAsyncRepository<ControlType> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult OnGet()
@@ -36,8 +37,8 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
                 return Page();
             }
 
-            _context.ControlTypes.Add(ControlType);
-            await _context.SaveChangesAsync();
+            await _repository.CreateAsync(ControlType);
+
 
             return RedirectToPage("./Index");
         }

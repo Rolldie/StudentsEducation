@@ -7,17 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
 {
     public class EditModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly IAsyncRepository<ControlType> _repository;
 
-        public EditModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public EditModel(IAsyncRepository<ControlType> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -30,7 +31,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
                 return NotFound();
             }
 
-            ControlType = await _context.ControlTypes.FirstOrDefaultAsync(m => m.Id == id);
+            ControlType = await _repository.GetByIdAsync(id.Value);
 
             if (ControlType == null)
             {
@@ -48,11 +49,10 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
                 return Page();
             }
 
-            _context.Attach(ControlType).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repository.UpdateAsync(ControlType);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +71,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
 
         private bool ControlTypeExists(int id)
         {
-            return _context.ControlTypes.Any(e => e.Id == id);
+            return _repository.GetById(id)!=null;
         }
     }
 }
