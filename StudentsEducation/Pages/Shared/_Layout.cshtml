@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StudentsEducation</title>
+    <title>@ViewData["Title"] - Обучение студентов</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <base href="~/" />
@@ -24,27 +24,21 @@
                         @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-page="/AdminPanel">Admin panel</a>
+                                <a class="nav-link text-dark" asp-area="Admin" asp-page="/AdminPanel">Панель администратора</a>
                             </li>
                         }
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+                        @if (User.Identity.IsAuthenticated || User.IsInRole("Student"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Student" asp-page="/Index">Student</a>
                             </li>
                         }
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+                        @if (User.Identity.IsAuthenticated || User.IsInRole("Teacher"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Teacher" asp-page="/Index">Teacher</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="Index">Home</a>
-                        </li>
                     </ul>
                 </div>
 

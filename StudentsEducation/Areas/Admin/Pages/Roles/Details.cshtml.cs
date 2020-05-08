@@ -8,18 +8,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Infrastructure.Services;
 using StudentsEducation.Web.Areas.Admin.Pages.Users;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {
     public class DetailsModel : PageModel
     {
-        private readonly RoleManager<Role> _roleManager;
-        private readonly UserManager<AppUser> _userManager;
-        public DetailsModel(RoleManager<Role> roleManager, UserManager<AppUser> userManager)
+        private readonly IdentityService _service;
+        public DetailsModel(IdentityService service)
         {
-            _roleManager = roleManager;
-            _userManager = userManager;
+            _service = service;
         }
 
         public Role Role { get; set; }
@@ -31,9 +30,9 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return NotFound();
             }
 
-            Role = await _roleManager.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            Role = await _service.GetRoleAsync(id);
 
-            Users = await _userManager.GetUsersInRoleAsync(Role.Name);
+            Users = await _service.GetUsersByRoleAsync(id);
 
             if (Role == null)
             {

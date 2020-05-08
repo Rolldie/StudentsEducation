@@ -9,16 +9,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Infrastructure.Services;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {
     public class EditModel : PageModel
     {
-        private readonly RoleManager<Role> _roleManager;
+        private readonly IdentityService _service;
 
-        public EditModel(RoleManager<Role> roleManager)
+        public EditModel(IdentityService service)
         {
-            _roleManager = roleManager;
+            _service = service;
         }
 
         [BindProperty]
@@ -31,7 +32,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return NotFound();
             }
 
-            Role = await _roleManager.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            Role = await _service.GetRoleAsync(id);
 
             if (Role == null)
             {
@@ -44,21 +45,20 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid || !RoleExists(Role.Id))
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
-            var curRole = await _roleManager.FindByIdAsync(Role.Id);
+            var curRole = await _service.GetRoleAsync(Role.Id);
+            if(curRole==null)
+            {
+                return Page();
+            }
             curRole.Name = Role.Name;
             curRole.Description = Role.Description;
-            await _roleManager.UpdateAsync(curRole);
+            await _service.UpdateRoleAsync(curRole);
 
             return RedirectToPage("./Index");
-        }
-
-        private bool RoleExists(string id)
-        {
-            return _roleManager.Roles.Any(e => e.Id == id);
         }
     }
 }

@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Infrastructure.Services;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {
     public class CreateModel : PageModel
     {
-        private readonly RoleManager<Role> _roleManager;
+        private readonly IdentityService _service;
 
-        public CreateModel(RoleManager<Role> roleManager)
+        public CreateModel(IdentityService service)
         {
-            _roleManager = roleManager;
+            _service = service;
         }
 
         public IActionResult OnGet()
@@ -37,7 +38,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return Page();
             }
 
-            await _roleManager.CreateAsync(Role);
+            await _service.CreateRoleAsync(Role);
 
             return RedirectToPage("./Index");
         }

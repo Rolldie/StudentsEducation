@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Infrastructure.Services;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {
     public class DeleteModel : PageModel
     {
-        private readonly RoleManager<Role> _roleManager;
+        private readonly IdentityService _service;
 
-        public DeleteModel(RoleManager<Role> roleManager)
+        public DeleteModel(IdentityService service)
         {
-            _roleManager = roleManager;
+            _service = service;
         }
 
         [BindProperty]
@@ -30,7 +31,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return NotFound();
             }
 
-            Role = await _roleManager.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            Role = await _service.GetRoleAsync(id);
 
             if (Role == null)
             {
@@ -46,13 +47,8 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
                 return NotFound();
             }
 
-            Role = await _roleManager.Roles.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Role != null)
-            {
-                await _roleManager.DeleteAsync(Role);
-                
-            }
+            await _service.DeleteRoleAsync(id);
 
             return RedirectToPage("./Index");
         }

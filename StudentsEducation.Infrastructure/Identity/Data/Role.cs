@@ -1,13 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 namespace StudentsEducation.Infrastructure.Identity.Data
 {
     public class Role: IdentityRole
     {
-        [System.ComponentModel.DataAnnotations.StringLength(255)]
+        [DisplayName("Имя")]
+        public override string Name { get => base.Name; set => base.Name = value; }
+
+        [DisplayName("Нормализованое имя")]
+        public override string NormalizedName { get => base.NormalizedName; set => base.NormalizedName = value; }
+        [DisplayName("Штамп")]
+        public override string ConcurrencyStamp { get => base.ConcurrencyStamp; set => base.ConcurrencyStamp = value; }
+        [StringLength(255)]
+        [DisplayName("Описание")]
         public string Description { get; set; }
 
 
