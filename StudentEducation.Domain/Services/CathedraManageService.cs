@@ -21,7 +21,7 @@ namespace StudentsEducation.Domain.Services
         public async Task AddGroupToCathedraAsync(int cathedraId, Group group)
         {
             var cathedra = await _cathedraRepository.GetByIdAsync(cathedraId);
-            group.CathedraId = cathedraId;
+            group.Cathedra = cathedra;
             await _groupRepository.CreateAsync(group);
         }
 
@@ -63,6 +63,11 @@ namespace StudentsEducation.Domain.Services
         public async Task<Group> GetGroupAsync(int groupId)
         {
             return await _groupRepository.GetByIdAsync(groupId);
+        }
+
+        public async Task DeleteGroupAsync(int id)
+        {
+            await _groupRepository.DeleteAsync(id);
         }
     }
 }

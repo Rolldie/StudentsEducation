@@ -10,7 +10,7 @@ namespace StudentsEducation.Domain.Entities
     public class Group :BaseEntity
     {
         [Required]
-        [StringLength(30)]
+        [StringLength(30,ErrorMessage ="Длина строки превышает 30 символов")]
         [Display(Name = "Имя группы")]
         public string Name { get; set; }
         [Required]

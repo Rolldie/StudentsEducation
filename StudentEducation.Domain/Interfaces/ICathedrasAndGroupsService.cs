@@ -17,6 +17,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<IEnumerable<Group>> GetCatherdaGroupsAsync(int cathedraId);
         public Task<Group> GetGroupAsync(int groupId);
         public Task UpdateGroupAsync(Group group);
+        public Task DeleteGroupAsync(int id);
 
     }
 }

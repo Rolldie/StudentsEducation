@@ -24,35 +24,45 @@ else
             {
                 <p class="text-info">
                     @elem.Name  @elem.StartEducationDate.ToShortDateString()-@elem.EndEducationDate.ToShortDateString() Курс:@elem.CourseNumber
-                    <button class="btn btn-link" @onclick="@(() =>Edit(elem.Id))">Edit</button>
-                    @if (EditId == elem.Id)
+                    <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Edit</button>
+                    <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Delete</button>
+                    @if (Group != null && Group.Id == elem.Id)
                     {
-                        <EditForm Model="@Group" OnValidSubmit="@(()=>StateHasChanged())">
-                            <DataAnnotationsValidator />
-                           <ValidationSummary  />
-                            <InputText id="name" @bind-Value="Group.Name" />
-                            <InputNumber id="course" @bind-Value="Group.CourseNumber"></InputNumber>
-                            <InputDate id="startDate" @bind-Value="Group.StartEducationDate"></InputDate>
-                            <InputDate id="endDate" @bind-Value="Group.EndEducationDate"></InputDate>
-                            <button type="submit" @onclick="ValidateUpdating">Submit</button>
-                        </EditForm>
+                <EditForm Model="@EditGroup">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <InputSelectInt @bind-Value="EditGroup.CathedraId">
+                        @foreach(var cath in Cathedras)
+                        {
+                            <option value="@cath.Id">@cath.Name</option>
+                        }
+                    </InputSelectInt>
+                    <InputText id="name" @bind-Value="EditGroup.Name" />
+                    <InputNumber id="course" @bind-Value="EditGroup.CourseNumber"></InputNumber>
+                    <InputDate id="startDate" @bind-Value="EditGroup.StartEducationDate"></InputDate>
+                    <InputDate id="endDate" @bind-Value="EditGroup.EndEducationDate"></InputDate>
+                    <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
+                    <button type="button" class="btn btn-danger" @onclick="@(async ()=> await Edit(elem.Id))">Не сохранять</button>
+                </EditForm>
                     }
                 </p>
             }
-            <button type="button" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> Add</button>
+            <button type="button" class="btn btn-primary" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })">Добавить группу к кафедре</button>
         }
         else
         {
-
-
-
-            <form>
-
-
-                <button type="submit"></button>
-                <button type="button" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> closeAddingForm</button>
-            </form>
+            <EditForm Model="@AddGroup">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <InputText id="name" @bind-Value="AddGroup.Name"></InputText>
+                <InputNumber id="course" @bind-Value="AddGroup.CourseNumber"></InputNumber>
+                <InputDate id="startDate" @bind-Value="AddGroup.StartEducationDate"></InputDate>
+                <InputDate id="endDate" @bind-Value="AddGroup.EndEducationDate"></InputDate>
+                <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Создать</button>
+                <button type="button" class="btn btn-danger" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> Закрыть форму добавления</button>
+            </EditForm>
         }
+
     }
 }
 
@@ -62,18 +72,22 @@ else
 
 
 @code {
-    public StudentsEducation.Domain.Interfaces.ICathedrasAndGroupsService service { get; set; }
-
+    public StudentsEducation.Domain.Interfaces.ICathedrasAndGroupsService service;
     [Parameter]
     public int CathedraId { get; set; }
     [Parameter]
     public bool Editable { get; set; }
-
     public bool AddingMode { get; set; }
-    public Group Group { get; set; }
+    public IEnumerable<Cathedra> Cathedras { get; set; }
+    public Group AddGroup = new Group();
+    public Group EditGroup = new Group();
     public IEnumerable<Group> Groups { get; set; }
+    public Group Group { get; set; }
     public int EditId { get; set; }
 
+
+    public bool Ready { get; set; }
+    public EditContext context;
 
     protected override void OnInitialized()
     {
@@ -83,37 +97,81 @@ else
     {
         await base.OnAfterRenderAsync(firstRender);
         Groups = await service.GetCatherdaGroupsAsync(CathedraId);
-        await Task.Delay(100);
         StateHasChanged();
     }
-
-    public void Edit(int id)
+    public async Task Edit(int id)
     {
-        if (EditId == id)
+        Groups = Groups.Where(e => e.Cathedra.Id == CathedraId);
+        if (Cathedras == null) Cathedras = await service.GetCathedrasAsync();
+        if (Group!=null && Group.Id == id)
         {
-            EditId = 0;
             Group = null;
-            // StateHasChanged();
+            EditGroup = new Group();
         }
         else
         {
-            Group = service.GetGroupAsync(id).Result;
-            EditId = id;
+            //TODO: Would be a problem one day!!!
+            Group = Groups.First(e => e.Id == id);
+            EditGroup.Name = Group.Name;
+            EditGroup.StartEducationDate = Group.StartEducationDate;
+            EditGroup.EndEducationDate = Group.EndEducationDate;
+            EditGroup.CourseNumber = Group.CourseNumber;
+            EditGroup.CathedraId = Group.CathedraId;
         }
+        StateHasChanged();
     }
 
     public async Task ValidateUpdating()
     {
-        try
+        context = new EditContext(EditGroup);
+        context.AddDataAnnotationsValidation();
+        if(EditGroup.CathedraId!=Group.CathedraId)
         {
-            await service.UpdateGroupAsync(Group);
-            EditId = 0;
+            EditGroup.Cathedra = Cathedras.First(e => e.Id == EditGroup.CathedraId);
         }
-        catch (System.Data.DBConcurrencyException)
+        if (context.Validate())
         {
+            try
+            {
+                Group.CourseNumber = EditGroup.CourseNumber;
+                Group.Name = EditGroup.Name;
+                Group.StartEducationDate = EditGroup.StartEducationDate;
+                Group.EndEducationDate = EditGroup.EndEducationDate;
+                Group.Cathedra = EditGroup.Cathedra;
+                await service.UpdateGroupAsync(Group);
+                await Edit(Group.Id);
+            }
+            catch (System.Data.DBConcurrencyException)
+            {
 
-            StateHasChanged();
+            }
         }
         StateHasChanged();
+    }
+    public async Task ValidateAdd()
+    {
+        context = new EditContext(AddGroup);
+        AddGroup.Cathedra =await service.GetCathedraByIdAsync(CathedraId);
+        context.AddDataAnnotationsValidation();
+        if(context.Validate())
+        {
+            try
+            {
+                await service.AddGroupToCathedraAsync(CathedraId, AddGroup);
+                AddingMode = !AddingMode;
+                AddGroup = new Group();
+            }
+            catch(System.Data.DBConcurrencyException e)
+            {
+
+            }
+        }
+    }
+    public async Task Delete(int id)
+    {
+        if(await service.GetGroupAsync(id)!=null)
+        {
+            await service.DeleteGroupAsync(id);
+        }
     }
 }

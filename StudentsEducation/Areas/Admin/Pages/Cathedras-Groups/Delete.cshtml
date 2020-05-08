@@ -2,7 +2,7 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Удаление";
 }
 
 <h1>Удаление</h1>
@@ -10,31 +10,35 @@
 <h3>Вы действительно хотите удалить кафедру и все её группы (также студентов)?</h3>
 <div>
     <h4>Кафедра</h4>
-    <hr/>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cathedra.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cathedra.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cathedra.MainPhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cathedra.MainPhoneNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cathedra.SecondPhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cathedra.SecondPhoneNumber)
-        </dd>
-    </dl>
-    
-    <form method="post">
-        <input type="hidden" asp-for="Cathedra.Id" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
-        <a asp-page="./Index">Вернуться к списку Кафедр</a>
-    </form>
+    <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cathedra.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cathedra.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cathedra.MainPhoneNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cathedra.MainPhoneNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cathedra.SecondPhoneNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cathedra.SecondPhoneNumber)
+            </dd>
+        </dl>
+
+        <form method="post">
+            <input type="hidden" asp-for="Cathedra.Id" />
+            <input type="submit" value="Удалить" class="btn btn-danger" /> |
+            <a asp-page="./Index">Вернуться к списку Кафедр</a>
+        </form>
+    <div class="col-md-12">
+        <h1>Также будут удалены следующие группы: </h1>
+        @(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = Model.Cathedra.Id, Editable = true }))
+    </div>
 </div>
