@@ -40,7 +40,8 @@ namespace StudentsEducation
             //services
             services.AddScoped<IStudentsService,StudentsService>();
             services.AddScoped<ICathedrasAndGroupsService,CathedraManageService>();
-            services.AddScoped<IdentityService>(); 
+            services.AddScoped<IdentityService>();
+            services.AddScoped<ITeachersAndScheduleSerivce, TeacherAndScheduleService>();
             //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
