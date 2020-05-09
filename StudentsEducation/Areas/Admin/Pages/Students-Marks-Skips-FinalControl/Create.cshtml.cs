@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Infrastructure.Data;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects
+namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalControl
 {
     public class CreateModel : PageModel
     {
@@ -25,7 +25,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects
         }
 
         [BindProperty]
-        public Subject Subject { get; set; }
+        public Student Student { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
@@ -36,7 +36,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects
                 return Page();
             }
 
-            _context.Subjects.Add(Subject);
+            _context.Students.Add(Student);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

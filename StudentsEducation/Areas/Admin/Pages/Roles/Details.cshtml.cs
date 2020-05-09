@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
 using StudentsEducation.Infrastructure.Services;
-using StudentsEducation.Web.Areas.Admin.Pages.Users;
+using StudentsEducation.Web.Areas.Admin.Pages.Users_relation;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {

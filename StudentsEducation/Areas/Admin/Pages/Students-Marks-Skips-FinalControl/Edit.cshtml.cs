@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Infrastructure.Data;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Students
+namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalControl
 {
     public class EditModel : PageModel
     {

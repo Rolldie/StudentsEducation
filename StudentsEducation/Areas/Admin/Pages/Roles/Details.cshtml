@@ -7,37 +7,40 @@
 
 <h1>Информация</h1>
 
-<div>
-    <h4>Роль</h4>
+
+<div class="row">
+    <h4 class="col-md-6">Роль</h4>
+    <h4 class="col-md-6">Пользователи</h4>
+</div>
     <hr />
-    <dl class="row">
-        <dt class="col-md-2">
-            @Html.DisplayNameFor(model => model.Role.Name)
-        </dt>
-        <dd class="col-md-5">
-            @Html.DisplayFor(model => model.Role.Name)
-        </dd>
-        <dt class="col-md-2">
-            @Html.DisplayNameFor(model => model.Role.NormalizedName)
-        </dt>
-        <dd class="col-md-5">
-            @Html.DisplayFor(model => model.Role.NormalizedName)
-        </dd>
-        <dt class="col-md-2">
-            @Html.DisplayNameFor(model => model.Role.ConcurrencyStamp)
-        </dt>
-        <dd class="col-md-5">
-            @Html.DisplayFor(model => model.Role.ConcurrencyStamp)
-        </dd>
-        <dt class="col-md-2">
-            @Html.DisplayNameFor(model => model.Role.Description)
-        </dt>
-        <dd class="col-md-5">
-            @Html.DisplayFor(model => model.Role.Description)
-        </dd>
-    </dl>
-        <div class="col-md-5" >
-            <h1>Список пользователей с этой ролью:</h1>
+    <div class="row">
+        <dl class="col-md-6">
+            <dt class="col-md-4">
+                @Html.DisplayNameFor(model => model.Role.Name)
+            </dt>
+            <dd class="col-md-8">
+                @Html.DisplayFor(model => model.Role.Name)
+            </dd>
+            <dt class="col-md-4">
+                @Html.DisplayNameFor(model => model.Role.NormalizedName)
+            </dt>
+            <dd class="col-md-8">
+                @Html.DisplayFor(model => model.Role.NormalizedName)
+            </dd>
+            <dt class="col-md-4">
+                @Html.DisplayNameFor(model => model.Role.ConcurrencyStamp)
+            </dt>
+            <dd class="col-md-8">
+                @Html.DisplayFor(model => model.Role.ConcurrencyStamp)
+            </dd>
+            <dt class="col-md-4">
+                @Html.DisplayNameFor(model => model.Role.Description)
+            </dt>
+            <dd class="col-md-8">
+                @Html.DisplayFor(model => model.Role.Description)
+            </dd>
+        </dl>
+        <div class="col-md-6">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -62,8 +65,10 @@
                 </tbody>
             </table>
         </div>
+    </div>
+        
+
+
     <a asp-page="./Edit" asp-route-id="@Model.Role.Id">Изменить</a> |
     <a asp-page="./Index">Вернуться к списку Ролей</a>
-<div>
-
-</div>
+        

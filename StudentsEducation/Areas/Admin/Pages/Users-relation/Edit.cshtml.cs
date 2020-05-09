@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Users
+namespace StudentsEducation.Web.Areas.Admin.Pages.Users_relation
 {
     public class EditModel : PageModel
     {

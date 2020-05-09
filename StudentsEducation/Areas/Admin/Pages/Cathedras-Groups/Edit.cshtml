@@ -40,7 +40,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-7">
         @(await Html.RenderComponentAsync<StudentsEducation.Web.Components.GroupList>(RenderMode.ServerPrerendered, 
         new { CathedraId = Model.Cathedra.Id, Editable = true }))
     </div>

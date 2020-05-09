@@ -4,18 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Infrastructure.Data;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects
+namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
 {
-    public class EditModel : PageModel
+    public class DeleteModel : PageModel
     {
         private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
 
-        public EditModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public DeleteModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
         {
             _context = context;
         }
@@ -39,39 +38,22 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Subject).State = EntityState.Modified;
+            Subject = await _context.Subjects.FindAsync(id);
 
-            try
+            if (Subject != null)
             {
+                _context.Subjects.Remove(Subject);
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SubjectExists(Subject.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool SubjectExists(int id)
-        {
-            return _context.Subjects.Any(e => e.Id == id);
         }
     }
 }

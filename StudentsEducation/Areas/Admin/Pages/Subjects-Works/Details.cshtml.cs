@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Infrastructure.Data;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects
+namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
 {
     public class DetailsModel : PageModel
     {
