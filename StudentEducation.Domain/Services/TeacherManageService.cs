@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace StudentsEducation.Domain.Services
 {
-    public class TeacherAndScheduleService : ITeachersAndScheduleSerivce
+    public class TeacherManageService : ITeachersAndScheduleSerivce
     {
         private readonly IAsyncRepository<Teacher> _teacherRepository;
         private readonly IAsyncRepository<Schedule> _scheduleRepository;
 
-        public TeacherAndScheduleService(IAsyncRepository<Teacher> teacherRepository,IAsyncRepository<Schedule> scheduleRepository)
+        public TeacherManageService(IAsyncRepository<Teacher> teacherRepository,IAsyncRepository<Schedule> scheduleRepository)
         {
             _teacherRepository = teacherRepository;
             _scheduleRepository = scheduleRepository;
@@ -51,6 +51,6 @@ namespace StudentsEducation.Domain.Services
         public async Task UpdateTeacherAsync(Teacher teacher)
         {
             await _teacherRepository.UpdateAsync(teacher);
-        }
+        } 
     }
 }

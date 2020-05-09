@@ -13,18 +13,18 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
 {
     public class IndexModel : PageModel
     {
-        private readonly IAsyncRepository<ControlType> _repository;
+        private readonly ISubjectAndWorksService _service;
 
-        public IndexModel(IAsyncRepository<ControlType> repository)
+        public IndexModel(ISubjectAndWorksService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         public IList<ControlType> ControlType { get;set; }
 
         public async Task OnGetAsync()
         {
-            ControlType = (await _repository.GetAllAsync()).ToList();
+            ControlType = (await _service.GetControlTypesAsync()).ToList();
         }
     }
 }

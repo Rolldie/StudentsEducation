@@ -39,6 +39,6 @@
         </form>
     <div class="col-md-12">
         <h1>Также будут удалены следующие группы: </h1>
-        @(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = Model.Cathedra.Id, Editable = true }))
+        @(await Html.RenderComponentAsync<GroupsList>(RenderMode.ServerPrerendered,new { CathedraId = Model.Cathedra.Id, Editable = true }))
     </div>
 </div>

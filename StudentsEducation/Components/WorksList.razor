@@ -1,0 +1,215 @@
+﻿@using Microsoft.Extensions.DependencyInjection
+@using StudentsEducation.Domain.Entities
+@inherits OwningComponentBase
+
+<p class="small">Работы</p>
+@if (Works == null)
+{
+    <div class="small spinner-grow"></div>
+}
+else
+{
+    @if (!Editable)
+    {
+        foreach (var elem in Works)
+        {
+            <p class="small text-info">@elem.Name</p>
+        }
+    }
+    else
+    {
+        @if (!AddingMode)
+        {
+            foreach (var elem in Works)
+            {
+                <p class="text-info">
+                    @elem.Name  @elem.ControlType.ControlName
+                    <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Изменить</button>
+                    <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Удалить</button>
+                    @if (Work != null && Work.Id == elem.Id)
+                    {
+                        <div class="col-12 form-group ">
+                            <EditForm Model="@EditWork">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <div class="form-group">
+                                    <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
+                                    <InputSelectInt class="dropdown form-control" @bind-Value="EditWork.ControlTypeId">
+                                        @foreach (var cType in ControlTypes)
+                                                            {
+                                            <option value="@cType.Id">@cType.ControlName</option>
+                                                            }
+                                        /**/
+
+                                    </InputSelectInt>
+                                </div>
+                                <div class="form-group">
+                                    <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)" />
+                                    <InputSelectInt class="dropdown form-control" @bind-Value="EditWork.SubjectId">
+                                        @foreach (var sbj in Subjects)
+                                                            {
+                                            <option value="@sbj.Id">@sbj.Name</option>
+                                                            }
+                                        /**/
+
+                                    </InputSelectInt>
+                                </div>
+                                <div class="form-group">
+                                    <InputLabel TItem="Work" aspfor="@nameof(EditWork.Name)"></InputLabel>
+                                    <InputText class="form-control" id="nameEd" @bind-Value="EditWork.Name" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
+                                    <button type="button" class="btn btn-danger" @onclick="@(async ()=> await Edit(elem.Id))">Не сохранять</button>
+                                </div>
+                            </EditForm>
+                        </div>
+                    }
+                </p>
+            }
+            <button type="button" class="btn btn-primary" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })">Добавить группу к кафедре</button>
+        }
+        else
+        {
+            <div class="col-12 form-group">
+                <EditForm Model="@AddWork">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="form-group">
+                        <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
+                        <InputSelectInt class="dropdown form-control" @bind-Value="AddWork.ControlTypeId">
+                            @foreach (var cType in ControlTypes)
+                                        {
+                                <option value="@cType.Id">@cType.ControlName</option>
+                                        }
+                            /**/
+                            /**/
+
+                        </InputSelectInt>
+                    </div>
+                    <div class="form-group">
+                        <InputLabel TItem="Group" aspfor="@nameof(AddWork.Name)"></InputLabel>
+                        <InputNumber class="form-control" id="courseadd" @bind-Value="AddWork.Name" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Создать</button>
+                        <button type="button" class="btn btn-danger" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> Закрыть форму добавления</button>
+                    </div>
+                </EditForm>
+            </div>
+
+        }
+
+    }
+}
+
+
+
+
+
+
+@code {
+    public StudentsEducation.Domain.Interfaces.ISubjectAndWorksService service;
+    public StudentsEducation.Domain.Interfaces.IAsyncRepository<ControlType> typeRepository;
+    [Parameter]
+    public int SubjectId { get; set; }
+    [Parameter]
+    public bool Editable { get; set; }
+    public bool AddingMode { get; set; }
+    public IEnumerable<ControlType> ControlTypes { get; set; }
+    public IEnumerable<Subject> Subjects { get; set; }
+    public Work AddWork = new Work();
+    public Work EditWork = new Work();
+    public IEnumerable<Work> Works { get; set; }
+    public Work Work { get; set; }
+    public int EditId { get; set; }
+
+    public EditContext context;
+
+    protected override void OnInitialized()
+    {
+        service = ScopedServices.GetRequiredService<StudentsEducation.Domain.Interfaces.ISubjectAndWorksService>();
+        typeRepository = ScopedServices.GetRequiredService<StudentsEducation.Domain.Interfaces.IAsyncRepository<ControlType>>();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        Works = await service.GetWorksBySubjectAsync(SubjectId);
+        StateHasChanged();
+    }
+    public async Task Edit(int id)
+    {
+        Works = Works.Where(e => e.Subject.Id == SubjectId);
+        if (Subjects == null) Subjects = await service.GetSubjectsAsync();
+        if (ControlTypes == null) ControlTypes = await typeRepository.GetAllAsync();
+        if (Work != null && Work.Id == id)
+        {
+            Work = null;
+            EditWork = new Work();
+        }
+        else
+        {
+            //TODO: Would be a problem one day!!!
+            Work = Works.First(e => e.Id == id);
+            EditWork.Name = Work.Name;
+            EditWork.SubjectId = Work.SubjectId;
+            EditWork.ControlTypeId = Work.ControlTypeId;
+        }
+        StateHasChanged();
+    }
+
+    public async Task ValidateUpdating()
+    {
+        context = new EditContext(EditWork);
+        context.AddDataAnnotationsValidation();
+        if (EditWork.SubjectId != Work.SubjectId)
+        {
+            EditWork.Subject = Subjects.First(e => e.Id == EditWork.SubjectId);
+        }
+        else EditWork.Subject = Work.Subject;
+        if (EditWork.ControlTypeId != Work.ControlTypeId)
+        {
+            EditWork.ControlType = ControlTypes.First(e => e.Id == EditWork.ControlTypeId);
+        }
+        else EditWork.ControlType = Work.ControlType;
+        if (context.Validate())
+        {
+            try
+            {
+                Work.Name = EditWork.Name;
+                Work.Subject = EditWork.Subject;
+                Work.ControlType = EditWork.ControlType;
+                await service.UpdateWorkAsync(Work);
+                await Edit(Work.Id);
+            }
+            catch (System.Data.DBConcurrencyException)
+            {
+
+            }
+        }
+        StateHasChanged();
+    }
+    public async Task ValidateAdd()
+    {
+        context = new EditContext(AddWork);
+        AddWork.ControlType = ControlTypes.First(e => e.Id == AddWork.ControlTypeId);
+        context.AddDataAnnotationsValidation();
+        if (context.Validate())
+        {
+            try
+            {
+                await service.AddWorkToSubjectAsync(AddWork, SubjectId);
+                AddingMode = !AddingMode;
+                AddWork = new Work();
+            }
+            catch (System.Data.DBConcurrencyException e)
+            {
+
+            }
+        }
+    }
+    public async Task Delete(int id)
+    {
+        await service.DeleteWorkAsync(id);
+    }
+}

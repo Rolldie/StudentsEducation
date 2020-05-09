@@ -14,6 +14,9 @@ namespace StudentsEducation.Domain.Entities
         //references
         [Required]
         public virtual Subject Subject { get; set; }
+        [Required]
+        public virtual int SubjectId { get; set; }
+        public virtual int ControlTypeId { get; set; }
         public virtual ControlType ControlType { get; set; }
 
 

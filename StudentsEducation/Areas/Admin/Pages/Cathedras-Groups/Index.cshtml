@@ -43,7 +43,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 <div class="collapse" id="@item.Id">
-                    @(await Html.RenderComponentAsync<GroupList>(RenderMode.ServerPrerendered,new { CathedraId = item.Id, Editable=false}))
+                    @(await Html.RenderComponentAsync<GroupsList>(RenderMode.ServerPrerendered,new { CathedraId = item.Id, Editable=false}))
                 </div>
                 </td>
                 <td>

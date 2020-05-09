@@ -24,6 +24,11 @@
                 <span asp-validation-for="Subject.CourseNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Subject.ControlType.ControlName" class="control-label"></label>
+                <select asp-for="Subject.ControlType" asp-items="Model.List" class="form-control" />
+                <span asp-validation-for="Subject.ControlType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
