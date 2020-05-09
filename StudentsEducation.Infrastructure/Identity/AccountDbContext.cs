@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudentsEducation.Infrastructure.Identity
 {

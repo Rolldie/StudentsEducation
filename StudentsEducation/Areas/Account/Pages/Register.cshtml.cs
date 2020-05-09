@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using StudentsEducation.Infrastructure.Identity.Data;
 
-namespace StudentsEducation.Web.Areas.Identity.Pages.Account
+namespace StudentsEducation.Web.Areas.Account.Pages
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel

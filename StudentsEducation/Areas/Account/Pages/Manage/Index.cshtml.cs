@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StudentsEducation.Infrastructure.Identity.Data;
 
-namespace StudentsEducation.Web.Areas.Identity.Pages.Account.Manage
+namespace StudentsEducation.Web.Areas.Account.Pages.Manage
 {
     public partial class IndexModel : PageModel
     {

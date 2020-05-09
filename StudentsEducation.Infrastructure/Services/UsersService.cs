@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Infrastructure.Identity.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StudentsEducation.Infrastructure.Services
@@ -66,7 +64,15 @@ namespace StudentsEducation.Infrastructure.Services
             await _roleManager.DeleteAsync(role);
         }
 
-
+        public async Task LoginAsync(AppUser user,string password, bool isPersistent)
+        {
+            _signInManager.CheckPasswordSignInAsync(user, password, false);
+            _signInManager.SignInAsync(user, isPersistent);
+        }
+        public async Task LogoutAsync()
+        {
+           await _signInManager.SignOutAsync();
+        }
 
 
     }

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StudentsEducation.Infrastructure.Identity.Data;
 
-namespace StudentsEducation.Web.Areas.Identity.Pages.Account.Manage
+namespace StudentsEducation.Web.Areas.Account.Pages.Manage
 {
     public class DownloadPersonalDataModel : PageModel
     {

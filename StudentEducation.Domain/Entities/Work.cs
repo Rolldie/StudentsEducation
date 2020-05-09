@@ -1,8 +1,5 @@
 ﻿using StudentsEducation.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {

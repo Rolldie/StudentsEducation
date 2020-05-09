@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using StudentsEducation.Infrastructure.Identity.Data;
 
-namespace StudentsEducation.Web.Areas.Identity.Pages.Account.Manage
+namespace StudentsEducation.Web.Areas.Account.Pages.Manage
 {
     public class DeletePersonalDataModel : PageModel
     {

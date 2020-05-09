@@ -1,10 +1,6 @@
-﻿using FoolProof.Core;
-using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Domain.Validators;
+﻿using StudentsEducation.Domain.Validators;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace StudentsEducation.Domain.Entities
 {

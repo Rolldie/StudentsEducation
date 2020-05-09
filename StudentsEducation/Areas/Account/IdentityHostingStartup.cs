@@ -1,17 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using StudentsEducation.Infrastructure.Identity;
 using StudentsEducation.Infrastructure.Identity.Data;
 
-[assembly: HostingStartup(typeof(StudentsEducation.Web.Areas.Identity.IdentityHostingStartup))]
-namespace StudentsEducation.Web.Areas.Identity
+[assembly: HostingStartup(typeof(StudentsEducation.Web.Areas.Account.IdentityHostingStartup))]
+namespace StudentsEducation.Web.Areas.Account
 {
     public class IdentityHostingStartup : IHostingStartup
     {
