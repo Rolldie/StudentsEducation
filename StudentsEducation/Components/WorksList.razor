@@ -13,7 +13,7 @@ else
     {
         foreach (var elem in Works)
         {
-            <p class="small text-info">@elem.Name</p>
+            <p class="small text-info">@elem.Name | @elem.ControlType.ControlName</p>
         }
     }
     else
@@ -23,9 +23,9 @@ else
             foreach (var elem in Works)
             {
                 <p class="text-info">
-                    @elem.Name  @elem.ControlType.ControlName
+                    @elem.Name | @elem.ControlType.ControlName
                     <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Изменить</button>
-                    <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Удалить</button>
+                    <button class="btn btn-link" @onclick="@(async () => await Delete(elem.Id))">Удалить</button>
                     @if (Work != null && Work.Id == elem.Id)
                     {
                         <div class="col-12 form-group ">
@@ -34,22 +34,24 @@ else
                                 <ValidationSummary />
                                 <div class="form-group">
                                     <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
-                                    <InputSelectInt class="dropdown form-control" @bind-Value="EditWork.ControlTypeId">
+                                    <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
                                         @foreach (var cType in ControlTypes)
                                                             {
                                             <option value="@cType.Id">@cType.ControlName</option>
                                                             }
+                                        /**/
                                         /**/
 
                                     </InputSelectInt>
                                 </div>
                                 <div class="form-group">
                                     <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)" />
-                                    <InputSelectInt class="dropdown form-control" @bind-Value="EditWork.SubjectId">
+                                    <InputSelectInt class="dropdown form-control" @bind-Value="SelectedSubjectId">
                                         @foreach (var sbj in Subjects)
                                                             {
                                             <option value="@sbj.Id">@sbj.Name</option>
                                                             }
+                                        /**/
                                         /**/
 
                                     </InputSelectInt>
@@ -60,14 +62,14 @@ else
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
-                                    <button type="button" class="btn btn-danger" @onclick="@(async ()=> await Edit(elem.Id))">Не сохранять</button>
+                                    <button type="button" class="btn btn-danger" @onclick="@(async () => await Edit(elem.Id))">Не сохранять</button>
                                 </div>
                             </EditForm>
                         </div>
                     }
                 </p>
             }
-            <button type="button" class="btn btn-primary" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })">Добавить группу к кафедре</button>
+            <button type="button" class="btn btn-primary" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })">Добавить работу к предмету</button>
         }
         else
         {
@@ -77,22 +79,22 @@ else
                     <ValidationSummary />
                     <div class="form-group">
                         <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
-                        <InputSelectInt class="dropdown form-control" @bind-Value="AddWork.ControlTypeId">
+                        <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
                             @foreach (var cType in ControlTypes)
-                                        {
+                            {
                                 <option value="@cType.Id">@cType.ControlName</option>
-                                        }
+                            }
                             /**/
                             /**/
 
                         </InputSelectInt>
                     </div>
                     <div class="form-group">
-                        <InputLabel TItem="Group" aspfor="@nameof(AddWork.Name)"></InputLabel>
-                        <InputNumber class="form-control" id="courseadd" @bind-Value="AddWork.Name" />
+                        <InputLabel TItem="Work" aspfor="@nameof(AddWork.Name)"></InputLabel>
+                        <InputText class="form-control" id="courseadd" @bind-Value="AddWork.Name" />
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Создать</button>
+                        <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Добавить</button>
                         <button type="button" class="btn btn-danger" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> Закрыть форму добавления</button>
                     </div>
                 </EditForm>
@@ -124,6 +126,10 @@ else
     public Work Work { get; set; }
     public int EditId { get; set; }
 
+
+    public int SelectedControlId{get;set;}
+    public int SelectedSubjectId { get; set; }
+
     public EditContext context;
 
     protected override void OnInitialized()
@@ -135,13 +141,14 @@ else
     {
         await base.OnAfterRenderAsync(firstRender);
         Works = await service.GetWorksBySubjectAsync(SubjectId);
+        if (Subjects == null) Subjects = await service.GetSubjectsAsync();
+        if (ControlTypes == null) ControlTypes = await typeRepository.GetAllAsync();
         StateHasChanged();
     }
     public async Task Edit(int id)
     {
         Works = Works.Where(e => e.Subject.Id == SubjectId);
-        if (Subjects == null) Subjects = await service.GetSubjectsAsync();
-        if (ControlTypes == null) ControlTypes = await typeRepository.GetAllAsync();
+
         if (Work != null && Work.Id == id)
         {
             Work = null;
@@ -152,8 +159,10 @@ else
             //TODO: Would be a problem one day!!!
             Work = Works.First(e => e.Id == id);
             EditWork.Name = Work.Name;
-            EditWork.SubjectId = Work.SubjectId;
-            EditWork.ControlTypeId = Work.ControlTypeId;
+            EditWork.Subject = Work.Subject;
+            EditWork.ControlType = Work.ControlType;
+            SelectedControlId = Work.ControlType.Id;
+            SelectedSubjectId = Work.Subject.Id;
         }
         StateHasChanged();
     }
@@ -162,16 +171,14 @@ else
     {
         context = new EditContext(EditWork);
         context.AddDataAnnotationsValidation();
-        if (EditWork.SubjectId != Work.SubjectId)
+        if (Work.Subject.Id!=SelectedSubjectId)
         {
-            EditWork.Subject = Subjects.First(e => e.Id == EditWork.SubjectId);
+            EditWork.Subject = Subjects.First(e => e.Id == SelectedSubjectId);
         }
-        else EditWork.Subject = Work.Subject;
-        if (EditWork.ControlTypeId != Work.ControlTypeId)
+        if (Work.ControlType.Id!=SelectedControlId)
         {
-            EditWork.ControlType = ControlTypes.First(e => e.Id == EditWork.ControlTypeId);
+            EditWork.ControlType = ControlTypes.First(e => e.Id == SelectedControlId);
         }
-        else EditWork.ControlType = Work.ControlType;
         if (context.Validate())
         {
             try
@@ -181,6 +188,8 @@ else
                 Work.ControlType = EditWork.ControlType;
                 await service.UpdateWorkAsync(Work);
                 await Edit(Work.Id);
+                SelectedControlId = 0;
+                SelectedSubjectId = 0;
             }
             catch (System.Data.DBConcurrencyException)
             {
@@ -192,7 +201,8 @@ else
     public async Task ValidateAdd()
     {
         context = new EditContext(AddWork);
-        AddWork.ControlType = ControlTypes.First(e => e.Id == AddWork.ControlTypeId);
+        AddWork.ControlType = ControlTypes.First(e => e.Id == SelectedControlId);
+        AddWork.Subject = Subjects.First(e=>e.Id==SubjectId);
         context.AddDataAnnotationsValidation();
         if (context.Validate())
         {
@@ -200,6 +210,7 @@ else
             {
                 await service.AddWorkToSubjectAsync(AddWork, SubjectId);
                 AddingMode = !AddingMode;
+                SelectedControlId = 0;
                 AddWork = new Work();
             }
             catch (System.Data.DBConcurrencyException e)

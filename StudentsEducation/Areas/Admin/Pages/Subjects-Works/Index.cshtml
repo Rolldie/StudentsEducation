@@ -2,13 +2,13 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список предметов и работ";
 }
 
-<h1>Index</h1>
+<h1>Список предметов и работ</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Добавить предмет</a>
 </p>
 <table class="table">
     <thead>
@@ -21,6 +21,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Subject[0].CourseNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=> model.Subject[0].ControlType.ControlName)
             </th>
             <th></th>
         </tr>
@@ -44,9 +47,11 @@
                 @Html.DisplayFor(modelItem => item.CourseNumber)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem=> item.ControlType.ControlName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }

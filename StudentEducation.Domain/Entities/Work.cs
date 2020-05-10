@@ -8,15 +8,12 @@ namespace StudentsEducation.Domain.Entities
     {
         [Required]
         [StringLength(200)]
-        [Display(Name = "Название кафедры")]
+        [Display(Name = "Название работы")]
         public string Name { get; set; }
 
         //references
         [Required]
         public virtual Subject Subject { get; set; }
-        [Required]
-        public virtual int SubjectId { get; set; }
-        public virtual int ControlTypeId { get; set; }
         public virtual ControlType ControlType { get; set; }
 
 

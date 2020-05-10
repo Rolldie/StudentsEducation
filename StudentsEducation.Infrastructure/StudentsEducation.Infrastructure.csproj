@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200510094113_refactoring.cs" />
+    <Compile Remove="Migrations\20200510094113_refactoring.Designer.cs" />
+    <Compile Remove="Migrations\20200510094435_refactoring.cs" />
+    <Compile Remove="Migrations\20200510094435_refactoring.Designer.cs" />
+    <Compile Remove="Migrations\20200510095345_refactoring.cs" />
+    <Compile Remove="Migrations\20200510095345_refactoring.Designer.cs" />
+    <Compile Remove="Migrations\20200510095555_refactoring.cs" />
+    <Compile Remove="Migrations\20200510095555_refactoring.Designer.cs" />
+    <Compile Remove="Migrations\20200510095739_refactoring.cs" />
+    <Compile Remove="Migrations\20200510095739_refactoring.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />

@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
 {
     public class DeleteModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly ISubjectAndWorksService _service;
 
-        public DeleteModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public DeleteModel(ISubjectAndWorksService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [BindProperty]
@@ -25,12 +26,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
                 return NotFound();
             }
 
-            Subject = await _context.Subjects.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Subject == null)
-            {
-                return NotFound();
-            }
+            Subject = await _service.GetSubjectAsync(id.Value);
             return Page();
         }
 
@@ -41,13 +37,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
                 return NotFound();
             }
 
-            Subject = await _context.Subjects.FindAsync(id);
-
-            if (Subject != null)
-            {
-                _context.Subjects.Remove(Subject);
-                await _context.SaveChangesAsync();
-            }
+            await _service.DeleteSubjectAsync(id.Value);
 
             return RedirectToPage("./Index");
         }

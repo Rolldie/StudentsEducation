@@ -13,7 +13,7 @@ else
     {
         foreach (var elem in Groups)
         {
-            <p class="small text-info">@elem.Name</p>
+            <p class="small text-info">@elem.Name | @elem.CourseNumber</p>
         }
     }
     else
@@ -23,7 +23,7 @@ else
             foreach (var elem in Groups)
             {
                 <p class="text-info">
-                    @elem.Name  @elem.StartEducationDate.ToShortDateString()-@elem.EndEducationDate.ToShortDateString() Курс:@elem.CourseNumber
+                    @elem.Name | @elem.StartEducationDate.ToShortDateString()-@elem.EndEducationDate.ToShortDateString() | Курс:@elem.CourseNumber
                     <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Изменить</button>
                     <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Удалить</button>
                     @if (Group != null && Group.Id == elem.Id)
@@ -34,7 +34,7 @@ else
                                 <ValidationSummary />
                                 <div class="form-group">
                                     <InputLabel TItem="Cathedra" aspfor="@nameof(Cathedra.Name)" />
-                                    <InputSelectInt class="dropdown form-control" @bind-Value="EditGroup.CathedraId">
+                                    <InputSelectInt class="dropdown form-control" @bind-Value="SelectedCathedra">
                                         @foreach (var cath in Cathedras)
                                                             {
                                             <option value="@cath.Id">@cath.Name</option>
@@ -92,7 +92,7 @@ else
                         <InputDate class="form-control" id="endDateAdd" @bind-Value="AddGroup.EndEducationDate" />
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Создать</button>
+                        <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Добавить</button>
                         <button type="button" class="btn btn-danger" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })"> Закрыть форму добавления</button>
                     </div>
                 </EditForm>
@@ -122,7 +122,7 @@ else
     public Group Group { get; set; }
     public int EditId { get; set; }
 
-
+    public int SelectedCathedra { get; set; }
     public bool Ready { get; set; }
     public EditContext context;
 
@@ -134,6 +134,7 @@ else
     {
         await base.OnAfterRenderAsync(firstRender);
         Groups = await service.GetCatherdaGroupsAsync(CathedraId);
+        if (Cathedras == null) Cathedras = await service.GetCathedrasAsync();
         StateHasChanged();
     }
     public async Task Edit(int id)
@@ -144,6 +145,7 @@ else
         {
             Group = null;
             EditGroup = new Group();
+            SelectedCathedra = CathedraId;
         }
         else
         {
@@ -153,7 +155,8 @@ else
             EditGroup.StartEducationDate = Group.StartEducationDate;
             EditGroup.EndEducationDate = Group.EndEducationDate;
             EditGroup.CourseNumber = Group.CourseNumber;
-            EditGroup.CathedraId = Group.CathedraId;
+            EditGroup.Cathedra = Group.Cathedra;
+            SelectedCathedra = CathedraId;
         }
         StateHasChanged();
     }
@@ -162,11 +165,10 @@ else
     {
         context = new EditContext(EditGroup);
         context.AddDataAnnotationsValidation();
-        if (EditGroup.CathedraId != Group.CathedraId)
+        if (CathedraId!=SelectedCathedra && SelectedCathedra!=0)
         {
-            EditGroup.Cathedra = Cathedras.First(e => e.Id == EditGroup.CathedraId);
+            Group.Cathedra = Cathedras.First(e => e.Id == SelectedCathedra);
         }
-        else EditGroup.Cathedra = Group.Cathedra;
         if (context.Validate())
         {
             try
@@ -175,7 +177,6 @@ else
                 Group.Name = EditGroup.Name;
                 Group.StartEducationDate = EditGroup.StartEducationDate;
                 Group.EndEducationDate = EditGroup.EndEducationDate;
-                Group.Cathedra = EditGroup.Cathedra;
                 await service.UpdateGroupAsync(Group);
                 await Edit(Group.Id);
             }

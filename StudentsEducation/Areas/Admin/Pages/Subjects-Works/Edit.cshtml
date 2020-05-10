@@ -2,15 +2,17 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Изменение";
 }
 
-<h1>Edit</h1>
+<h1>Изменение</h1>
 
-<h4>Subject</h4>
+<h4>Предмет</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+
+    <div class="col-md-6  border-right">
+        <h4>Предмет</h4>
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -23,18 +25,28 @@
                 <input asp-for="Subject.CourseNumber" class="form-control" />
                 <span asp-validation-for="Subject.CourseNumber" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Subject.ControlType.ControlName" class="control-label"></label>
+                <select asp-for="SelectedControlType" asp-items="Model.Items" class="form-control">
+                    <option value=" ">==Выберите тип контроля==</option>
+                </select>
+                <span asp-validation-for="SelectedControlType" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Subject.Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
+    <div class="col-md-6">
+        <h4>Работы</h4>
+        @(await Html.RenderComponentAsync<WorksList>(RenderMode.ServerPrerendered,new {SubjectId=Model.Subject.Id, Editable=true}))
+    </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+    <div>
+        <a asp-page="./Index">Вернуться к списку предметов</a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

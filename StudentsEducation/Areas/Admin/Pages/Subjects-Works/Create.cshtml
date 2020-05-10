@@ -2,12 +2,12 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создание";
 }
 
-<h1>Create</h1>
+<h1>Создание</h1>
 
-<h4>Subject</h4>
+<h4>Предмет</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,18 +25,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="Subject.ControlType.ControlName" class="control-label"></label>
-                <select asp-for="Subject.ControlType" asp-items="Model.List" class="form-control" />
-                <span asp-validation-for="Subject.ControlType" class="text-danger"></span>
+                <select asp-for="SelectedValue" asp-items=Model.List class="form-control">
+                    <option value="" class="shadow">==Выберите тип контроля==</option>
+                </select>
+                <span asp-validation-for="SelectedValue" class="text-danger"></span>
             </div>
+                <input asp-for="Subject.ControlType" hidden="hidden" />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index">Вернуться к списку Предметов</a>
 </div>
 
 @section Scripts {
