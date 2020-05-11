@@ -2,12 +2,12 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Teachers_Schedules.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Изменение преподавателя";
 }
 
-<h1>Edit</h1>
+<h1>Изменение</h1>
 
-<h4>Teacher</h4>
+<h4>Преподаватель</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,14 +20,17 @@
             </div>
             <input type="hidden" asp-for="Teacher.Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div class="col-md-8">
+        @(await Html.RenderComponentAsync<SchedulesList>(RenderMode.ServerPrerendered,new { TeacherId = Model.Teacher.Id }))
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Вернуться к списку Преподавателей</a>
 </div>
 
 @section Scripts {

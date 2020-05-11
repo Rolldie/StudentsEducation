@@ -1,5 +1,4 @@
-﻿@using Microsoft.Extensions.DependencyInjection
-@using StudentsEducation.Domain.Entities
+﻿
 @inherits OwningComponentBase
 
 <p class="small">Группы</p>
@@ -11,62 +10,73 @@ else
 {
     @if (!Editable)
     {
-        foreach (var elem in Groups)
-        {
-            <p class="small text-info">@elem.Name | @elem.CourseNumber</p>
-        }
+        <ul class="list-unstyled">
+            @foreach (var elem in Groups)
+            {
+                <li class="small text-info">@elem.Name | @elem.CourseNumber</li>
+            }
+        </ul>
     }
     else
     {
         @if (!AddingMode)
         {
-            foreach (var elem in Groups)
-            {
-                <p class="text-info">
+            <ul class="list-unstyled">
+                @foreach (var elem in Groups)
+                {
+                <li class="small text-info">
                     @elem.Name | @elem.StartEducationDate.ToShortDateString()-@elem.EndEducationDate.ToShortDateString() | Курс:@elem.CourseNumber
                     <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Изменить</button>
                     <button class="btn btn-link" @onclick="@(async ()=> await Delete(elem.Id))">Удалить</button>
-                    @if (Group != null && Group.Id == elem.Id)
-                    {
-                        <div class="col-12 form-group ">
-                            <EditForm Model="@EditGroup">
-                                <DataAnnotationsValidator />
-                                <ValidationSummary />
-                                <div class="form-group">
-                                    <InputLabel TItem="Cathedra" aspfor="@nameof(Cathedra.Name)" />
-                                    <InputSelectInt class="dropdown form-control" @bind-Value="SelectedCathedra">
-                                        @foreach (var cath in Cathedras)
-                                                            {
-                                            <option value="@cath.Id">@cath.Name</option>
-                                                            }
-                                        /**/
-                                    </InputSelectInt>
-                                </div>
-                                <div class="form-group">
-                                    <InputLabel TItem="Group" aspfor="@nameof(EditGroup.Name)"></InputLabel>
-                                    <InputText class="form-control" id="nameEd" @bind-Value="EditGroup.Name" />
-                                </div>
-                                <div class="form-group">
-                                    <InputLabel TItem="Group" aspfor="@nameof(EditGroup.CourseNumber)"></InputLabel>
-                                    <InputNumber class="form-control" id="courseEd" @bind-Value="EditGroup.CourseNumber" />
-                                </div>
-                                <div class="form-group">
-                                    <InputLabel TItem="Group" aspfor="@nameof(EditGroup.StartEducationDate)"></InputLabel>
-                                    <InputDate class="form-control" id="StartDateEd" @bind-Value="EditGroup.StartEducationDate" />
-                                </div>
-                                <div class="form-group">
-                                    <InputLabel TItem="Group" aspfor="@nameof(EditGroup.EndEducationDate)"></InputLabel>
-                                    <InputDate class="form-control" id="EndDateEd" @bind-Value="EditGroup.EndEducationDate" />
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
-                                    <button type="button" class="btn btn-danger" @onclick="@(async ()=> await Edit(elem.Id))">Не сохранять</button>
-                                </div>
-                            </EditForm>
-                        </div>
-                    }
-                </p>
-            }
+                </li>
+                        @if (Group != null && Group.Id == elem.Id)
+                        {
+                            <div class="col-12 form-group ">
+                                <EditForm Model="@EditGroup">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="form-group">
+                                        <InputLabel TItem="Cathedra" aspfor="@nameof(Cathedra.Name)" />
+                                        <InputSelectInt class="dropdown form-control" @bind-Value="SelectedCathedra">
+                                            @foreach (var cath in Cathedras)
+                                                                {
+                                                <option value="@cath.Id">@cath.Name</option>
+                                                                }
+                                            /**/
+                                            /**/
+                                            /**/
+                                            /**/
+                                            /**/
+                                        </InputSelectInt>
+                                    </div>
+                                    <div class="form-group">
+                                        <InputLabel TItem="Group" aspfor="@nameof(EditGroup.Name)"></InputLabel>
+                                        <InputText class="form-control" id="nameEd" @bind-Value="EditGroup.Name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <InputLabel TItem="Group" aspfor="@nameof(EditGroup.CourseNumber)"></InputLabel>
+                                        <InputNumber class="form-control" id="courseEd" @bind-Value="EditGroup.CourseNumber" />
+                                    </div>
+                                    <div class="form-group">
+                                        <InputLabel TItem="Group" aspfor="@nameof(EditGroup.StartEducationDate)"></InputLabel>
+                                        <InputDate class="form-control" id="StartDateEd" @bind-Value="EditGroup.StartEducationDate" />
+                                    </div>
+                                    <div class="form-group">
+                                        <InputLabel TItem="Group" aspfor="@nameof(EditGroup.EndEducationDate)"></InputLabel>
+                                        <InputDate class="form-control" id="EndDateEd" @bind-Value="EditGroup.EndEducationDate" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
+                                        <button type="button" class="btn btn-danger" @onclick="@(async ()=> await Edit(elem.Id))">Не сохранять</button>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        }
+
+                }
+            </ul>
+
+
             <button type="button" class="btn btn-primary" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })">Добавить группу к кафедре</button>
         }
         else
@@ -97,9 +107,8 @@ else
                     </div>
                 </EditForm>
             </div>
-            
-        }
 
+        }
     }
 }
 
@@ -165,7 +174,7 @@ else
     {
         context = new EditContext(EditGroup);
         context.AddDataAnnotationsValidation();
-        if (CathedraId!=SelectedCathedra && SelectedCathedra!=0)
+        if (CathedraId != SelectedCathedra && SelectedCathedra != 0)
         {
             Group.Cathedra = Cathedras.First(e => e.Id == SelectedCathedra);
         }

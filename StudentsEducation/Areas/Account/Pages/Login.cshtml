@@ -14,9 +14,9 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    <label asp-for="Input.LoginNEmail"></label>
+                    <input asp-for="Input.LoginNEmail" class="form-control" />
+                    <span asp-validation-for="Input.LoginNEmail" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
@@ -46,7 +46,7 @@
         </section>
     </div>
 </div>
-@(await Html.RenderComponentAsync<StudentsEducation.Web.Components.GroupsList>(RenderMode.ServerPrerendered,new { CathedraId = 1, Editable = false }))
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

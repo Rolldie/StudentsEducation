@@ -18,12 +18,18 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Teachers_Schedules
         {
             _context = context;
         }
-
+        
+        
+        [BindProperty(SupportsGet =true)]
+        public string SearchQuery { get; set; }
         public IList<Teacher> Teacher { get;set; }
 
         public async Task OnGetAsync()
         {
-            Teacher = await _context.Teachers.ToListAsync();
+            if (!string.IsNullOrEmpty(SearchQuery))
+                Teacher = (await _context.Teachers.ToListAsync()).Where(e => e.Name.ToUpper().Contains(SearchQuery.ToUpper())).ToList();
+            else
+                Teacher = await _context.Teachers.ToListAsync();
         }
     }
 }

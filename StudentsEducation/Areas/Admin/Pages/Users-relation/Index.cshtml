@@ -1,0 +1,44 @@
+﻿@page
+@model StudentsEducation.Web.Areas.Admin.Pages.Users_relation.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Пользователи</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                Имя пользователя (логин)
+            </th>
+            <th>
+                Ключ в БД
+            </th>
+            <th>
+                Роль
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var user in Model.OutUsers)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.DbId</td>
+                <td>@user.Role</td>
+                <td><a asp-page="./Edit" asp-route-id="@user.Id">Редактировать</a> |
+                    <a asp-page="./Delete" asp-route-id="@user.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

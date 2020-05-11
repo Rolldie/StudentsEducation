@@ -28,6 +28,7 @@ namespace StudentsEducation.Web.Areas.Account
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
                     options.SignIn.RequireConfirmedEmail = false;
+                    options.SignIn.RequireConfirmedAccount = false;
 
                 });
             });

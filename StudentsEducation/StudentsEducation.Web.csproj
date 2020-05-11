@@ -7,9 +7,21 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Admin\Controllers\**" />
+    <Compile Remove="Areas\Admin\Data\**" />
+    <Compile Remove="Areas\There is no need in it\Controllers\**" />
+    <Compile Remove="Controllers\**" />
     <Content Remove="Areas\Admin\Controllers\**" />
+    <Content Remove="Areas\Admin\Data\**" />
+    <Content Remove="Areas\There is no need in it\Controllers\**" />
+    <Content Remove="Controllers\**" />
     <EmbeddedResource Remove="Areas\Admin\Controllers\**" />
+    <EmbeddedResource Remove="Areas\Admin\Data\**" />
+    <EmbeddedResource Remove="Areas\There is no need in it\Controllers\**" />
+    <EmbeddedResource Remove="Controllers\**" />
     <None Remove="Areas\Admin\Controllers\**" />
+    <None Remove="Areas\Admin\Data\**" />
+    <None Remove="Areas\There is no need in it\Controllers\**" />
+    <None Remove="Controllers\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,12 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Pages\Users-relation\" />
-    <Folder Include="Areas\Student\Controllers\" />
-    <Folder Include="Areas\Student\Data\" />
-    <Folder Include="Areas\Student\Pages\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Areas\There is no need in it\Data\" />
+    <Folder Include="Areas\There is no need in it\Pages\" />
+    <Folder Include="Areas\Teacher\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

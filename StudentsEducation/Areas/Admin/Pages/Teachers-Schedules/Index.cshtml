@@ -2,16 +2,31 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Teachers_Schedules.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Преподаватели и расписание";
 }
 
-<h1>Index</h1>
-
+<h1>Преподаватели и их расписание</h1>
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Добавить преподавателя</a>
 </p>
-<h2>Преподаватели: </h2>
-@foreach(var teach in Model.Teacher)
+<br />
+<div class="col-md-6">
+    <form>  
+        <div class="form-group">
+            <label>Поиск по ФИО</label>
+            <input asp-for="@Model.SearchQuery" class="form-control" type="text" placeholder="ФИО преподавателя" aria-label="ФИО преподавателя">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="submit" value="Поиск" />
+        </div>
+    </form>
+</div>
+@foreach (var teach in Model.Teacher)
 {
-    <p>@teach.Name <a asp-page="Schedule" asp-route-id="@teach.Id">Предметы и расписание</a></p>
+    <hr />
+    <p>
+        @teach.Id |@teach.Name | <a class="btn btn-link" asp-page="./Edit" asp-route-id="@teach.Id">Изменить преподавателя</a> | <a class="btn btn-link" asp-page="./Delete" asp-route-id="@teach.Id">Удалить</a>
+    </p>
+    @(await Html.RenderComponentAsync<SchedulesList>(RenderMode.ServerPrerendered,new { TeacherId = teach.Id }))
+    <hr />
 }

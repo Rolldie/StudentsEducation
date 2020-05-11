@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,13 +15,15 @@ namespace StudentsEducation.Infrastructure.Services
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
-
+        private readonly IAsyncRepository<Teacher> _service;
         public IdentityService(RoleManager<Role> roleManager,
             SignInManager<AppUser> signInManager,
-            UserManager<AppUser> userManager
+            UserManager<AppUser> userManager,
+            IAsyncRepository<Teacher> service
            // IdentityUserRole<string> userRole)
            )
         {
+            _service = service;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -66,14 +71,39 @@ namespace StudentsEducation.Infrastructure.Services
 
         public async Task LoginAsync(AppUser user,string password, bool isPersistent)
         {
-            _signInManager.CheckPasswordSignInAsync(user, password, false);
-            _signInManager.SignInAsync(user, isPersistent);
+            await _signInManager.CheckPasswordSignInAsync(user, password, false);
+            await _signInManager.SignInAsync(user, isPersistent);
         }
         public async Task LogoutAsync()
         {
            await _signInManager.SignOutAsync();
         }
 
+        public async Task<IEnumerable<AppUser>> GetUsersAsync()
+        {
+            return await _userManager.Users.ToListAsync();
+        }
+        public async Task UpdateUserAsync(AppUser user)
+        {
+            await _userManager.UpdateAsync(user);
+        }
 
+        public async Task<IdentityResult> RegisterUser(AppUser user, string password)
+        {
+            return await _userManager.CreateAsync(user, password);
+        }
+
+        public async Task<AppUser> GetUserByUserNameAsync(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
+        }
+
+        public async Task CreateTeacherRelativeToUserAsync(Teacher teacher, AppUser user)
+        {
+            var resTeacher=await _service.CreateAsync(teacher);
+
+            user.DbId = resTeacher.Id.ToString();
+            await _userManager.UpdateAsync(user);
+        }
     }
 }

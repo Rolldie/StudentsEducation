@@ -18,7 +18,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages
             PageAndName.Add("./Cathedras-Groups/Index", "Кафедра и группы////");
             PageAndName.Add("./ControlTypes/Index", "Типы контроля////");
             PageAndName.Add("./Subjects-Works/Index", "Предметы и их работы////");
-            PageAndName.Add("./Teachers-Schedules/Index", "Преподаватели и их расписание");
+            PageAndName.Add("./Teachers-Schedules/Index", "Преподаватели и их расписание///");
             PageAndName.Add("./Users-relation/Index", "Пользователи и отношение к базе данных");
             PageAndName.Add("./Roles/Index", "Роли пользователей////");
             PageAndName.Add("./Students/Index", "Студенты и их успеваемость");

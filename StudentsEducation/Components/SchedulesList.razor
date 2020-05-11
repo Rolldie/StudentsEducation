@@ -1,0 +1,239 @@
+﻿@inherits OwningComponentBase
+<h6>Расписание</h6>
+
+<div>
+    @if (Schedules == null)
+    {
+        <div class="spinner-grow"></div>
+    }
+    else
+    {
+        <ul class="list-unstyled">
+            @foreach (var item in Schedules)
+            {
+
+                <li class="small text-info">
+                    @item.Subject.Name | @item.StartsIn.ToShortDateString() - @item.EndsIn.ToShortDateString() | @item.Group.Name
+                    <button class="btn btn-link" @onclick="@(() => EditModeSwitch(item))">Изменить</button>
+                    <button class="btn btn-link" @onclick="@(async () =>await DeleteItem(item.Id))">Удалить</button>
+                </li>
+                @if (EditMode && CurrentSchedule.EditId == item.Id)
+                {
+                    <EditForm Model=@CurrentSchedule class="border-bottom border-top">
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                        <ValidationSummary></ValidationSummary>
+                        <div class="form-group">
+                            <InputLabel TItem="Teacher" aspfor="@nameof(Teacher.Name)"></InputLabel>
+                            <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedTeacher">
+                                <option value="">Выберите учителя</option>
+                                @foreach (var elem in Teachers)
+                                            {
+                                    <option value="@elem.Id">@elem.Name</option>
+                                            }
+                            </InputSelectInt>
+                        </div>
+                        <div class="form-group">
+                            <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)"></InputLabel>
+                            <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedSubject">
+                                <option value="">Выберите предмет</option>
+                                @foreach (var elem in Subjects)
+                                            {
+                                    <option value="@elem.Id">@elem.Name</option>
+                                            }
+                            </InputSelectInt>
+                        </div>
+                        <div class="form-group">
+                            <InputLabel TItem="Group" aspfor="@nameof(Group.Name)"></InputLabel>
+                            <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedGroup">
+                                <option value="">Выберите группу</option>
+                                @foreach (var elem in Groups)
+                                            {
+                                    <option value="@elem.Id">@elem.Name</option>
+                                            }
+                            </InputSelectInt>
+                        </div>
+                        <div class="form-group">
+                            <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.StartsIn)"></InputLabel>
+                            <InputDate class="form-control" @bind-Value="CurrentSchedule.StartsIn"></InputDate>
+                        </div>
+                        <div class="form-group">
+                            <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.EndsIn)"></InputLabel>
+                            <InputDate class="form-control" @bind-Value="CurrentSchedule.EndsIn"></InputDate>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" value="Изменить" @onclick="@(async () => await ValidateSchedule(false))">Изменить</button>
+                            <button type="button" value="Отмена" @onclick="@(async () => await AddModeSwitcher())">Отмена</button>
+                        </div>
+                    </EditForm>
+                }
+
+            }
+        </ul>
+        @if (AddingMode)
+        {
+            <EditForm Model=@CurrentSchedule class="border-bottom border-top">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <ValidationSummary></ValidationSummary>
+                <div class="form-group">
+                    <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)"></InputLabel>
+                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedSubject">
+                        <option value="">Выберите предмет</option>
+                        @foreach (var elem in Subjects)
+                                {
+                            <option value="@elem.Id">@elem.Name</option>
+                                }
+                    </InputSelectInt>
+                </div>
+                <div class="form-group">
+                    <InputLabel TItem="Group" aspfor="@nameof(Group.Name)"></InputLabel>
+                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedGroup">
+                        <option value="">Выберите группу</option>
+                        @foreach (var elem in Groups)
+                                {
+                            <option value="@elem.Id">@elem.Name</option>
+                                }
+                    </InputSelectInt>
+                </div>
+                <div class="form-group">
+                    <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.StartsIn)"></InputLabel>
+                    <InputDate class="form-control" @bind-Value="CurrentSchedule.StartsIn"></InputDate>
+                </div>
+                <div class="form-group">
+                    <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.EndsIn)"></InputLabel>
+                    <InputDate class="form-control" @bind-Value="CurrentSchedule.EndsIn"></InputDate>
+                </div>
+                <div class="form-group">
+                    <button type="submit" value="Добавить" @onclick="@(async () => await ValidateSchedule(true))">Добавить</button>
+                    <button type="button" value="Отмена" @onclick="@(async () => await AddModeSwitcher())">Отмена</button>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <button class="btn btn-primary" @onclick="@(async () => await AddModeSwitcher())">Добавить запись расписания</button>
+        }
+    }
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int TeacherId { get; set; }
+    public bool AddingMode { get; set; }
+    public bool EditMode { get; set; }
+
+    public EditContext Context { get; set; }
+
+    public IQueryable<Schedule> Schedules { get; set; }
+    public IQueryable<Teacher> Teachers { get; set; }
+    public IQueryable<Group> Groups { get; set; }
+    public IQueryable<Subject> Subjects { get; set; }
+    public StudentsEducation.Domain.Interfaces.ITeachersAndScheduleSerivce service;
+
+    public InputSchedule CurrentSchedule;
+
+    public class InputSchedule
+    {
+        public int EditId { get; set; }
+
+        public DateTime StartsIn { get; set; }
+        public DateTime EndsIn { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Required]
+        public int SelectedTeacher { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public int SelectedSubject { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public int SelectedGroup { get; set; }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        AddingMode = false;
+        service = ScopedServices.GetRequiredService<StudentsEducation.Domain.Interfaces.ITeachersAndScheduleSerivce>();
+        await base.OnInitializedAsync();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Schedules == null)
+            Schedules = (await service.GetSchedulesByTeacherAsync(TeacherId)).AsQueryable().AsNoTracking().OrderBy(e => e.EndsIn).Reverse();
+        if (Teachers == null)
+            Teachers = (await service.GetTeachersAsync()).AsQueryable().AsNoTracking();
+        if (Groups == null)
+            Groups = (await service.GetGroupsAsync()).AsQueryable().AsNoTracking();
+        if (Subjects == null)
+            Subjects = (await service.GetSubjectsAsync()).AsQueryable().AsNoTracking();
+        StateHasChanged();
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async Task AddModeSwitcher()
+    {
+        CurrentSchedule = new InputSchedule();
+        Schedules = (await service.GetSchedulesByTeacherAsync(TeacherId)).AsQueryable().OrderBy(e => e.EndsIn).Reverse();
+        AddingMode = !AddingMode;
+    }
+    public void EditModeSwitch(Schedule schedule = null)
+    {
+        Schedules = Schedules.Where(e => e.Teacher.Id == TeacherId);
+        if ((schedule != null && !EditMode) || (schedule != null && EditMode && schedule.Id != CurrentSchedule.EditId))
+        {
+            CurrentSchedule = new InputSchedule()
+            {
+                EditId = schedule.Id,
+                EndsIn = schedule.EndsIn,
+                StartsIn = schedule.StartsIn,
+                SelectedGroup = schedule.Group.Id,
+                SelectedSubject = schedule.Subject.Id,
+                SelectedTeacher = schedule.Teacher.Id
+            };
+            EditMode = true;
+        }
+        else
+        {
+            CurrentSchedule = new InputSchedule();
+            EditMode = false;
+        }
+        StateHasChanged();
+
+    }
+    public async Task ValidateSchedule(bool AddMode)
+    {
+        Context = new EditContext(CurrentSchedule);
+        if (AddMode)
+            CurrentSchedule.SelectedTeacher = TeacherId;
+        Context.AddDataAnnotationsValidation();
+        if (Context.Validate())
+        {
+            var Schedule = new Schedule()
+            {
+                StartsIn = CurrentSchedule.StartsIn,
+                EndsIn = CurrentSchedule.EndsIn
+            };
+            if (AddMode)
+            {
+                await service.AddScheduleByTeacherNGroupNSubjectAsync(Schedule,
+                    TeacherId, CurrentSchedule.SelectedGroup, CurrentSchedule.SelectedSubject);
+                await AddModeSwitcher();
+            }
+            else
+            {
+                var item = Schedules.First(e => e.Id == CurrentSchedule.EditId);
+                item.Group = Groups.First(e => e.Id == CurrentSchedule.SelectedGroup);
+                item.Subject = Subjects.First(e => e.Id == CurrentSchedule.SelectedSubject);
+                item.Teacher = Teachers.First(e => e.Id == CurrentSchedule.SelectedTeacher);
+                item.StartsIn = CurrentSchedule.StartsIn;
+                item.EndsIn = CurrentSchedule.EndsIn;
+                await service.UpdateScheduleAsync(item);
+                EditModeSwitch();
+            }
+
+        }
+    }
+    public async Task DeleteItem(int id)
+    {
+        await service.DeleteScheduleAsync(id);
+    }
+}

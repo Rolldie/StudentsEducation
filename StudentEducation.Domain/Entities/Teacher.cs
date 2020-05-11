@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StudentsEducation.Domain.Entities
 {
-    [Display(Name = "Учитель")]
+    [Display(Name = "Преподаватель")]
     public class Teacher:BaseEntity
     {
         [Required]
         [StringLength(100)]
-        [Display(Name = "ФИО учителя")]
+        [Display(Name = "ФИО преподавателя")]
         public string Name { get; set; }
 
 
