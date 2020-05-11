@@ -15,8 +15,9 @@ namespace StudentsEducation.Infrastructure.Identity.Data
         [StringLength(255)]
         [DisplayName("Описание")]
         public string Description { get; set; }
-
-
+        [Required]
+        [DisplayName("Имеет связь в БД")]
+        public bool IsDatabaseFieldsRequired { get; set; }
     }
 
 

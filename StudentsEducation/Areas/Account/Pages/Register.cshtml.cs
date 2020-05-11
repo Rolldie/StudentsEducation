@@ -36,7 +36,7 @@ namespace StudentsEducation.Web.Areas.Account.Pages
         [BindProperty]
         public InputModel Input { get; set; }
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage ="Вы не выбрали роль пользователя!")]
         public string RoleSelect { get; set; }
 
         public SelectList Roles { get; set; }
@@ -44,29 +44,29 @@ namespace StudentsEducation.Web.Areas.Account.Pages
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [Required(ErrorMessage="Поле почты является необходимым!")]
+            [EmailAddress(ErrorMessage ="Не правильно введена почта!")]
+            [Display(Name = "Почтовы адрес Email")]
             public string Email { get; set; }
 
 
 
-            [Required]
-            [Display(Name="Login")]
+            [Required(ErrorMessage ="Поле имени пользователя является обязательным!")]
+            [Display(Name="Имя пользователя")]
             [StringLength(30)]
             public string UserName { get; set; }
 
             public Role Role { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage ="Вы не ввели пароль!")]
+            [StringLength(100, ErrorMessage = "{0} должен быть как минимум {2} и как максимум {1} символов длиной.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Пароль")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Подтвердите пароль")]
+            [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -74,7 +74,6 @@ namespace StudentsEducation.Web.Areas.Account.Pages
         {
             ReturnUrl = returnUrl;
             await InitRoles();
-           
         }
         public async Task InitRoles()
         {
@@ -88,31 +87,13 @@ namespace StudentsEducation.Web.Areas.Account.Pages
                 Input.Role = await _service.GetRoleAsync(RoleSelect);
                 var user = new AppUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _service.RegisterUser(user, Input.Password);
+
                 if (result.Succeeded)
                 { 
                    _logger.LogInformation("User created a new account with password.");
-                   // _service.
-                    /*                  
-                                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                                        var callbackUrl = Url.Page(
-                                            "/Account/ConfirmEmail",
-                                            pageHandler: null,
-                                            values: new { area = "Identity", userId = user.Id, code = code },
-                                            protocol: Request.Scheme);
+                   await _service.AddUserToRoleAsync(user, Input.Role);
 
-                                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                                     */
-                    /* if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                      {
-                          return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                      }
-                      else
-                      {
-                          await _signInManager.SignInAsync(user, isPersistent: false);*/
-
-                    return RedirectToPage("./" + Input.Role.Name);
+                   return RedirectToPage("./RoleIdentification",new { userId = user.Id });
                 }
                 foreach (var error in result.Errors)
                 {

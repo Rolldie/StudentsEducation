@@ -25,7 +25,7 @@
 {
     <hr />
     <p>
-        @teach.Id |@teach.Name | <a class="btn btn-link" asp-page="./Edit" asp-route-id="@teach.Id">Изменить преподавателя</a> | <a class="btn btn-link" asp-page="./Delete" asp-route-id="@teach.Id">Удалить</a>
+        @teach.Id | @teach.Name | <a class="btn btn-link" asp-page="./Edit" asp-route-id="@teach.Id">Изменить преподавателя</a> | <a class="btn btn-link" asp-page="./Delete" asp-route-id="@teach.Id">Удалить</a>
     </p>
     @(await Html.RenderComponentAsync<SchedulesList>(RenderMode.ServerPrerendered,new { TeacherId = teach.Id }))
     <hr />

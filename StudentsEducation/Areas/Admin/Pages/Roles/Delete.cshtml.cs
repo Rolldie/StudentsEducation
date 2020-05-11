@@ -40,7 +40,8 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
             {
                 return NotFound();
             }
-
+            var role = await _service.GetRoleAsync(id);
+            if (role.Name == "Administrator") return RedirectToPage(Url.Content("~/Error"));
 
             await _service.DeleteRoleAsync(id);
 

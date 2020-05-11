@@ -17,6 +17,11 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name = "Дата")]
         public DateTime Date { get; set; } = DateTime.Now;
 
+        [Required]
+        [System.ComponentModel.DisplayName("Редактировано учителем")]
+        public bool WasModified { get; set; }
+
+
 
 
         //references

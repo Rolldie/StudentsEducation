@@ -41,8 +41,8 @@ namespace StudentsEducation.Web.Areas.Account.Pages
         public class InputModel
         {
             [Required]
-            [Display(Name ="Логин или Email")]
-            public string LoginNEmail { get; set; }
+            [Display(Name ="Логин")]
+            public string Login { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -65,7 +65,6 @@ namespace StudentsEducation.Web.Areas.Account.Pages
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
         }
@@ -78,7 +77,7 @@ namespace StudentsEducation.Web.Areas.Account.Pages
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.LoginNEmail, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Login, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -86,7 +85,7 @@ namespace StudentsEducation.Web.Areas.Account.Pages
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Не правильно введены данные.");
                     return Page();
                 }
             }

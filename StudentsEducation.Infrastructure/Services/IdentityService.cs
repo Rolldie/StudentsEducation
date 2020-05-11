@@ -40,6 +40,14 @@ namespace StudentsEducation.Infrastructure.Services
             var role = await _roleManager.FindByIdAsync(roleId);
             return await _userManager.GetUsersInRoleAsync(role.Name);
         }
+        public async Task<IEnumerable<AppUser>> GetUsersByRoleNameAsync(string roleName)
+        {
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (role != null)
+                return await _userManager.GetUsersInRoleAsync(role.Name);
+            else return null;
+        }
+
         public async Task<Role> GetRoleAsync(string roleId)
         {
             return await _roleManager.FindByIdAsync(roleId);
@@ -105,5 +113,24 @@ namespace StudentsEducation.Infrastructure.Services
             user.DbId = resTeacher.Id.ToString();
             await _userManager.UpdateAsync(user);
         }
+        public async Task AddUserToRoleAsync(AppUser user,Role role)
+        {
+            await _userManager.AddToRoleAsync(user, role.Name);
+        }
+        public async Task RemoveRoleFromUser(AppUser user,Role role)
+        {
+            await _userManager.RemoveFromRoleAsync(user, role.Name);
+        }
+        public async Task DeleteUserAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<Role> GetRoleByNameAsync(string name)
+        {
+            return await _roleManager.FindByNameAsync(name);
+        }
+
     }
 }

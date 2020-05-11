@@ -24,7 +24,7 @@ namespace StudentsEducation.Infrastructure.Migrations
                 column: "ControlTypeId",
                 principalTable: "ControlTypes",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

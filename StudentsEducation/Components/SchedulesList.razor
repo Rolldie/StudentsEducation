@@ -158,7 +158,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (Schedules == null)
-            Schedules = (await service.GetSchedulesByTeacherAsync(TeacherId)).AsQueryable().AsNoTracking().OrderBy(e => e.EndsIn).Reverse();
+            Schedules = (await service.GetSchedulesByTeacherAsync(TeacherId)).AsQueryable().OrderBy(e => e.EndsIn).Reverse();
         if (Teachers == null)
             Teachers = (await service.GetTeachersAsync()).AsQueryable().AsNoTracking();
         if (Groups == null)
@@ -235,5 +235,7 @@
     public async Task DeleteItem(int id)
     {
         await service.DeleteScheduleAsync(id);
+        Schedules = Schedules.Where(e => e.Id != id);
+     //   StateHasChanged();
     }
 }

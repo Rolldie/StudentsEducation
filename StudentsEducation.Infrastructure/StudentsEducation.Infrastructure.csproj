@@ -15,6 +15,10 @@
     <Compile Remove="Migrations\20200510095555_refactoring.Designer.cs" />
     <Compile Remove="Migrations\20200510095739_refactoring.cs" />
     <Compile Remove="Migrations\20200510095739_refactoring.Designer.cs" />
+    <Compile Remove="Migrations\20200511192154_DeletedUnneccesaryFields.cs" />
+    <Compile Remove="Migrations\20200511192154_DeletedUnneccesaryFields.Designer.cs" />
+    <Compile Remove="Migrations\20200511192417_DeletedUnneccesaryFields.cs" />
+    <Compile Remove="Migrations\20200511192417_DeletedUnneccesaryFields.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

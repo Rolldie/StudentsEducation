@@ -2,10 +2,18 @@
 @using StudentsEducation.Web.Components
 @model StudentsEducation.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Система учета успеваемости студентов";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
+@if (User.IsInRole("Administrator"))
+{
+<p>Вы вошли как администратор, вам доступна панель администратора.</p>
+}
+else if(User.IsInRole("Teacher"))
+{
+    <p>Вы вошли как преподаватель, вам доступна панель преподавателя для работы с студентами.</p>
+}
 
 
 

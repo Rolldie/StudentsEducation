@@ -19,6 +19,7 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name = "Дата")]
         public DateTime Date { get; set; }
 
+        public bool WasModified { get; set; }
 
         //references
 

@@ -49,6 +49,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
             }
             curRole.Name = Role.Name;
             curRole.Description = Role.Description;
+            curRole.IsDatabaseFieldsRequired = Role.IsDatabaseFieldsRequired;
             await _service.UpdateRoleAsync(curRole);
 
             return RedirectToPage("./Index");

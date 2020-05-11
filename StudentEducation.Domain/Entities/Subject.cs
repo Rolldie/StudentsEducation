@@ -12,15 +12,10 @@ namespace StudentsEducation.Domain.Entities
         [StringLength(200)]
         [Display(Name = "Название предмета")]
         public string Name { get; set; }
-        [Required]
-        [Range(1,9)]
-        [Display(Name = "Номер курса")]
-        public int CourseNumber { get; set; }
 
 
 
         //references
-        [Required]
         public virtual ControlType ControlType { get; set; }
         public virtual IEnumerable<Work> Works { get; set; }
         public virtual IEnumerable<Schedule> Schedules { get; set; }
