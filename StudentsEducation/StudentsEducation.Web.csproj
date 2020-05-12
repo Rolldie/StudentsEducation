@@ -8,19 +8,15 @@
   <ItemGroup>
     <Compile Remove="Areas\Admin\Controllers\**" />
     <Compile Remove="Areas\Admin\Data\**" />
-    <Compile Remove="Areas\There is no need in it\Controllers\**" />
     <Compile Remove="Controllers\**" />
     <Content Remove="Areas\Admin\Controllers\**" />
     <Content Remove="Areas\Admin\Data\**" />
-    <Content Remove="Areas\There is no need in it\Controllers\**" />
     <Content Remove="Controllers\**" />
     <EmbeddedResource Remove="Areas\Admin\Controllers\**" />
     <EmbeddedResource Remove="Areas\Admin\Data\**" />
-    <EmbeddedResource Remove="Areas\There is no need in it\Controllers\**" />
     <EmbeddedResource Remove="Controllers\**" />
     <None Remove="Areas\Admin\Controllers\**" />
     <None Remove="Areas\Admin\Data\**" />
-    <None Remove="Areas\There is no need in it\Controllers\**" />
     <None Remove="Controllers\**" />
   </ItemGroup>
 
@@ -51,8 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\There is no need in it\Data\" />
-    <Folder Include="Areas\There is no need in it\Pages\" />
+    <Folder Include="Areas\Admin\Pages\Students\Marks\" />
+    <Folder Include="Areas\Admin\Pages\Students\Skips\" />
+    <Folder Include="Areas\Admin\Pages\Students\FinalControls\" />
     <Folder Include="Areas\Teacher\" />
   </ItemGroup>
 

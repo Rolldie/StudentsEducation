@@ -19,8 +19,14 @@ namespace StudentsEducation.Web.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public string ErrorMessage { get; set; }
+        public void OnGet(string errorMessage)
         {
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                ErrorMessage = errorMessage;
+            }
+            else ErrorMessage = "";
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }

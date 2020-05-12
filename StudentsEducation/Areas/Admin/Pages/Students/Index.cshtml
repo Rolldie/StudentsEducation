@@ -1,5 +1,5 @@
 ﻿@page
-@model StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalControl.IndexModel
+@model StudentsEducation.Web.Areas.Admin.Pages.Students.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -38,8 +38,10 @@
                 @Html.DisplayFor(modelItem => item.GradeBookNumber)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>|
+                <a asp-page="./Details" asp-route-id="@item.Id">Finals</a>|
+                <a asp-page="./Details" asp-route-id="@item.Id">Skips</a>|
+                <a asp-page="./Details" asp-route-id="@item.Id">Marks</a>|
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

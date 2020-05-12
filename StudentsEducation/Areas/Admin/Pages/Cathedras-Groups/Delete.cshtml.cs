@@ -22,7 +22,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Cathedra = await _service.GetCathedraByIdAsync(id.Value);
@@ -33,7 +33,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             await _service.DeleteCathedraAsync(id.Value);

@@ -26,14 +26,14 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Teachers_Schedules
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Teacher == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
             return Page();
         }
@@ -42,7 +42,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Teachers_Schedules
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Teacher = await _context.Teachers.FindAsync(id);
@@ -53,7 +53,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Teachers_Schedules
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage(Url.Content("./Index"));
         }
     }
 }

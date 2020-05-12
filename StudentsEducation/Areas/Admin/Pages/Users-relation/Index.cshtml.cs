@@ -43,9 +43,9 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Users_relation
                 Id = e.Id,
                 UserName = e.UserName,
                 DbId = e.DbId != null ? int.Parse(e.DbId) : -1,
-                Role = _service.GetRolesByUser(e).Result.FirstOrDefault(),
+                Role =_service.GetRoleByUserAsync(e).Result.Name,
                 Email = e.Email
-            });
+            }); 
         }
 
 
@@ -54,11 +54,10 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Users_relation
             string RequireRole = "Administrator";
             if (string.IsNullOrEmpty(id)) return Page();
             var user = await _service.GetUserAsync(id);
-            var roles = await _service.GetRolesByUser(user);
-            var role = roles.First();
-            if (role == RequireRole && (await _service.GetUsersByRoleNameAsync(RequireRole)).Count() > 1)
+            var role = await _service.GetRoleByUserAsync(user);
+            if (role.Name == RequireRole && (await _service.GetUsersByRoleNameAsync(RequireRole)).Count() > 1)
                 await _service.DeleteUserAsync(id);
-            else if (role == RequireRole) return RedirectToPage(Url.Content("~/Error"));
+            else if (role.Name == RequireRole) return RedirectToPage(Url.Content("~/Error"));
             else
             {
                 await _service.DeleteUserAsync(id);

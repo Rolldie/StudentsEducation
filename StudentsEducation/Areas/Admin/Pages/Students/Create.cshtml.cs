@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StudentsEducation.Domain.Entities;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalControl
+namespace StudentsEducation.Web.Areas.Admin.Pages.Students
 {
     public class CreateModel : PageModel
     {

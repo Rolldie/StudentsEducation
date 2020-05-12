@@ -36,9 +36,7 @@ namespace StudentsEducation.Web.Areas.Account.Pages
 
             if (user == null) return RedirectToPage(ReturnUrl);
 
-            var roles = await _service.GetRolesByUser(user);
-
-            var role = await _service.GetRoleByNameAsync(roles.FirstOrDefault());
+            var role = await _service.GetRoleByUserAsync(user);
 
             
             //it means teacher//

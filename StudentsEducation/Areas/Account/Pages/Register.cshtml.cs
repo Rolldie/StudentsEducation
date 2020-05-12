@@ -84,14 +84,13 @@ namespace StudentsEducation.Web.Areas.Account.Pages
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                Input.Role = await _service.GetRoleAsync(RoleSelect);
                 var user = new AppUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _service.RegisterUser(user, Input.Password);
 
                 if (result.Succeeded)
                 { 
                    _logger.LogInformation("User created a new account with password.");
-                   await _service.AddUserToRoleAsync(user, Input.Role);
+                   await _service.SetNewRoleToUserByIdAsync(user, RoleSelect);
 
                    return RedirectToPage("./RoleIdentification",new { userId = user.Id });
                 }

@@ -5,7 +5,7 @@ namespace StudentsEducation.Infrastructure.Identity.Data
 {
     public class Role: IdentityRole
     {
-        [DisplayName("Имя")]
+        [DisplayName("Имя роли")]
         public override string Name { get => base.Name; set => base.Name = value; }
 
         [DisplayName("Нормализованое имя")]

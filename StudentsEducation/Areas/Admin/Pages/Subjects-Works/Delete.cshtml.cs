@@ -23,7 +23,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Subject = await _service.GetSubjectAsync(id.Value);
@@ -34,12 +34,12 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Subjects_Works
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             await _service.DeleteSubjectAsync(id.Value);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage(Url.Content("./Index"));
         }
     }
 }

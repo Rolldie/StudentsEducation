@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalControl
+namespace StudentsEducation.Web.Areas.Admin.Pages.Students
 {
     public class EditModel : PageModel
     {

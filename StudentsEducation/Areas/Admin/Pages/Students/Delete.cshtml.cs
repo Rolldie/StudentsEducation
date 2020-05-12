@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalControl
+namespace StudentsEducation.Web.Areas.Admin.Pages.Students
 {
     public class DeleteModel : PageModel
     {
@@ -22,14 +22,14 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalCont
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Student = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Student == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
             return Page();
         }
@@ -38,7 +38,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalCont
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Student = await _context.Students.FindAsync(id);
@@ -49,7 +49,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students_Marks_Skips_FinalCont
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage(Url.Content("./Index"));
         }
     }
 }

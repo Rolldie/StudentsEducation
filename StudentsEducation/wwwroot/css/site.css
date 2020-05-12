@@ -1,11 +1,33 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿@font-face
+{
+font-family:"Roboto-Light";
+src:url('fonts/Roboto-Light.ttf');
+}
+
+
+@font-face
+{
+font-family:"Roboto-Black";
+src:url('fonts/Roboto-Black.ttf');
+}
+@font-face
+{
+font-family:"Roboto-Medium";
+src:url('fonts/Roboto-Medium.ttf');
+}
+
+h1 {
+font-family: Roboto-Light;}
 
 a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+font-family:Roboto-Medium;
 }
+
+.nav-link{
+font-family:Roboto-Medium;}
 
 /* Provide sufficient contrast against white background */
 a {

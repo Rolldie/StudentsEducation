@@ -22,14 +22,14 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             ControlType = await _repository.GetByIdAsync(id.Value);
 
             if (ControlType == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
             return Page();
         }
@@ -38,12 +38,12 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.ControlTypes
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             await _repository.DeleteAsync(id.Value);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage(Url.Content("./Index"));
         }
     }
 }

@@ -1,45 +1,92 @@
 ﻿@inherits OwningComponentBase
-<h6>Расписание</h6>
+    <div class="border" style="padding:1rem;">
+        <h6>Расписание</h6>
 
-<div>
-    @if (Schedules == null)
-    {
-        <div class="spinner-grow"></div>
-    }
-    else
-    {
-        <ul class="list-unstyled">
-            @foreach (var item in Schedules)
+        <div>
+            @if (Schedules == null)
             {
+                <div class="spinner-grow"></div>
+            }
+            else
+            {
+                <ul class="list-unstyled">
+                    @foreach (var item in Schedules)
+                    {
 
-                <li class="small text-info">
-                    @item.Subject.Name | @item.StartsIn.ToShortDateString() - @item.EndsIn.ToShortDateString() | @item.Group.Name
-                    <button class="btn btn-link" @onclick="@(() => EditModeSwitch(item))">Изменить</button>
-                    <button class="btn btn-link" @onclick="@(async () =>await DeleteItem(item.Id))">Удалить</button>
-                </li>
-                @if (EditMode && CurrentSchedule.EditId == item.Id)
+                        <li class="small text-info">
+                            @item.Subject.Name | @item.StartsIn.ToShortDateString() - @item.EndsIn.ToShortDateString() | @item.Group.Name
+                            <button class="btn btn-link" @onclick="@(() => EditModeSwitch(item))">Изменить</button>
+                            <button class="btn btn-link" @onclick="@(async () =>await DeleteItem(item.Id))">Удалить</button>
+                        </li>
+                        @if (EditMode && CurrentSchedule.EditId == item.Id)
+                        {
+                            <EditForm Model=@CurrentSchedule class="border-bottom border-top">
+                                <DataAnnotationsValidator></DataAnnotationsValidator>
+                                <ValidationSummary></ValidationSummary>
+                                <div class="form-group">
+                                    <InputLabel TItem="Teacher" aspfor="@nameof(Teacher.Name)"></InputLabel>
+                                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedTeacher">
+                                        <option value="">Выберите учителя</option>
+                                        @foreach (var elem in Teachers)
+                                                    {
+                                            <option value="@elem.Id">@elem.Name</option>
+                                                    }
+                                        /**/
+                                    </InputSelectInt>
+                                </div>
+                                <div class="form-group">
+                                    <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)"></InputLabel>
+                                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedSubject">
+                                        <option value="">Выберите предмет</option>
+                                        @foreach (var elem in Subjects)
+                                                    {
+                                            <option value="@elem.Id">@elem.Name</option>
+                                                    }
+                                        /**/
+                                    </InputSelectInt>
+                                </div>
+                                <div class="form-group">
+                                    <InputLabel TItem="Group" aspfor="@nameof(Group.Name)"></InputLabel>
+                                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedGroup">
+                                        <option value="">Выберите группу</option>
+                                        @foreach (var elem in Groups)
+                                                    {
+                                            <option value="@elem.Id">@elem.Name</option>
+                                                    }
+                                        /**/
+                                    </InputSelectInt>
+                                </div>
+                                <div class="form-group">
+                                    <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.StartsIn)"></InputLabel>
+                                    <InputDate class="form-control" @bind-Value="CurrentSchedule.StartsIn"></InputDate>
+                                </div>
+                                <div class="form-group">
+                                    <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.EndsIn)"></InputLabel>
+                                    <InputDate class="form-control" @bind-Value="CurrentSchedule.EndsIn"></InputDate>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" value="Изменить" @onclick="@(async () => await ValidateSchedule(false))">Изменить</button>
+                                    <button type="button" value="Отмена" @onclick="@(async () => await AddModeSwitcher())">Отмена</button>
+                                </div>
+                            </EditForm>
+                        }
+
+                    }
+                </ul>
+                @if (AddingMode)
                 {
                     <EditForm Model=@CurrentSchedule class="border-bottom border-top">
                         <DataAnnotationsValidator></DataAnnotationsValidator>
                         <ValidationSummary></ValidationSummary>
                         <div class="form-group">
-                            <InputLabel TItem="Teacher" aspfor="@nameof(Teacher.Name)"></InputLabel>
-                            <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedTeacher">
-                                <option value="">Выберите учителя</option>
-                                @foreach (var elem in Teachers)
-                                            {
-                                    <option value="@elem.Id">@elem.Name</option>
-                                            }
-                            </InputSelectInt>
-                        </div>
-                        <div class="form-group">
                             <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)"></InputLabel>
                             <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedSubject">
                                 <option value="">Выберите предмет</option>
                                 @foreach (var elem in Subjects)
-                                            {
+                                        {
                                     <option value="@elem.Id">@elem.Name</option>
-                                            }
+                                        }
+                                /**/
                             </InputSelectInt>
                         </div>
                         <div class="form-group">
@@ -47,9 +94,10 @@
                             <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedGroup">
                                 <option value="">Выберите группу</option>
                                 @foreach (var elem in Groups)
-                                            {
+                                        {
                                     <option value="@elem.Id">@elem.Name</option>
-                                            }
+                                        }
+                                /**/
                             </InputSelectInt>
                         </div>
                         <div class="form-group">
@@ -61,60 +109,18 @@
                             <InputDate class="form-control" @bind-Value="CurrentSchedule.EndsIn"></InputDate>
                         </div>
                         <div class="form-group">
-                            <button type="submit" value="Изменить" @onclick="@(async () => await ValidateSchedule(false))">Изменить</button>
+                            <button type="submit" value="Добавить" @onclick="@(async () => await ValidateSchedule(true))">Добавить</button>
                             <button type="button" value="Отмена" @onclick="@(async () => await AddModeSwitcher())">Отмена</button>
                         </div>
                     </EditForm>
                 }
-
+                else
+                {
+                    <button class="btn btn-primary" @onclick="@(async () => await AddModeSwitcher())">Добавить запись расписания</button>
+                }
             }
-        </ul>
-        @if (AddingMode)
-        {
-            <EditForm Model=@CurrentSchedule class="border-bottom border-top">
-                <DataAnnotationsValidator></DataAnnotationsValidator>
-                <ValidationSummary></ValidationSummary>
-                <div class="form-group">
-                    <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)"></InputLabel>
-                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedSubject">
-                        <option value="">Выберите предмет</option>
-                        @foreach (var elem in Subjects)
-                                {
-                            <option value="@elem.Id">@elem.Name</option>
-                                }
-                    </InputSelectInt>
-                </div>
-                <div class="form-group">
-                    <InputLabel TItem="Group" aspfor="@nameof(Group.Name)"></InputLabel>
-                    <InputSelectInt class="form-control" @bind-Value="CurrentSchedule.SelectedGroup">
-                        <option value="">Выберите группу</option>
-                        @foreach (var elem in Groups)
-                                {
-                            <option value="@elem.Id">@elem.Name</option>
-                                }
-                    </InputSelectInt>
-                </div>
-                <div class="form-group">
-                    <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.StartsIn)"></InputLabel>
-                    <InputDate class="form-control" @bind-Value="CurrentSchedule.StartsIn"></InputDate>
-                </div>
-                <div class="form-group">
-                    <InputLabel TItem="Schedule" aspfor="@nameof(Schedule.EndsIn)"></InputLabel>
-                    <InputDate class="form-control" @bind-Value="CurrentSchedule.EndsIn"></InputDate>
-                </div>
-                <div class="form-group">
-                    <button type="submit" value="Добавить" @onclick="@(async () => await ValidateSchedule(true))">Добавить</button>
-                    <button type="button" value="Отмена" @onclick="@(async () => await AddModeSwitcher())">Отмена</button>
-                </div>
-            </EditForm>
-        }
-        else
-        {
-            <button class="btn btn-primary" @onclick="@(async () => await AddModeSwitcher())">Добавить запись расписания</button>
-        }
-    }
-</div>
-
+        </div>
+    </div>
 
 
 @code {

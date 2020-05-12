@@ -12,6 +12,8 @@ namespace StudentsEducation.Infrastructure.Services
 {
     public class IdentityService
     {
+
+        private readonly string _unDeletableRole = "Administrator";
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
@@ -57,11 +59,15 @@ namespace StudentsEducation.Infrastructure.Services
             return await _userManager.FindByIdAsync(userId);
         }
 
-        public async Task<IEnumerable<string>> GetRolesByUser(AppUser user)
+
+
+        public async Task<Role> GetRoleByUserAsync(AppUser user)
         {
+            string firstRoleName;
             var roles = await _userManager.GetRolesAsync(user);
-            var result = roles.AsEnumerable();
-            return result;
+            if (roles.Count == 0) firstRoleName = "";
+            else firstRoleName  = roles.First();
+            return await _roleManager.FindByNameAsync(firstRoleName);
         }
         public async Task CreateRoleAsync(Role role)
         {
@@ -74,7 +80,8 @@ namespace StudentsEducation.Infrastructure.Services
         public async Task DeleteRoleAsync(string roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
-            await _roleManager.DeleteAsync(role);
+            if(role.Name!=_unDeletableRole)
+                await _roleManager.DeleteAsync(role);
         }
 
         public async Task LoginAsync(AppUser user,string password, bool isPersistent)
@@ -113,18 +120,62 @@ namespace StudentsEducation.Infrastructure.Services
             user.DbId = resTeacher.Id.ToString();
             await _userManager.UpdateAsync(user);
         }
-        public async Task AddUserToRoleAsync(AppUser user,Role role)
+        public async Task SetNewRoleToUserAsync(AppUser user,string roleName)
         {
-            await _userManager.AddToRoleAsync(user, role.Name);
+            var role = await _roleManager.FindByNameAsync(roleName);
+            var userRole = await  GetRoleByUserAsync(user);
+            if(userRole==null)
+            {
+                await _userManager.AddToRoleAsync(user, roleName);
+            }
+            else if(userRole.Name!=_unDeletableRole)
+            {
+                await RemoveRolesFromUserAsync(user);
+                await _userManager.AddToRoleAsync(user, role.Name);
+            }
+            else
+            {
+                var userCountWithUndRole = (await GetUsersByRoleNameAsync(_unDeletableRole)).Count();
+                if(userCountWithUndRole>1)
+                {
+                    await RemoveRolesFromUserAsync(user);
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+            }
+            
         }
-        public async Task RemoveRoleFromUser(AppUser user,Role role)
+        public async Task SetNewRoleToUserByIdAsync(AppUser user, string roleId)
         {
-            await _userManager.RemoveFromRoleAsync(user, role.Name);
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if(role!=null)
+                await SetNewRoleToUserAsync(user, role.Name);
         }
-        public async Task DeleteUserAsync(string id)
+        private async Task RemoveRolesFromUserAsync(AppUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Count > 0)
+                await _userManager.RemoveFromRolesAsync(user, roles);
+        }
+        public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            await _userManager.DeleteAsync(user);
+            var userRole = await GetRoleByUserAsync(user);
+            if(userRole.Name==_unDeletableRole)
+            {
+                var rolesCount = await GetUsersByRoleAsync(userRole.Id);
+                if (rolesCount.Count() == 1)
+                    return false;
+                else
+                {
+                    await _userManager.DeleteAsync(user);
+                }
+            }
+            else
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            return true;
+            
         }
 
         public async Task<Role> GetRoleByNameAsync(string name)

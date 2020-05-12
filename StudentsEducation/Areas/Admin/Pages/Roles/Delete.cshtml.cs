@@ -22,14 +22,14 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
 
             Role = await _service.GetRoleAsync(id);
 
             if (Role == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
             return Page();
         }
@@ -38,14 +38,14 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage(Url.Content("./Index"));
             }
             var role = await _service.GetRoleAsync(id);
             if (role.Name == "Administrator") return RedirectToPage(Url.Content("~/Error"));
 
             await _service.DeleteRoleAsync(id);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage(Url.Content("./Index"));
         }
     }
 }
