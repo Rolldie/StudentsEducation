@@ -14,7 +14,7 @@ namespace StudentsEducation.Infrastructure.Data
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<FinalControl> FinalControls { get; set; }
-        public virtual DbSet<Marks> Marks { get; set; }
+        public virtual DbSet<Mark> Marks { get; set; }
         public virtual DbSet<Skip> Skips { get; set; }
         public EducationDbContext(DbContextOptions<EducationDbContext> options):base(options)
         {

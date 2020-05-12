@@ -8,6 +8,7 @@ namespace StudentsEducation.Domain.Interfaces
     {
         public Task<IEnumerable<Cathedra>> GetCathedrasAsync();
         public Task<Cathedra> GetCathedraByIdAsync(int cathedraId);
+        public Task<IEnumerable<Group>> GetGroupsAsync();
         public Task<Cathedra> CreateCathedraAsync(Cathedra cathedra);
         public Task DeleteCathedraAsync(int cathedraId);
         public Task UpdateCathedraAsync(Cathedra cathedra);

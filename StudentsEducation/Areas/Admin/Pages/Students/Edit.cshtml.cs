@@ -1,24 +1,34 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Students
 {
     public class EditModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly IStudentsService _service;
+        private readonly ICathedrasAndGroupsService _groupsService;
 
-        public EditModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public EditModel(IStudentsService service, ICathedrasAndGroupsService groupsService)
         {
-            _context = context;
+            _service = service;
+            _groupsService = groupsService;
         }
 
         [BindProperty]
         public Student Student { get; set; }
-
+        public IEnumerable<Group> Groups { get; set; }
+        public SelectList GroupList { get; set; }
+        [BindProperty]
+        [Required(ErrorMessage="Группа обязательно должна быть указана!")]
+        public string SelectedGroup { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -26,7 +36,8 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
                 return NotFound();
             }
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
+            await InitProperties(id.Value);
+
 
             if (Student == null)
             {
@@ -35,39 +46,29 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
             return Page();
         }
 
+        public async Task InitProperties(int studentId)
+        {
+            Groups = await _groupsService.GetGroupsAsync();
+            Student = await _service.GetStudentAsync(studentId);
+            SelectedGroup = Student.Group.Id.ToString();
+            GroupList = new SelectList(Groups, "Id", "Name",SelectedGroup);
+        }
+
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                await InitProperties(Student.Id);
                 return Page();
             }
 
-            _context.Attach(Student).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(Student.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var id = int.Parse(SelectedGroup);
+            Student.Group = (await _groupsService.GetGroupsAsync()).FirstOrDefault(e => e.Id == id);
+            await _service.UpdateStudentAsync(Student);
 
             return RedirectToPage("./Index");
-        }
-
-        private bool StudentExists(int id)
-        {
-            return _context.Students.Any(e => e.Id == id);
         }
     }
 }

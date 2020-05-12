@@ -17,7 +17,10 @@ namespace StudentsEducation.Web.Areas.Account
                 services.AddDbContext<AccountDbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AccountConnection")));
-                services.AddAuthorization();
+                services.AddAuthorization(options=> {
+                    options.AddPolicy("IsAdmin", policy => policy.RequireRole("Administrator"));
+                    options.AddPolicy("IsTeacher", policy => policy.RequireRole("Teacher"));
+                });
                 services.AddIdentity<AppUser,Role>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AccountDbContext>().AddRoles<Role>();
                
@@ -29,7 +32,6 @@ namespace StudentsEducation.Web.Areas.Account
                     options.Password.RequireLowercase = false;
                     options.SignIn.RequireConfirmedEmail = false;
                     options.SignIn.RequireConfirmedAccount = false;
-
                 });
             });
         }

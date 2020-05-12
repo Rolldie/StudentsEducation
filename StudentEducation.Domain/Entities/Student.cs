@@ -14,6 +14,7 @@ namespace StudentsEducation.Domain.Entities
         public string Name { get; set; }
         [Required]
         [Display(Name = "День рождения")]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         [Required]
         [StringLength(7)]
@@ -23,7 +24,7 @@ namespace StudentsEducation.Domain.Entities
         [Required]
         public virtual Group Group { get; set; }
         public virtual IEnumerable<FinalControl> FinalControls { get; set; }
-        public virtual IEnumerable<Marks> Marks { get; set; }
+        public virtual IEnumerable<Mark> Marks { get; set; }
         public virtual IEnumerable<Skip> Skips { get; set; }
     }
 }

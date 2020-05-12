@@ -32,7 +32,12 @@ namespace StudentsEducation
                 options.UseLazyLoadingProxies()
                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorPagesOptions(options=>
+            {
+                options.Conventions.AuthorizeAreaFolder("Admin", "/","IsAdmin");
+                options.Conventions.AuthorizeAreaFolder("Teacher", "/", "IsTeacher");
+            }
+            );
             //mvc
             services.AddControllersWithViews();
 
@@ -53,7 +58,7 @@ namespace StudentsEducation
         {
             if (env.IsDevelopment())
             {
-              
+
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -66,7 +71,6 @@ namespace StudentsEducation
 
             app.UseRouting();
             app.UseCookiePolicy();
-
             //identity
             app.UseAuthentication();
             app.UseAuthorization();

@@ -6,8 +6,8 @@ namespace StudentsEducation.Infrastructure.Identity
 {
     public class AccountDbContext:IdentityDbContext
     {
-        public DbSet<Role> Roles { get; set; }
-        public  DbSet<AppUser> Users { get; set; }
+        public new DbSet<Role> Roles { get; set; }
+        public new DbSet<AppUser> Users { get; set; }
         public AccountDbContext(DbContextOptions<AccountDbContext> options)
             :base(options)
         {

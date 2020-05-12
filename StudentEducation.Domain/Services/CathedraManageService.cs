@@ -66,5 +66,10 @@ namespace StudentsEducation.Domain.Services
         {
             await _groupRepository.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<Group>> GetGroupsAsync()
+        {
+            return await _groupRepository.GetAllAsync();
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace StudentsEducation.Web.Areas.Account.Pages.Manage
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
+        [System.ComponentModel.DisplayName("Имя пользователя")]
         public string Username { get; set; }
 
         [TempData]
@@ -34,7 +34,7 @@ namespace StudentsEducation.Web.Areas.Account.Pages.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Номер телефона")]
             public string PhoneNumber { get; set; }
         }
 

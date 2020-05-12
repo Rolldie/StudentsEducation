@@ -22,6 +22,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Student[0].GradeBookNumber)
             </th>
+            <th>Имя группы</th>
             <th></th>
         </tr>
     </thead>
@@ -38,6 +39,9 @@
                 @Html.DisplayFor(modelItem => item.GradeBookNumber)
             </td>
             <td>
+                @Html.DisplayFor(modelItem=>item.Group.Name)
+            </td>
+            <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>|
                 <a asp-page="./Details" asp-route-id="@item.Id">Finals</a>|
                 <a asp-page="./Details" asp-route-id="@item.Id">Skips</a>|
@@ -45,6 +49,6 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

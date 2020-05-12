@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StudentsEducation.Domain.Entities
 {
     [Display(Name = "Оценка")]
-    public class Marks : BaseEntity
+    public class Mark : BaseEntity
     {
         [Required]
         [Range(-1,1000)]

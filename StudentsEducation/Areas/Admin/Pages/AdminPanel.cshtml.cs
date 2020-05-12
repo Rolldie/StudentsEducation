@@ -4,11 +4,13 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Castle.DynamicProxy.Contributors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages
 {
+    [Authorize(Roles="Administrator")]
     public class AdminPanelModel : PageModel
     {
         public Dictionary<string, string> PageAndName { get; set; }
@@ -19,7 +21,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages
             PageAndName.Add("./ControlTypes/Index", "Типы контроля////");
             PageAndName.Add("./Subjects-Works/Index", "Предметы и их работы////");
             PageAndName.Add("./Teachers-Schedules/Index", "Преподаватели и их расписание///");
-            PageAndName.Add("./Users-relation/Index", "Пользователи и отношение к базе данных");
+            PageAndName.Add("./Users-relation/Index", "Пользователи и отношение к базе данных///");
             PageAndName.Add("./Roles/Index", "Роли пользователей////");
             PageAndName.Add("./Students/Index", "Студенты и их успеваемость");
         }

@@ -16,7 +16,6 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
         }
 
         public IList<Student> Student { get;set; }
-
         public async Task OnGetAsync()
         {
             Student = await _context.Students.ToListAsync();
