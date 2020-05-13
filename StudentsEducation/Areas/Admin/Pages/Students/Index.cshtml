@@ -47,9 +47,9 @@
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Изменить</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Зачеты</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Пропуски</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Оценки</a> |
+                <a asp-page="./FinalControls/Index" asp-route-id="@item.Id">Зачеты</a> |
+                <a asp-page="./Skips/Index" asp-route-id="@item.Id">Пропуски</a> |
+                <a asp-page="./Marks/Index" asp-route-id="@item.Id">Оценки</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>

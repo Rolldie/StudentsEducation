@@ -1,11 +1,14 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Infrastructure.Data;
 
-namespace StudentsEducation.Web.Areas.Admin.Pages.Students
+namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
 {
     public class DeleteModel : PageModel
     {
@@ -17,20 +20,22 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
         }
 
         [BindProperty]
-        public Student Student { get; set; }
+        public FinalControl FinalControl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
-                return RedirectToPage(Url.Content("./Index"));
+                return NotFound();
             }
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
+            FinalControl = await _context.FinalControls
+                .Include(f => f.Student)
+                .Include(f => f.Subject).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Student == null)
+            if (FinalControl == null)
             {
-                return RedirectToPage(Url.Content("./Index"));
+                return NotFound();
             }
             return Page();
         }
@@ -39,18 +44,18 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
         {
             if (id == null)
             {
-                return RedirectToPage(Url.Content("./Index"));
+                return NotFound();
             }
 
-            Student = await _context.Students.FindAsync(id);
+            FinalControl = await _context.FinalControls.FindAsync(id);
 
-            if (Student != null)
+            if (FinalControl != null)
             {
-                _context.Students.Remove(Student);
+                _context.FinalControls.Remove(FinalControl);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage(Url.Content("./Index"));
+            return RedirectToPage("./Index");
         }
     }
 }

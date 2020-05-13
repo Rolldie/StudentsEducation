@@ -16,6 +16,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Cathedras_Groups
         }
 
         public IEnumerable<Cathedra> Cathedra { get;set; }
+        public IEnumerable<Student> Students { get; set; }
         public async Task OnGetAsync()
         {
             Cathedra = await _service.GetCathedrasAsync();

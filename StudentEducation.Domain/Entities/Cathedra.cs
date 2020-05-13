@@ -6,7 +6,7 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Кафедра")]
     public class Cathedra:BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage ="Это поле необходимо!")]
         [StringLength(100)]
         [Display(Name="Название кафедры")]
         public string Name { get; set; }

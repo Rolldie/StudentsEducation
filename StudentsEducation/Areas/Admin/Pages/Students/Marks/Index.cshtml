@@ -1,0 +1,66 @@
+﻿@page
+@model StudentsEducation.Web.Areas.Admin.Pages.Students.Marks.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark[0].MarkValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark[0].DateAdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark[0].DateToPass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark[0].WasModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark[0].Student)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark[0].Work)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Mark) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MarkValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateToPass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WasModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.GradeBookNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Work.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

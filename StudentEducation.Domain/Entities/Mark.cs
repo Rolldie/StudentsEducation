@@ -21,7 +21,7 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name = "Дата до снижения оценки")]
         public DateTime DateToPass { get; set; } = DateTime.Now.AddDays(20);
         [Required]
-        [System.ComponentModel.DisplayName("Редактировано учителем")]
+        [Display(Name="Редактировано учителем")]
         public bool WasModified { get; set; }
 
 

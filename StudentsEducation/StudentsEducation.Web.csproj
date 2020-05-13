@@ -47,9 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Pages\Students\Marks\" />
-    <Folder Include="Areas\Admin\Pages\Students\Skips\" />
-    <Folder Include="Areas\Admin\Pages\Students\FinalControls\" />
     <Folder Include="Areas\Teacher\" />
   </ItemGroup>
 
