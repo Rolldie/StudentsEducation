@@ -2,12 +2,12 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Students.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Добавление";
 }
 
-<h1>Create</h1>
+    <h1>@ViewData["Title"] </h1>
 
-<h4>Student</h4>
+<h4>Студент</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -35,9 +35,8 @@
                 </select>
                 <span asp-validation-for="@Model.SelectedGroup" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="Student.Group" />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить" class="btn btn-primary" />
             </div>
         </form>
     </div>

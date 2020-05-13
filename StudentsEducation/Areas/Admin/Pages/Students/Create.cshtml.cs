@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
 
@@ -47,14 +48,24 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
         {
             int id = int.Parse(SelectedGroup);
             Student.Group = (await _groupsService.GetGroupsAsync()).FirstOrDefault(e => e.Id == id);
-
-            if (!ModelState.IsValid)
+            ModelState.Remove("Student.Group");
+            if (!ModelState.IsValid || Student.Group==null)
             {
+                if (Student.Group == null)
+                    ModelState.AddModelError("Student.Group", "Не была введена группа");
                 await InitProperties();
                 return Page();
             }
-            await _service.AddNewStudentAsync(Student);
-
+            try
+            {
+                await _service.AddNewStudentAsync(Student);
+            }
+            catch (DbUpdateException ex)
+            {
+                ModelState.AddModelError("DbUpdate", "Ошибка при попытке обновить данные, возможно дублирование уникальных полей!");
+                await InitProperties();
+                return Page();
+            }
             return RedirectToPage("./Index");
         }
     }

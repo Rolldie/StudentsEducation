@@ -27,7 +27,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
         public IEnumerable<Group> Groups { get; set; }
         public SelectList GroupList { get; set; }
         [BindProperty]
-        [Required(ErrorMessage="Группа обязательно должна быть указана!")]
+        [Required(ErrorMessage = "Группа обязательно должна быть указана!")]
         public string SelectedGroup { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -51,22 +51,34 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
             Groups = await _groupsService.GetGroupsAsync();
             Student = await _service.GetStudentAsync(studentId);
             SelectedGroup = Student.Group.Id.ToString();
-            GroupList = new SelectList(Groups, "Id", "Name",SelectedGroup);
+            GroupList = new SelectList(Groups, "Id", "Name", SelectedGroup);
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            int id = int.Parse(SelectedGroup);
+            if (id > 0)
+                Student.Group = await _groupsService.GetGroupAsync(id);
+            ModelState.Remove("Student.Group");
+            if (!ModelState.IsValid || Student.Group==null)
             {
+                if (Student.Group == null)
+                    ModelState.AddModelError("Student.Group", "Не была введена группа");
                 await InitProperties(Student.Id);
                 return Page();
             }
-
-            var id = int.Parse(SelectedGroup);
-            Student.Group = (await _groupsService.GetGroupsAsync()).FirstOrDefault(e => e.Id == id);
-            await _service.UpdateStudentAsync(Student);
+            try
+            {
+                await _service.UpdateStudentAsync(Student);
+            }
+            catch(DbUpdateException ex)
+            {
+                ModelState.AddModelError("DbUpdate", "Ошибка при попытке обновить данные, возможно дублирование уникальных полей!");
+                await InitProperties(Student.Id);
+                return Page();
+            }
 
             return RedirectToPage("./Index");
         }

@@ -9,17 +9,14 @@
 <p>
     <a asp-page="Create">Добавить преподавателя</a>
 </p>
-<br />
 <hr />
 <div class="col-md-6">
-    <form>  
-        <div class="form-group">
-            <label>Поиск по ФИО</label>
-            <input asp-for="@Model.SearchQuery" class="form-control" type="text" placeholder="ФИО преподавателя" aria-label="ФИО преподавателя">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="submit" value="Поиск" />
-        </div>
+    <h6>Поиск по ФИО преподавателя</h6>
+    <form class="input-group">
+        <input asp-for="@Model.SearchQuery" class="form-control py-2  border" type="search" value="" id="search-input" />
+        <span class="input-group-append">
+            <input class="btn btn-outline-primary border-left border" value="Найти" type="submit" />
+        </span>
     </form>
 </div>
 @foreach (var teach in Model.Teacher)

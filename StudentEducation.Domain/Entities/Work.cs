@@ -13,6 +13,8 @@ namespace StudentsEducation.Domain.Entities
 
         //references
         [Required]
+        public int SubjectId { get; set; }
+        [Required]
         public virtual Subject Subject { get; set; }
 
 

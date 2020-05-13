@@ -29,6 +29,8 @@ namespace StudentsEducation.Domain.Entities
 
         //references
         [Required]
+        public int CathedraId { get; set; }
+        [Required]
         public virtual Cathedra Cathedra { get; set; }
         public virtual IEnumerable<Student> Students { get; set; }
         public virtual IEnumerable<Schedule> Schedules { get; set; }

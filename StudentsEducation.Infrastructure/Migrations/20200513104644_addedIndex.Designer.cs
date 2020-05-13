@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    partial class EducationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200513104644_addedIndex")]
+    partial class addedIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +66,6 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ControlName")
-                        .IsUnique();
 
                     b.ToTable("ControlTypes");
                 });
@@ -130,9 +129,6 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasIndex("CathedraId");
 
-                    b.HasIndex("Name", "CourseNumber", "StartEducationDate")
-                        .IsUnique();
-
                     b.ToTable("Groups");
                 });
 
@@ -143,10 +139,7 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateAdd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateToPass")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("MarkValue")
@@ -165,8 +158,7 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("WorkId", "StudentId")
-                        .IsUnique();
+                    b.HasIndex("WorkId");
 
                     b.ToTable("Marks");
                 });
@@ -199,8 +191,7 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("TeacherId", "SubjectId", "GroupId")
-                        .IsUnique();
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Schedules");
                 });
@@ -275,7 +266,7 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ControlTypeId")
+                    b.Property<int?>("ControlTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -285,8 +276,7 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ControlTypeId", "Name")
-                        .IsUnique();
+                    b.HasIndex("ControlTypeId");
 
                     b.ToTable("Subjects");
                 });
@@ -331,9 +321,6 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.HasIndex("ControlTypeId");
 
                     b.HasIndex("SubjectId");
-
-                    b.HasIndex("Name", "SubjectId")
-                        .IsUnique();
 
                     b.ToTable("Works");
                 });
@@ -424,9 +411,7 @@ namespace StudentsEducation.Infrastructure.Migrations
                 {
                     b.HasOne("StudentsEducation.Domain.Entities.ControlType", "ControlType")
                         .WithMany("Subjects")
-                        .HasForeignKey("ControlTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ControlTypeId");
                 });
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Work", b =>

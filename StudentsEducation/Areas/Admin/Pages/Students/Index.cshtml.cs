@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,16 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students
         {
             _context = context;
         }
-
-        public IList<Student> Student { get;set; }
+        [Microsoft.AspNetCore.Mvc.BindProperty(SupportsGet =true)]
+        public string SearchQuery { get; set; }
+        public IList<Student> Students { get;set; }
         public async Task OnGetAsync()
         {
-            Student = await _context.Students.ToListAsync();
+            Students = await _context.Students.ToListAsync();
+            if(!string.IsNullOrEmpty(SearchQuery))
+            {
+                Students = Students.Where(e => e.Group.Name.ToUpper().Contains(SearchQuery.ToUpper())).ToList();
+            }
         }
     }
 }

@@ -16,6 +16,7 @@ namespace StudentsEducation.Domain.Entities
 
 
         //references
+        public int ControlTypeId { get; set; }
         public virtual ControlType ControlType { get; set; }
         public virtual IEnumerable<Work> Works { get; set; }
         public virtual IEnumerable<Schedule> Schedules { get; set; }

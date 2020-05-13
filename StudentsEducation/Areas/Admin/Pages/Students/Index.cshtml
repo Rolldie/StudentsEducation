@@ -2,38 +2,42 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Students.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Студенты";
 }
 
-<h1>Index</h1>
+    <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Добавить студента</a>
 </p>
+<hr />
+<div class="col-md-6">
+    <h6>Поиск по группе</h6>
+    <form class="input-group">
+        <input asp-for="@Model.SearchQuery" class="form-control py-2  border" type="search" value="" id="search-input" />
+        <span class="input-group-append">
+            <input class="btn btn-outline-primary border-left border" value="Найти" type="submit"/>
+        </span>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].Name)
+                @Html.DisplayNameFor(model => model.Students[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].GradeBookNumber)
+                @Html.DisplayNameFor(model => model.Students[0].GradeBookNumber)
             </th>
             <th>Имя группы</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Student) {
+@foreach (var item in Model.Students) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GradeBookNumber)
@@ -42,11 +46,11 @@
                 @Html.DisplayFor(modelItem=>item.Group.Name)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>|
-                <a asp-page="./Details" asp-route-id="@item.Id">Finals</a>|
-                <a asp-page="./Details" asp-route-id="@item.Id">Skips</a>|
-                <a asp-page="./Details" asp-route-id="@item.Id">Marks</a>|
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Зачеты</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Пропуски</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Оценки</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
         }

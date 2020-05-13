@@ -23,6 +23,36 @@ namespace StudentsEducation.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Student>(entity =>
+            {
+                entity.HasIndex(e => e.GradeBookNumber).IsUnique();
+            });
+
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasIndex(e =>new { e.Name,e.CourseNumber,e.StartEducationDate}).IsUnique();
+            });
+            modelBuilder.Entity<ControlType>(entity =>
+            {
+                entity.HasIndex(e => e.ControlName).IsUnique();
+            });
+            modelBuilder.Entity<Mark>(entity =>
+            {
+                entity.HasIndex(e => new { e.WorkId, e.StudentId }).IsUnique();
+            });
+            modelBuilder.Entity<Schedule>(entity =>
+            {
+                entity.HasIndex(e => new { e.TeacherId, e.SubjectId, e.GroupId }).IsUnique();
+            });
+            modelBuilder.Entity<Subject>(entity =>
+            {
+                entity.HasIndex(e => new { e.ControlTypeId, e.Name }).IsUnique();
+            });
+            modelBuilder.Entity<Work>(entity =>
+            {
+                entity.HasIndex(e => new { e.Name, e.SubjectId }).IsUnique();
+            });
         }
 
     }

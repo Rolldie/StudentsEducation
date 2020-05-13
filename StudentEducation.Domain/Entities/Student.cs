@@ -17,7 +17,8 @@ namespace StudentsEducation.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         [Required]
-        [StringLength(7)]
+        [StringLength(6,MinimumLength =6)]
+        [RegularExpression(@"(\d{6})",ErrorMessage ="Ошибка, поле не содержит 6 цифр!")]
         [Display(Name = "Номер зачетной книжки")]
         public string GradeBookNumber { get; set; }
         //references
