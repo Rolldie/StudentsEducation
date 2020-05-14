@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StudentsEducation.Domain.Entities
 {
-    [Display(Name = "Название кафедры")]
+    [Display(Name = "Работа")]
     public class Work:BaseEntity, ITypedByControl
     {
         [Required]

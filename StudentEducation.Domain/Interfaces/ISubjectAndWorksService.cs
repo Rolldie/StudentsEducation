@@ -21,6 +21,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task DeleteSubjectAsync(int id);
         public Task<IEnumerable<ControlType>> GetControlTypesAsync();
         public Task<ControlType> GetControlTypeAsync(int id);
+        public Task<IEnumerable<Work>> GetWorksByStudentAsync(int id);
         
     }
 }

@@ -13,9 +13,11 @@ namespace StudentsEducation.Domain.Services
         private readonly IAsyncRepository<Subject> _subjectRepository;
         private readonly IAsyncRepository<Work> _workRepository;
         private readonly IAsyncRepository<ControlType> _cTypesRepository;
+        private readonly IAsyncRepository<Student> _studentRepository;
 
-        public SubjectManageService(IAsyncRepository<Subject> subjectRepository,IAsyncRepository<Work> workRepository, IAsyncRepository<ControlType> cTypesRepository)
+        public SubjectManageService(IAsyncRepository<Student> studentRepository,IAsyncRepository<Subject> subjectRepository,IAsyncRepository<Work> workRepository, IAsyncRepository<ControlType> cTypesRepository)
         {
+            _studentRepository = studentRepository;
             _subjectRepository = subjectRepository;
             _workRepository = workRepository;
             _cTypesRepository = cTypesRepository;
@@ -85,6 +87,14 @@ namespace StudentsEducation.Domain.Services
         public async Task<ControlType> GetControlTypeAsync(int id)
         {
             return await _cTypesRepository.GetByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Work>> GetWorksByStudentAsync(int id)
+        {
+            var student = await _studentRepository.GetByIdAsync(id);
+            var works=student.Group.Schedules.Select(e => e.Subject.Works);
+            var result= works.SelectMany(e => e);
+            return result;
         }
     }
 }
