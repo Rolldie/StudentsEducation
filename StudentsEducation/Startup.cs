@@ -29,13 +29,14 @@ namespace StudentsEducation
                 
             //db
             services.AddDbContext<EducationDbContext>(options => 
-                options.UseLazyLoadingProxies()
+                options.UseLazyLoadingProxies().EnableSensitiveDataLogging()
                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddRazorPages().AddRazorPagesOptions(options=>
             {
                 options.Conventions.AuthorizeAreaFolder("Admin", "/","IsAdmin");
                 options.Conventions.AuthorizeAreaFolder("Teacher", "/", "IsTeacher");
+                
             }
             );
             //mvc

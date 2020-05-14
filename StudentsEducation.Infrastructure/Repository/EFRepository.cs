@@ -83,5 +83,10 @@ namespace StudentsEducation.Infrastructure.Repository
             entityList.Update(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<T>> GetDetachedAllAsync()
+        {
+            return entityList.AsNoTracking().AsEnumerable();
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace StudentsEducation.Domain.Interfaces
     public interface IAsyncRepository<T>:IRepository<T> where T:class
     {
         public Task<IEnumerable<T>> GetAllAsync();
+        public Task<IEnumerable<T>> GetDetachedAllAsync();
         public Task<T> GetByIdAsync(int id);
         public Task<T> CreateAsync(T entity);
         public Task DeleteAsync(int id);

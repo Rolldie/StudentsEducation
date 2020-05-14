@@ -2,40 +2,37 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Students.Marks.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Оценки";
 }
 
-<h1>Index</h1>
-
+<h1>Оценки</h1>
+<h6>Студент: @Model.Student.Name | Номер зачетной книжки: @Model.Student.GradeBookNumber</h6>
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Добавить оценку</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Mark[0].MarkValue)
+                @Html.DisplayNameFor(model => model.Marks.First().MarkValue)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mark[0].DateAdd)
+                @Html.DisplayNameFor(model => model.Marks.First().DateAdd)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mark[0].DateToPass)
+                @Html.DisplayNameFor(model => model.Marks.First().DateToPass)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mark[0].WasModified)
+                @Html.DisplayNameFor(model => model.Marks.First().WasModified)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mark[0].Student)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mark[0].Work)
+                @Html.DisplayNameFor(model => model.Marks.First().Work)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Mark) {
+@foreach (var item in Model.Marks) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.MarkValue)
@@ -50,15 +47,11 @@
                 @Html.DisplayFor(modelItem => item.WasModified)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Student.GradeBookNumber)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Work.Name)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }

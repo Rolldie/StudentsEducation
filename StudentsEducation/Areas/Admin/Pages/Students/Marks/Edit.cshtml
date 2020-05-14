@@ -2,12 +2,12 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Students.Marks.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Изменить";
 }
 
-<h1>Edit</h1>
+<h1>Изменение</h1>
 
-<h4>Mark</h4>
+<h4>Оценка</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -45,14 +45,14 @@
             </div>
             <input type="hidden" asp-for="Mark.Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index" asp-route-id="@Model.Mark.StudentId">Вернуться к списку оценок</a>
 </div>
 
 @section Scripts {

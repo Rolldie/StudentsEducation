@@ -27,6 +27,12 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<FinalControl> AddNewFinalControlToStudentAsync(FinalControl finalControl,int studentId);
         public Task UpdateFinalControlAsync(FinalControl finalControl);
         public Task DeleteFinalControlAsync(int id);
-        //maybe more
+        public Task<Skip> AddNewSkipToStudentAsync(Skip skip, int studentId);
+        public Task UpdateSkipAsync(Skip skip);
+        public Task DeleteSkipAsync(int id);
+
+        public Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId);
+        public Task<IEnumerable<Schedule>> GetSchedulesByStudentAsync(int studentId);
+        public Task<Schedule> GetScheduleAsync(int id);
     }
 }

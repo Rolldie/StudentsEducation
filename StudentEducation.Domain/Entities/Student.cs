@@ -24,6 +24,9 @@ namespace StudentsEducation.Domain.Entities
         //references
         [Required]
         public virtual Group Group { get; set; }
+        [Required]
+        public int GroupId { get; set; }
+
         public virtual IEnumerable<FinalControl> FinalControls { get; set; }
         public virtual IEnumerable<Mark> Marks { get; set; }
         public virtual IEnumerable<Skip> Skips { get; set; }

@@ -29,7 +29,9 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.Skips
                 return NotFound();
             }
 
-            Skip = await _context.Skips.FirstOrDefaultAsync(m => m.Id == id);
+            Skip = await _context.Skips
+                .Include(s => s.Schedule)
+                .Include(s => s.Student).FirstOrDefaultAsync(m => m.Id == id);
 
             if (Skip == null)
             {
@@ -53,7 +55,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.Skips
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new {id=Skip.StudentId});
         }
     }
 }

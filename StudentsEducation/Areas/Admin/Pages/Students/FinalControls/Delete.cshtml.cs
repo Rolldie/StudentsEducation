@@ -55,7 +55,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index",new { id = FinalControl.StudentId });
         }
     }
 }

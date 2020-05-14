@@ -2,17 +2,17 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Добавление";
 }
 
-<h1>Create</h1>
+<h1>Добавление</h1>
 
-<h4>FinalControl</h4>
+<h4>Итоговая оценка для студента: @Model.Student.Name, зачетная книжка: @Model.Student.GradeBookNumber </h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FinalControl.MarkValue" class="control-label"></label>
                 <input asp-for="FinalControl.MarkValue" class="form-control" />
@@ -32,19 +32,16 @@
                 <label asp-for="FinalControl.SubjectId" class="control-label"></label>
                 <select asp-for="FinalControl.SubjectId" class ="form-control" asp-items="ViewBag.SubjectId"></select>
             </div>
+            <input asp-for="FinalControl.StudentId" type="hidden"/>
             <div class="form-group">
-                <label asp-for="FinalControl.StudentId" class="control-label"></label>
-                <select asp-for="FinalControl.StudentId" class ="form-control" asp-items="ViewBag.StudentId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="./Index" asp-route-id="@Model.FinalControl.StudentId">Вернуться к списку итоговых оценок</a>
 </div>
 
 @section Scripts {

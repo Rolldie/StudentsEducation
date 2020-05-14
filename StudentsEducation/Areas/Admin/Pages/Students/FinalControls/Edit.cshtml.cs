@@ -6,76 +6,72 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using StudentsEducation.Domain.Entities;
+using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
 {
     public class EditModel : PageModel
     {
-        private readonly StudentsEducation.Infrastructure.Data.EducationDbContext _context;
+        private readonly IStudentsService _studService;
+        private readonly ISubjectAndWorksService _subjService;
 
-        public EditModel(StudentsEducation.Infrastructure.Data.EducationDbContext context)
+        public EditModel(IStudentsService studService, ISubjectAndWorksService subjService)
         {
-            _context = context;
+            _studService = studService;
+            _subjService = subjService;
         }
+
 
         [BindProperty]
         public FinalControl FinalControl { get; set; }
+        public Student Student { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+
+        public async Task<IActionResult> InitFields(int fcId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            FinalControl = await _context.FinalControls
-                .Include(f => f.Student)
-                .Include(f => f.Subject).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (FinalControl == null)
-            {
-                return NotFound();
-            }
-           ViewData["StudentId"] = new SelectList(_context.Students, "Id", "GradeBookNumber");
-           ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
+            FinalControl = await _studService.GetFinalControl(fcId);
+            Student = FinalControl.Student;
+            ViewData["SubjectId"] = new SelectList(await _studService.GetSubjectsByStudentAsync(Student.Id), "Id", "Name");
             return Page();
+        }
+
+
+        public async Task<IActionResult> OnGetAsync(int? fcId)
+        {
+            if (!fcId.HasValue)
+            {
+                return NotFound();
+            }
+            return await InitFields(fcId.Value);
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            FinalControl.Subject = await _subjService.GetSubjectAsync(FinalControl.SubjectId);
+            FinalControl.Student = await _studService.GetStudentAsync(FinalControl.StudentId);
+            ModelState.Remove("FinalControl.Subject");
+            ModelState.Remove("FinalControl.Student");
             if (!ModelState.IsValid)
             {
-                return Page();
+                return await InitFields(FinalControl.Id);
             }
-
-            _context.Attach(FinalControl).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _studService.UpdateFinalControlAsync(FinalControl);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException ex)
             {
-                if (!FinalControlExists(FinalControl.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                ModelState.AddModelError("DbException", "Произошла ошибка при обновлении! " + ex.Message);
+                return await InitFields(FinalControl.Id);
             }
 
-            return RedirectToPage("./Index");
-        }
-
-        private bool FinalControlExists(int id)
-        {
-            return _context.FinalControls.Any(e => e.Id == id);
+            return RedirectToPage("./Index",new { id = FinalControl.StudentId });
         }
     }
 }

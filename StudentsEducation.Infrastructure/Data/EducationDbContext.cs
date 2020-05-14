@@ -53,6 +53,10 @@ namespace StudentsEducation.Infrastructure.Data
             {
                 entity.HasIndex(e => new { e.Name, e.SubjectId }).IsUnique();
             });
+            modelBuilder.Entity<FinalControl>(entity =>
+            {
+                entity.HasIndex(e => new { e.StudentId, e.SubjectId }).IsUnique();
+            });
         }
 
     }
