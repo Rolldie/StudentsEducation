@@ -36,7 +36,6 @@ namespace StudentsEducation
             {
                 options.Conventions.AuthorizeAreaFolder("Admin", "/","IsAdmin");
                 options.Conventions.AuthorizeAreaFolder("Teacher", "/", "IsTeacher");
-                
             }
             );
             //mvc

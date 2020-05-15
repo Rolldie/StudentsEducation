@@ -10,6 +10,7 @@ using StudentsEducation.Infrastructure.Services;
 
 namespace StudentsEducation.Web.Areas.Account.Pages
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class RoleIdentificationModel : PageModel
     {
         private readonly IdentityService _service;

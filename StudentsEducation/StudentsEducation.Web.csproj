@@ -47,7 +47,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Teacher\" />
+    <Content Update="Areas\TeachersPanel\Pages\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\TeachersPanel\Pages\Raitings\" />
+    <Folder Include="Areas\TeachersPanel\Pages\Students\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

@@ -6,11 +6,11 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Кафедра")]
     public class Cathedra:BaseEntity
     {
-        [Required(ErrorMessage ="Это поле необходимо!")]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(100)]
         [Display(Name="Название кафедры")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(20)]
         [Phone]
         [Display(Name = "Основной номер телефона")]

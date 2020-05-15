@@ -9,11 +9,11 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Запись расписания")]
     public class Schedule:BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Начало действия расписания")]
         public DateTime StartsIn { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [GreaterThan("StartsIn",DependentPropertyDisplayName ="Начало действия расписания",ErrorMessage ="Значение этого поля должно быть больше чем `Начало действия расписания`")]
         [DataType(DataType.Date)]
         [Display(Name = "Конец действия расписания")]
@@ -24,17 +24,17 @@ namespace StudentsEducation.Domain.Entities
 
         [Required] 
         public virtual  Group Group { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public int GroupId { get; set; }
 
         [Required]
         public virtual Subject Subject { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public int SubjectId { get; set; }
 
         [Required]
         public virtual Teacher Teacher { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public int TeacherId { get; set; }
 
 

@@ -1,4 +1,6 @@
 ﻿using StudentsEducation.Domain.Interfaces;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace StudentsEducation.Domain.Entities
@@ -19,7 +21,7 @@ namespace StudentsEducation.Domain.Entities
 
 
         public virtual ControlType ControlType { get; set; }
-
+        public virtual IEnumerable<Mark> Marks { get; set; }
 
         //interface method to use MarkValidation in subentities
         public ControlType GetControlType()

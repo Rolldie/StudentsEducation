@@ -128,14 +128,54 @@ namespace StudentsEducation.Domain.Services
             if(student!=null)
             {
                 mark.Student = student;
-                return await _markContext.CreateAsync(mark);    
+                var controlType = mark.Work.ControlType;
+                if (controlType.LowValue >= mark.MarkValue && controlType.HighValue <= mark.MarkValue)
+                {
+                    var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
+                    if (schedule.StartsIn >= mark.DateAdd && schedule.EndsIn <= mark.DateToPass)
+                    {
+                        try
+                        {
+                            return await _markContext.CreateAsync(mark);
+                        }
+                        catch(DbUpdateException ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    else throw new DbUpdateException("Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)!");
+                } 
+                else throw new DbUpdateException("Оценка выходит за границы заданого типа контроля!");
             }
             return null;
         }
 
         public async Task UpdateMarkAsync(Mark mark)
         {
-            await _markContext.UpdateAsync(mark);
+            var student = mark.Student;
+            if (student != null)
+            {
+                mark.Student = student;
+                var controlType = mark.Work.ControlType;
+                if (controlType.LowValue <= mark.MarkValue && controlType.HighValue >= mark.MarkValue)
+                {
+                    var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
+                    if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >=mark.DateToPass)
+                    {
+                        try
+                        {
+                            await _markContext.UpdateAsync(mark);
+                        }
+                        catch (DbUpdateException ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    else throw new DbUpdateException("Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)!");
+                }
+                else throw new DbUpdateException("Оценка выходит за границы заданого типа контроля!");
+            }
+            else throw new DbUpdateException("Не удалось найти студента!");
         }
 
         public async Task DeleteMarkAsync(int id)

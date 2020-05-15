@@ -55,7 +55,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.Marks
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index",new { id = Mark.StudentId });
         }
     }
 }

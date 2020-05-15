@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Students.Marks
 {
@@ -41,9 +39,9 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.Marks
             Student = await _studService.GetStudentAsync(id);
             if (Student == null) return NotFound();
             Mark.StudentId = id;
-            Mark.Date = DateTime.Now;
-            ViewData["WorkId"] = new SelectList((await _subjService.GetWork(Student.Id)).Select(e =>
-            new SelectElement { WorkId = e.Id, Text = $"{e.Subject.Name} {e." }), "ScheduleId", "Text");
+            Mark.DateAdd = DateTime.Now;
+            ViewData["WorkId"] = new SelectList((await _subjService.GetWorksByStudentAsync(Student.Id,false)).Select(e =>
+            new SelectElement { WorkId = e.Id, Text = $"{e.Subject.Name} {e.Name}" }), "WorkId", "Text");
             return Page();
         }
 

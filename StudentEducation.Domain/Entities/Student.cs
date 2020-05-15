@@ -8,15 +8,15 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Студент")]
     public class Student:BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(200)]
         [Display(Name = "ФИО студента")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name = "День рождения")]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(6,MinimumLength =6)]
         [RegularExpression(@"(\d{6})",ErrorMessage ="Ошибка, поле не содержит 6 цифр!")]
         [Display(Name = "Номер зачетной книжки")]
@@ -24,7 +24,7 @@ namespace StudentsEducation.Domain.Entities
         //references
         [Required]
         public virtual Group Group { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public int GroupId { get; set; }
 
         public virtual IEnumerable<FinalControl> FinalControls { get; set; }

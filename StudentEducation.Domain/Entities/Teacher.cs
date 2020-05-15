@@ -6,7 +6,7 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Преподаватель")]
     public class Teacher:BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(100)]
         [Display(Name = "ФИО преподавателя")]
         public string Name { get; set; }

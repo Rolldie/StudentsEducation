@@ -7,19 +7,19 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Оценка")]
     public class Mark : BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage ="Это поле является необходимым!")]
         [Range(-1,1000)]
         [Display(Name = "Оценка")]
         public double MarkValue { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Дата задания")]
         public DateTime DateAdd { get; set; } = DateTime.Now;
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Дата до снижения оценки")]
         public DateTime DateToPass { get; set; } = DateTime.Now.AddDays(20);
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name="Редактировано учителем")]
         public bool WasCorrected { get; set; }
 
@@ -27,13 +27,14 @@ namespace StudentsEducation.Domain.Entities
 
 
         //references
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public int StudentId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public virtual Student Student { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
+        [Display(Name ="Работа")]
         public int WorkId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public virtual Work Work { get; set; }
     }
 

@@ -20,7 +20,7 @@ using StudentsEducation.Infrastructure.Services;
 
 namespace StudentsEducation.Web.Areas.Account.Pages
 {
-    [AllowAnonymous]
+    [Authorize(Roles="Administrator")]
     public class RegisterModel : PageModel
     {
         private readonly IdentityService _service;

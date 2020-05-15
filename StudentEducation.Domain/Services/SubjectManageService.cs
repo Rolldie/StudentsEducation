@@ -89,11 +89,21 @@ namespace StudentsEducation.Domain.Services
             return await _cTypesRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Work>> GetWorksByStudentAsync(int id)
+        public async Task<IEnumerable<Work>> GetWorksByStudentAsync(int id,bool showAddedWorks)
         {
             var student = await _studentRepository.GetByIdAsync(id);
-            var works=student.Group.Schedules.Select(e => e.Subject.Works);
-            var result= works.SelectMany(e => e);
+            IEnumerable < IEnumerable < Work >> works;
+            IEnumerable<Work> result;
+            works = student.Group.Schedules.Select(e => e.Subject.Works);
+            if (showAddedWorks)
+            {
+                result = works.SelectMany(e => e);
+            }
+            else
+            {
+                var studWorks = student.Marks.Select(e => e.Work);
+                result = works.SelectMany(e => e).Except(studWorks);
+            }
             return result;
         }
     }

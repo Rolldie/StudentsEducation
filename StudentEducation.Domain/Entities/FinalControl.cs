@@ -8,12 +8,12 @@ namespace StudentsEducation.Domain.Entities
     public class FinalControl : BaseEntity
     {
 
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [Range(-1,9999)]
         [Display(Name = "Оценка")]
         public double MarkValue { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Дата")]
         public DateTime Date { get; set; }
@@ -22,15 +22,15 @@ namespace StudentsEducation.Domain.Entities
 
         //references
 
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name = "Предмет")]
         public int SubjectId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public virtual Subject Subject { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name = "Студент")]
         public int StudentId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         public virtual Student Student { get; set; }
 
     }

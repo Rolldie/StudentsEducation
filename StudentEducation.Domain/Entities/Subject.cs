@@ -8,7 +8,7 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Предмет")]
     public class Subject:BaseEntity, ITypedByControl
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(200)]
         [Display(Name = "Название предмета")]
         public string Name { get; set; }

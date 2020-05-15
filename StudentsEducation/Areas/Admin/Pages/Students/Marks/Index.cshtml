@@ -8,7 +8,7 @@
 <h1>Оценки</h1>
 <h6>Студент: @Model.Student.Name | Номер зачетной книжки: @Model.Student.GradeBookNumber</h6>
 <p>
-    <a asp-page="Create">Добавить оценку</a>
+    <a asp-page="Create" asp-route-id="@Model.Student.Id">Добавить оценку</a>
 </p>
 <table class="table">
     <thead>
@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.WasCorrected)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Work.Name)
+                @Html.DisplayFor(modelItem => item.Work.Name) @Html.DisplayFor(modelItem => item.Work.Subject.Name)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Изменить</a> |
