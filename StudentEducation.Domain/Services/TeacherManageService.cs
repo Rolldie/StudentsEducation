@@ -1,10 +1,13 @@
-﻿using StudentsEducation.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace StudentsEducation.Domain.Services
 {
@@ -60,7 +63,21 @@ namespace StudentsEducation.Domain.Services
 
         public async Task UpdateScheduleAsync(Schedule schedule)
         {
-            await _scheduleRepository.UpdateAsync(schedule);
+            var teacher = schedule.Teacher;
+            var group = schedule.Group; 
+            var subject = schedule.Subject;
+            if (teacher != null && group != null && subject != null)
+            {
+                if (!(Between(schedule.StartsIn, group.StartEducationDate, group.EndEducationDate) && Between(schedule.EndsIn, group.StartEducationDate, group.EndEducationDate)))
+                    throw new DbUpdateException("Данное расписание не подходит группе, т.к. оно выходит за промежуток обучения группы!");
+                var checkSchedules = group.Schedules.Where(e=>e.SubjectId==subject.Id && e.Id!=schedule.Id);
+                if (checkSchedules.Select(e => 
+                e.TeacherId==teacher.Id
+                && (Between(schedule.StartsIn, e.StartsIn, e.EndsIn) || Between(schedule.EndsIn, e.StartsIn, e.EndsIn))).Count() > 0)
+                    throw new DbUpdateException("Данные предмет уже читается для этой группы!");
+                else
+                await _scheduleRepository.UpdateAsync(schedule);
+            }
         }
 
         public async Task UpdateTeacherAsync(Teacher teacher)
@@ -85,15 +102,41 @@ namespace StudentsEducation.Domain.Services
         public async Task AddScheduleByTeacherNGroupNSubjectAsync(Schedule schedule, int teacherId, int groupId, int subjectId)
         {
             var teacher = await _teacherRepository.GetByIdAsync(teacherId);
+            schedule.TeacherId = teacherId;
+            schedule.GroupId = groupId;
+            schedule.SubjectId = subjectId;
             var group = await _groupRepository.GetByIdAsync(groupId);
             var subject = await _subjectRepository.GetByIdAsync(subjectId);
             if(teacher!=null && group!=null && subject!=null)
             {
                 schedule.Teacher = teacher;
                 schedule.Subject = subject;
-                schedule.Group = group;
-                await _scheduleRepository.CreateAsync(schedule);
+                schedule.Group = group; 
+                if (!(Between(schedule.StartsIn, group.StartEducationDate, group.EndEducationDate) && Between(schedule.EndsIn, group.StartEducationDate, group.EndEducationDate)))
+                    throw new DbUpdateException("Данное расписание не подходит группе, т.к. оно выходит за промежуток обучения группы!");
+                var checkSchedules = group.Schedules.Where(e=>e.SubjectId==schedule.SubjectId);
+                if (checkSchedules.Select(e => e.TeacherId==teacher.Id && (Between(schedule.StartsIn, e.StartsIn, e.EndsIn) || Between(schedule.EndsIn, e.StartsIn, e.EndsIn))
+                    ).Count() > 0)
+                    throw new DbUpdateException("Данные предмет уже был пройден!");
+                else
+                    await _scheduleRepository.CreateAsync(schedule);
             }
+        }
+        public bool Between(DateTime input, DateTime date1, DateTime date2)
+        {
+            return (input >= date1 && input <= date2);
+        }
+
+        public async Task<IEnumerable<Group>> GetTeachersGroups(int teacherId)
+        {
+            var teacher = await _teacherRepository.GetByIdAsync(teacherId);
+            if (teacher != null)
+            {
+                var groups = teacher.Schedules.Select(e => e.Group);
+                groups = groups.Distinct();
+                return groups;
+            }
+            else return null;
         }
     }
 }

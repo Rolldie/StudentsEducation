@@ -43,7 +43,7 @@ namespace StudentsEducation.Infrastructure.Data
             });
             modelBuilder.Entity<Schedule>(entity =>
             {
-                entity.HasIndex(e => new { e.TeacherId, e.SubjectId, e.GroupId }).IsUnique();
+                entity.HasIndex(e => new {  e.SubjectId, e.GroupId }).IsUnique();
             });
             modelBuilder.Entity<Subject>(entity =>
             {

@@ -34,5 +34,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId);
         public Task<IEnumerable<Schedule>> GetSchedulesByStudentAsync(int studentId);
         public Task<Schedule> GetScheduleAsync(int id);
+
+        public Task<double> GetAcademicPerfomanceAsync(int studentId, int scheduleId);
     }
 }

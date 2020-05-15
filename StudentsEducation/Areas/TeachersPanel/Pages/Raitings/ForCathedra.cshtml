@@ -1,0 +1,17 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.Raitings.ForCathedraModel
+@{
+    ViewData["Title"] = "ForCathedra";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<h1>Рейтинг успеваемости по Кафедрам</h1>
+
+@foreach (var item in Model.Cathedras)
+{
+    <p>@item.Name  </p>
+    <hr />
+
+}
+

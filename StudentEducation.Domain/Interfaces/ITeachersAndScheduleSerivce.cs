@@ -22,6 +22,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task DeleteTeacherAsync(int id);
         public Task DeleteScheduleAsync(int id);
 
+        public Task<IEnumerable<Group>> GetTeachersGroups(int teacherId);
 
     }
 }

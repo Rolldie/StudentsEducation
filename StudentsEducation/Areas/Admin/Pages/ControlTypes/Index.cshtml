@@ -19,7 +19,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.ControlType[0].LowValue)
             </th>
-            <th> @Html.DisplayNameFor(model => model.ControlType[0].HighValue)
+            <th>
+                @Html.DisplayNameFor(model => model.ControlType[0].HighValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlType[0].SatisfactorilyValue)
             </th>
             <th>
 
@@ -37,6 +41,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HighValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SatisfactorilyValue)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Редактировать</a> |

@@ -35,7 +35,7 @@ namespace StudentsEducation
             services.AddRazorPages().AddRazorPagesOptions(options=>
             {
                 options.Conventions.AuthorizeAreaFolder("Admin", "/","IsAdmin");
-                options.Conventions.AuthorizeAreaFolder("Teacher", "/", "IsTeacher");
+                options.Conventions.AuthorizeAreaFolder("TeachersPanel", "/", "IsTeacher");
             }
             );
             //mvc

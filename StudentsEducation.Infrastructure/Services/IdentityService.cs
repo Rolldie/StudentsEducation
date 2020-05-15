@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
@@ -32,6 +33,10 @@ namespace StudentsEducation.Infrastructure.Services
             //_userRole = userRole;
         }
 
+        public async Task<AppUser> GetCurrentUser(HttpContext context)
+        {
+            return await _userManager.GetUserAsync(context.User);
+        }
         public async Task<IEnumerable<Role>> GetRolesAsync()
         {
             return await _roleManager.Roles.ToListAsync();

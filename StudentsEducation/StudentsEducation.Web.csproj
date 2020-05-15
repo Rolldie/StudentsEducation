@@ -54,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\TeachersPanel\Pages\Raitings\" />
     <Folder Include="Areas\TeachersPanel\Pages\Students\" />
   </ItemGroup>
 

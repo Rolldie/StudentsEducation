@@ -5,10 +5,20 @@
 }
 
 <h4>@ViewData["Title"]</h4>
-
 <div class="list-group">
-    <div class="list-group-item">
-dsds
+    <div class="list-group-item row">
+        <h4>По группе и предметам для этой группы:</h4>
+        <form>
+            <select class="form-control custom-select col-6" asp-for="GroupId" asp-items="ViewBag.Groups"></select>
+            <input type="hidden" asp-for="TeacherId" />
+            <input type="submit" class="btn btn-primary" asp-page="Raitings/ForGroup" asp-route-tId="@Model.TeacherId" asp-route-gId="@Model.GroupId" value="Получить" />
+        </form>
     </div>
-
+    <div class="list-group-item row">
+        <h4>По кафедрам:</h4>
+        <form>
+            <select class="form-control custom-select col-6" asp-for="CathedraId" asp-items="ViewBag.Cathedras"></select>
+            <input type="submit" class="btn btn-primary" asp-page="Raitings/ForCathedra"  asp-route-gId="@Model.CathedraId" value="Получить" />
+        </form>
+    </div>
 </div>

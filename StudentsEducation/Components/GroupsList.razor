@@ -120,7 +120,7 @@ else
     public bool Editable { get; set; }
     public bool AddingMode { get; set; }
     public IEnumerable<Cathedra> Cathedras { get; set; }
-    public Group AddGroup = new Group();
+    public Group AddGroup = new Group() { StartEducationDate = DateTime.Now, EndEducationDate = DateTime.Now.AddYears(3) };
     public Group EditGroup = new Group();
     public IEnumerable<Group> Groups { get; set; }
     public Group Group { get; set; }

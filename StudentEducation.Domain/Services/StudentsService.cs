@@ -295,10 +295,30 @@ namespace StudentsEducation.Domain.Services
             }
         }
 
-        public Task DeleteSkipAsync(int id)
+        public async Task DeleteSkipAsync(int id)
         {
-            throw new System.NotImplementedException();
+            await _skipsContext.DeleteAsync(id);
         }
 
+        public async Task<double> GetAcademicPerfomanceAsync(int studentId, int scheduleId)
+        {
+            double result=0;
+            var student = await _studContext.GetByIdAsync(studentId);
+            if (student == null) return 0;
+            var schedule = await _schContext.GetByIdAsync(scheduleId);
+            if (schedule == null) return 0;
+
+            var subject = schedule.Subject;
+            double sum = 0;
+            foreach (var work in subject.Works)
+            {
+                var controlType = work.ControlType;
+                if(work.Marks.Where(e => e.StudentId == student.Id && e.WasCorrected && controlType.SatisfactorilyValue<=e.MarkValue).Count()>0)
+                    sum++;
+            }
+            result = sum / subject.Works.Count();
+            return result;
+
+        }
     }
 }

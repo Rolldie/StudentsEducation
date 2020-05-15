@@ -28,6 +28,11 @@
                 <input asp-for="ControlType.HighValue" class="form-control" />
                 <span asp-validation-for="ControlType.HighValue" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="ControlType.SatisfactorilyValue" class="control-label"></label>
+                <input asp-for="ControlType.SatisfactorilyValue" class="form-control" />
+                <span asp-validation-for="ControlType.SatisfactorilyValue" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="ControlType.Id" />
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    partial class EducationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200515195613_AddedNewFields34")]
+    partial class AddedNewFields34
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,9 +203,9 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("SubjectId");
 
-                    b.HasIndex("SubjectId", "GroupId")
+                    b.HasIndex("TeacherId", "SubjectId", "GroupId")
                         .IsUnique();
 
                     b.ToTable("Schedules");

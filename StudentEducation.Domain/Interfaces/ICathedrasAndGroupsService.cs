@@ -17,6 +17,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<Group> GetGroupAsync(int groupId);
         public Task UpdateGroupAsync(Group group);
         public Task DeleteGroupAsync(int id);
+        public Task<double> GetGroupAcademicPerfomanceAsync(int cathedraId);
 
     }
 }

@@ -178,6 +178,8 @@
     public async Task AddModeSwitcher()
     {
         CurrentSchedule = new InputSchedule();
+        CurrentSchedule.StartsIn = DateTime.Now;
+        CurrentSchedule.EndsIn = DateTime.Now.AddMonths(4);
         Schedules = (await service.GetSchedulesByTeacherAsync(TeacherId)).AsQueryable().OrderBy(e => e.EndsIn).Reverse();
         AddingMode = !AddingMode;
     }
@@ -208,6 +210,7 @@
     public async Task ValidateSchedule(bool AddMode)
     {
         Context = new EditContext(CurrentSchedule);
+
         if (AddMode)
             CurrentSchedule.SelectedTeacher = TeacherId;
         Context.AddDataAnnotationsValidation();
@@ -220,9 +223,15 @@
             };
             if (AddMode)
             {
-                await service.AddScheduleByTeacherNGroupNSubjectAsync(Schedule,
-                    TeacherId, CurrentSchedule.SelectedGroup, CurrentSchedule.SelectedSubject);
-                await AddModeSwitcher();
+                try
+                {
+
+                    await service.AddScheduleByTeacherNGroupNSubjectAsync(Schedule,
+                        TeacherId, CurrentSchedule.SelectedGroup, CurrentSchedule.SelectedSubject);
+                    await AddModeSwitcher();
+                }
+                catch (DbUpdateException ex) { }
+
             }
             else
             {
@@ -232,8 +241,13 @@
                 item.Teacher = Teachers.First(e => e.Id == CurrentSchedule.SelectedTeacher);
                 item.StartsIn = CurrentSchedule.StartsIn;
                 item.EndsIn = CurrentSchedule.EndsIn;
-                await service.UpdateScheduleAsync(item);
-                EditModeSwitch();
+                try
+                {
+                    await service.UpdateScheduleAsync(item);
+                    EditModeSwitch();
+
+                }
+                catch(DbUpdateException ex) { }
             }
 
         }
@@ -242,6 +256,6 @@
     {
         await service.DeleteScheduleAsync(id);
         Schedules = Schedules.Where(e => e.Id != id);
-     //   StateHasChanged();
+        //   StateHasChanged();
     }
 }

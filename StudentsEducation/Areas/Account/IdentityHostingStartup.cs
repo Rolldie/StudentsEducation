@@ -23,8 +23,8 @@ namespace StudentsEducation.Web.Areas.Account
                 });
                 services.AddIdentity<AppUser,Role>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AccountDbContext>().AddRoles<Role>();
-               
-                
+
+                services.AddHttpContextAccessor();
                 services.Configure<IdentityOptions>(options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;
