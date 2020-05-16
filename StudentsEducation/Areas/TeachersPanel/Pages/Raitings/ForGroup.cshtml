@@ -1,15 +1,27 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.TeachersPanel.Pages.Raitings.ForGroupModel
 @{
-    ViewData["Title"] = "Рейтинг по группе";
+    ViewData["Title"] = "Успеваемость по группе";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Рейтинг успеваемости по группе</h1>
+<h1>Рейтинг текущей успеваемости по группе</h1>
 
-@foreach(var item in Model.Schedules.OrderBy(e=>e.EndsIn).Reverse())
+
+@foreach (var item in Model.Schedules.OrderBy(e => e.EndsIn).Reverse())
 {
-    <p>@item.Group.Name  @item.Subject.Name, заканчивается - @item.EndsIn.ToShortDateString()</p>
+    <h4>@item.Group.Name  @item.Subject.Name</h4>
+    @if (item.EndsIn > DateTime.Now && item.StartsIn<DateTime.Now)
+    {
+        <h4>Заканчивается - @item.EndsIn.ToShortDateString()</h4>}
+    else if(item.StartsIn>DateTime.Now)
+    {
+        <h4>Начнется - @item.StartsIn.ToShortDateString()</h4>
+    }
+    else 
+    {
+        <h4>Закончилось - @item.EndsIn.ToShortDateString()</h4>
+    }
     <hr />
     <table class="table">
         <thead class="table">
@@ -25,8 +37,12 @@
         @foreach (var initem in Model.Schedules.Select(e => e.Group).Select(e => e.Students).SelectMany(e => e).Distinct())
         {
             <tr>
-                <td>@initem.Name</td>
-                <td>@((await Model.GetAcademic(initem.Id,item.Id)).ToString("0.00%"))</td>
+                <td>
+                    @initem.Name
+                </td>
+                <td>
+                    @((await Model.GetAcademic(initem.Id,item.Id)).ToString("0.00%"))
+                </td>
             </tr>
         }
     </table>

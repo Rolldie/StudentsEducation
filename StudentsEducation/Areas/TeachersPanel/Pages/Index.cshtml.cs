@@ -17,14 +17,12 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
     {
         private readonly IdentityService _service;
         private readonly ITeachersAndScheduleSerivce _teachService;
-        private readonly ISubjectAndWorksService _subjService;
         private readonly ICathedrasAndGroupsService _cathService;
-        public IndexModel(ICathedrasAndGroupsService cathService,IdentityService service,ITeachersAndScheduleSerivce teacherService, ISubjectAndWorksService subjectsService)
+        public IndexModel(ICathedrasAndGroupsService cathService,IdentityService service,ITeachersAndScheduleSerivce teacherService)
         {
             _cathService = cathService;
             _service = service;
             _teachService = teacherService;
-            _subjService = subjectsService;
         }
         
         public class ShowModel

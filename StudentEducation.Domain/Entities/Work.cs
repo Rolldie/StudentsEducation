@@ -12,10 +12,13 @@ namespace StudentsEducation.Domain.Entities
         [StringLength(200)]
         [Display(Name = "Название работы")]
         public string Name { get; set; }
-
+        [Required]
+        [Display(Name = "Номер по счету")]
+        public int WorkNumber { get; set; }
         //references
         [Required]
         public int SubjectId { get; set; }
+
         [Required]
         public virtual Subject Subject { get; set; }
 

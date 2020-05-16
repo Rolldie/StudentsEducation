@@ -2,12 +2,12 @@
 @model StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Изменение";
 }
 
-<h1>Edit</h1>
+<h1>Изменить</h1>
 
-<h4>FinalControl</h4>
+<h4>Итоговая оценка</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -36,7 +36,7 @@
             <input asp-for="FinalControl.StudentId" type="hidden"/>
             <input type="hidden" asp-for="FinalControl.Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
     </div>

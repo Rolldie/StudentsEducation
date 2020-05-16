@@ -1,0 +1,53 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.DeadlinesModel
+@{
+    ViewData["Title"] = "Сроки сдачи";
+}
+
+<h4>Изменение сроков сдачи</h4>
+
+<div class="list-group">
+    <div class="list-group-item row">
+        <h4>Группа и предмет:</h4>
+        <form>
+            <select class="form-control custom-select col-6" asp-for="MarksBy" asp-items="ViewBag.Schedules"></select>
+            <input type="submit" class="btn btn-primary" value="Получить для изменения" />
+        </form>
+    </div>
+</div>
+@section BodyTables{
+    @if (Model.MarksBy > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Работа</th>
+                    <th>Дата задания</th>
+                    <th>Срок до</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var work in Model.ScheduleForView.Subject.Works.OrderBy(e => e.WorkNumber))
+                {
+                    var mark = work.Marks.Where(e => e.Student.GroupId == Model.ScheduleForView.GroupId).FirstOrDefault();
+                    <tr>
+                        <td>
+                            <a asp-page="Works/Index" asp-route-id="@work.Id">@work.Name</a>
+                        </td>
+                        @if (mark == null)
+                        {
+                            <td>Нету дат!</td>
+                            <td>Нету дат!</td>
+                        }
+                        else
+                        {
+                            <td>@mark.DateAdd.Date.ToShortDateString()</td>
+                            <td>@mark.DateToPass.ToShortDateString()</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+

@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20200511192417_DeletedUnneccesaryFields.Designer.cs" />
     <Compile Remove="Migrations\20200513125911_refactoringFields2.cs" />
     <Compile Remove="Migrations\20200513125911_refactoringFields2.Designer.cs" />
+    <Compile Remove="Migrations\20200516172714_TryAddInexAndNewFieldForWork.cs" />
+    <Compile Remove="Migrations\20200516172714_TryAddInexAndNewFieldForWork.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

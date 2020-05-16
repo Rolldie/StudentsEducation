@@ -32,46 +32,52 @@ else
         </li>
         @if (Work != null && Work.Id == elem.Id)
         {
-            <EditForm Model="@EditWork">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <div class="form-group">
-                    <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
-                    <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
-                        @foreach (var cType in ControlTypes)
-                                            {
-                            <option value="@cType.Id">@cType.ControlName</option>
-                                            }
-                        /**/
-                        /**/
-                        /**/
-                        /**/
+<EditForm Model="@EditWork">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
+        <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
+            @foreach (var cType in ControlTypes)
+                                {
+                <option value="@cType.Id">@cType.ControlName</option>
+                                }
+            /**/
+            /**/
+            /**/
+            /**/
+            /**/
 
-                    </InputSelectInt>
-                </div>
-                <div class="form-group">
-                    <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)" />
-                    <InputSelectInt class="dropdown form-control" @bind-Value="SelectedSubjectId">
-                        @foreach (var sbj in Subjects)
-                                            {
-                            <option value="@sbj.Id">@sbj.Name</option>
-                                            }
-                        /**/
-                        /**/
-                        /**/
-                        /**/
+        </InputSelectInt>
+    </div>
+    <div class="form-group">
+        <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)" />
+        <InputSelectInt class="dropdown form-control" @bind-Value="SelectedSubjectId">
+            @foreach (var sbj in Subjects)
+                                {
+                <option value="@sbj.Id">@sbj.Name</option>
+                                }
+            /**/
+            /**/
+            /**/
+            /**/
+            /**/
 
-                    </InputSelectInt>
-                </div>
-                <div class="form-group">
-                    <InputLabel TItem="Work" aspfor="@nameof(EditWork.Name)"></InputLabel>
-                    <InputText class="form-control" id="nameEd" @bind-Value="EditWork.Name" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
-                    <button type="button" class="btn btn-danger" @onclick="@(async () => await Edit(elem.Id))">Не сохранять</button>
-                </div>
-            </EditForm>
+        </InputSelectInt>
+    </div>
+    <div class="form-group">
+        <InputLabel TItem="Work" aspfor="@nameof(EditWork.WorkNumber)"></InputLabel>
+        <InputNumber class="form-control" id="nameNum" @bind-Value="EditWork.WorkNumber" />
+    </div>
+    <div class="form-group">
+        <InputLabel TItem="Work" aspfor="@nameof(EditWork.Name)"></InputLabel>
+        <InputText class="form-control" id="nameEd" @bind-Value="EditWork.Name" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
+        <button type="button" class="btn btn-danger" @onclick="@(async () => await Edit(elem.Id))">Не сохранять</button>
+    </div>
+</EditForm>
         }
     }
 </ul>
@@ -87,9 +93,10 @@ else
                         <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
                         <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
                             @foreach (var cType in ControlTypes)
-                            {
+                                        {
                                 <option value="@cType.Id">@cType.ControlName</option>
-                            }
+                                        }
+                            /**/
                             /**/
                             /**/
 
@@ -98,6 +105,10 @@ else
                     <div class="form-group">
                         <InputLabel TItem="Work" aspfor="@nameof(AddWork.Name)"></InputLabel>
                         <InputText class="form-control" id="courseadd" @bind-Value="AddWork.Name" />
+                    </div>
+                    <div class="form-group">
+                        <InputLabel TItem="Work" aspfor="@nameof(AddWork.WorkNumber)"></InputLabel>
+                        <InputNumber class="form-control" id="nameNum" @bind-Value="AddWork.WorkNumber" />
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success" @onclick="ValidateAdd">Добавить</button>
@@ -167,6 +178,7 @@ else
             EditWork.Name = Work.Name;
             EditWork.Subject = Work.Subject;
             EditWork.ControlType = Work.ControlType;
+            EditWork.WorkNumber = Work.WorkNumber;
             SelectedControlId = Work.ControlType.Id;
             SelectedSubjectId = Work.Subject.Id;
         }

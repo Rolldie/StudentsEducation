@@ -1,0 +1,53 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.SkipsModel
+@{
+    ViewData["Title"] = "Пропуски";
+}
+
+<h4>Пропуски</h4>
+
+
+<div class="list-group">
+    <div class="list-group-item row">
+        <h4>Группа и предмет:</h4>
+        <form>
+            <select class="form-control custom-select col-6" asp-for="SkipsFor" asp-items="ViewBag.Groups"></select>
+            <input type="submit" class="btn btn-primary" value="Получить" />
+        </form>
+    </div>
+</div>
+@section BodyTables{
+    @if (Model.SkipsFor > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Студент
+                    </th>
+                    @foreach (var subject in Model.SubjectsForView.OrderBy(e=>e.Name)) 
+                    {
+                        <th>@subject.Name</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var student in Model.GroupForView.Students)
+                {
+                    <tr>
+                        <td>
+                            @student.Name
+                        </td>
+                        @foreach(var subject in Model.SubjectsForView.OrderBy(e=>e.Name))
+                        {
+                            <td>
+                                @(await Model.GetSkipsByAsync(subject.Schedules.First(e=>e.SubjectId==subject.Id && e.GroupId==Model.GroupForView.Id).Id,student.Id))
+                            </td>
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+}

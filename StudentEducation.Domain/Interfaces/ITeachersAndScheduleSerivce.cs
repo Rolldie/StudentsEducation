@@ -24,5 +24,6 @@ namespace StudentsEducation.Domain.Interfaces
 
         public Task<IEnumerable<Group>> GetTeachersGroups(int teacherId);
 
+        public Task<double> GetRecommendedFinalControlMark(int studentId, int scheduleId);
     }
 }

@@ -21,7 +21,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
         public CreateModel(IStudentsService studService,ISubjectAndWorksService subjService)
         {
             _studService = studService;
-          //  _subjService = subjService;
+            _subjService = subjService;
         }
 
         public async Task<IActionResult> OnGetAsync(int ?id)
@@ -37,7 +37,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
             if (Student == null) return NotFound();
             FinalControl.StudentId = id;
             FinalControl.Date = DateTime.Now;
-            ViewData["SubjectId"] = new SelectList(await _studService.GetSubjectsByStudentAsync(Student.Id), "Id", "Name");
+            ViewData["SubjectId"] = new SelectList(await _studService.GetSubjectsByStudentAsync(Student.Id,false), "Id", "Name");
             return Page();
         }
 

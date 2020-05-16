@@ -1,0 +1,18 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.Students.MarkEditModel
+@{
+    ViewData["Title"] = "Оценки";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if(Model.AddMode)
+{
+    <h1>Добавление оценки</h1>    
+}
+else
+{
+    <h1>Редактирование оценки</h1>
+}
+
+
+

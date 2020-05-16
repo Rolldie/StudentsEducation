@@ -34,7 +34,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
         {
             FinalControl = await _studService.GetFinalControl(fcId);
             Student = FinalControl.Student;
-            ViewData["SubjectId"] = new SelectList(await _studService.GetSubjectsByStudentAsync(Student.Id), "Id", "Name");
+            ViewData["SubjectId"] = new SelectList(await _studService.GetSubjectsByStudentAsync(Student.Id,true), "Id", "Name");
             return Page();
         }
 

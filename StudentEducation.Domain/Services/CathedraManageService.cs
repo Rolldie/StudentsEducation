@@ -73,21 +73,15 @@ namespace StudentsEducation.Domain.Services
             return await _groupRepository.GetAllAsync();
         }
 
-        public async Task<double> GetGroupAcademicPerfomanceAsync(int groupId)
+        public async Task<double> GetGroupAcademicPerfomanceAsync(int groupId,System.DateTime start, System.DateTime end)
         {
             var  group = await _groupRepository.GetByIdAsync(groupId);           
             if (group == null) return 0;
             double result = 0;
-            var schedules = group.Schedules;
-            var resultWorks = schedules.Select(e => e.Subject).Select(e => e.Works).SelectMany(e=>e).Distinct();
-            var students = group.Students;
-            var resmarks = resultWorks.Select(e => e.Marks).SelectMany(e=>e).Distinct();
-            resmarks = resmarks.Where(e => e.Student.GroupId == group.Id && e.WasCorrected && e.MarkValue>=e.Work.ControlType.SatisfactorilyValue);
-
-            double allworks = resultWorks.Count();
-            double marked = resmarks.Count();
-
-            result = marked / allworks;
+            var schedules = group.Schedules.Where(e=>e.StartsIn>=start && e.EndsIn<=end);
+            var subjectsToPass = schedules.Select(e => e.Subject);
+            double allSubjects = subjectsToPass.Count() * group.Students.Count();
+            result = group.Students.SelectMany(e => e.FinalControls.Where(m => m.MarkValue >= m.Subject.ControlType.SatisfactorilyValue && m.StudentId == e.Id)).Count() / allSubjects;
             return result;
 
         }

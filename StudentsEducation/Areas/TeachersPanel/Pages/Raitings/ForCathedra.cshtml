@@ -1,17 +1,49 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.TeachersPanel.Pages.Raitings.ForCathedraModel
 @{
-    ViewData["Title"] = "ForCathedra";
+    ViewData["Title"] = "Итоговая успеваемость кафедры";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
-<h1>Рейтинг успеваемости по Кафедрам</h1>
+<h1>Рейтинг итоговой успеваемости по Кафедрам</h1>
+<h4>Промежуток (учитываются предметы, полностью попадающие  в этот промежуток)</h4>
+<form method="get" class="col-6">
+    <div class="row">
+        <div>
+            <label>Начало</label>
+            <input class="form-control" asp-for="DateStart" />
+        </div>
+        <div>
+            <label>Конец</label>
+            <input class="form-control" asp-for="DateEnd" />
+        </div>
+        <input type="hidden" asp-for="CathedraId" />
+    </div>
+    <div>
+        <input class="btn  btn-link " type="submit" value="Рассчитать" />
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя группы</th>
+            <th>Успеваемость (итоги и зачеты)</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Cathedra.Groups)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @((await Model.GetGroupAcademic(item.Id)).ToString("0.00%"))
+            </td>
+        </tr>
+    }</tbody>
+</table>
 
-@foreach (var item in Model.Cathedras)
-{
-    <p>@item.Name  </p>
-    <hr />
 
-}
 

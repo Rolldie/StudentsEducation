@@ -52,6 +52,7 @@ namespace StudentsEducation.Infrastructure.Data
             modelBuilder.Entity<Work>(entity =>
             {
                 entity.HasIndex(e => new { e.Name, e.SubjectId }).IsUnique();
+                entity.HasIndex(e => new { e.SubjectId, e.WorkNumber }).IsUnique();
             });
             modelBuilder.Entity<FinalControl>(entity =>
             {

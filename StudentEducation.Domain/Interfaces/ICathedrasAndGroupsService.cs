@@ -1,4 +1,5 @@
 ﻿using StudentsEducation.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<Group> GetGroupAsync(int groupId);
         public Task UpdateGroupAsync(Group group);
         public Task DeleteGroupAsync(int id);
-        public Task<double> GetGroupAcademicPerfomanceAsync(int cathedraId);
+        public Task<double> GetGroupAcademicPerfomanceAsync(int cathedraId,DateTime start, DateTime end);
 
     }
 }

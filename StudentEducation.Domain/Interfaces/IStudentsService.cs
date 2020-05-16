@@ -1,4 +1,5 @@
 ﻿using StudentsEducation.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task UpdateSkipAsync(Skip skip);
         public Task DeleteSkipAsync(int id);
 
-        public Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId);
+        public Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId, bool showFinalControlledSubjects);
         public Task<IEnumerable<Schedule>> GetSchedulesByStudentAsync(int studentId);
         public Task<Schedule> GetScheduleAsync(int id);
 

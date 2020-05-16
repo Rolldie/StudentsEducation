@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FoolProof.Core;
+using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -129,10 +131,10 @@ namespace StudentsEducation.Domain.Services
             {
                 mark.Student = student;
                 var controlType = mark.Work.ControlType;
-                if (controlType.LowValue >= mark.MarkValue && controlType.HighValue <= mark.MarkValue)
+                if (controlType.LowValue <= mark.MarkValue && controlType.HighValue >= mark.MarkValue)
                 {
                     var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
-                    if (schedule.StartsIn >= mark.DateAdd && schedule.EndsIn <= mark.DateToPass)
+                    if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >= mark.DateToPass)
                     {
                         try
                         {
@@ -232,13 +234,21 @@ namespace StudentsEducation.Domain.Services
             var cntrl = await _finalControlContext.GetByIdAsync(id);
             if (cntrl != null) await _finalControlContext.DeleteAsync(id);
         }
-        public async Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId)
+        public async Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId,bool showFinalControlledSubjects)
         {
             var student = await _studContext.GetByIdAsync(studentId);
+            
             if (student != null)
             {
-                var subjects = (await _subjContext.GetAllAsync()).Where(e => e.Schedules.Any(e => e.GroupId == student.GroupId));
-                return subjects;
+                var subjects = student.Group.Schedules.Select(e => e.Subject);
+                if(showFinalControlledSubjects)
+                {
+                    return subjects;
+                }
+                {
+                    var studSubj = student.FinalControls.Select(e => e.Subject);
+                    return subjects.Except(studSubj);
+                }
             }
             else return null;
         }

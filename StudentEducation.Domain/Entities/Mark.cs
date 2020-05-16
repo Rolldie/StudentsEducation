@@ -1,4 +1,5 @@
-﻿using StudentsEducation.Domain.Validators;
+﻿using FoolProof.Core;
+using StudentsEducation.Domain.Validators;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,6 +19,7 @@ namespace StudentsEducation.Domain.Entities
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Дата до снижения оценки")]
+        [GreaterThan("DateAdd",ErrorMessage ="Дата должна быть больше чем дата задания!")]
         public DateTime DateToPass { get; set; } = DateTime.Now.AddDays(20);
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name="Редактировано учителем")]

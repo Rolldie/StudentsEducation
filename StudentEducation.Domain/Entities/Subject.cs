@@ -20,6 +20,7 @@ namespace StudentsEducation.Domain.Entities
         public virtual ControlType ControlType { get; set; }
         public virtual IEnumerable<Work> Works { get; set; }
         public virtual IEnumerable<Schedule> Schedules { get; set; }
+        public virtual IEnumerable<FinalControl> FinalControls { get; set; }
 
 
         //interface methods to use in MarkValidation

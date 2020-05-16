@@ -1,6 +1,8 @@
 ﻿@inject SignInManager<AppUser> SignInManager
 
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Рейтинги</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.MarksNavClass(ViewContext)" id="change-password" asp-page="./Marks">Изменение пароля</a></li>
-</ul>
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="raitings" asp-page="./Index">Успеваемость</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.MarksNavClass(ViewContext)" id="marks" asp-page="./Marks">Оценки студентов</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.DeadlinesNavClass(ViewContext)" id="deadlines" asp-page="./Deadlines">Расстановка сроков</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.SkipsNavClass(ViewContext)" id="skips" asp-page="./Skips">Пропуски</a></li>
+    </ul>

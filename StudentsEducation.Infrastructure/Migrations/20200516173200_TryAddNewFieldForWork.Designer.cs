@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsEducation.Infrastructure.Data;
 
 namespace StudentsEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    partial class EducationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200516173200_TryAddNewFieldForWork")]
+    partial class TryAddNewFieldForWork
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,10 +342,9 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasIndex("ControlTypeId");
 
-                    b.HasIndex("Name", "SubjectId")
-                        .IsUnique();
+                    b.HasIndex("SubjectId");
 
-                    b.HasIndex("SubjectId", "WorkNumber")
+                    b.HasIndex("Name", "SubjectId")
                         .IsUnique();
 
                     b.ToTable("Works");
