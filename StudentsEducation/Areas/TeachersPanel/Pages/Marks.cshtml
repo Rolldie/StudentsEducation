@@ -40,7 +40,7 @@
                         </td>
                         @foreach (var work in Model.ScheduleForView.Subject.Works.OrderBy(e => e.WorkNumber))
                         {
-                            <th><a asp-page="Students/MarkEdit" asp-route-workId="@work.Id" asp-route-stId="@student.Id">@(await Model.GetMark(student, work.Id))</a></th>
+                            <th><a asp-page="Students/MarkEdit"  asp-route-workId="@work.Id" asp-route-stId="@student.Id">@(await Model.GetMark(student, work.Id))</a></th>
                         }
                     </tr>
                 }

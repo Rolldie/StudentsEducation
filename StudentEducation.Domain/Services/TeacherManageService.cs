@@ -138,5 +138,10 @@ namespace StudentsEducation.Domain.Services
             }
             else return null;
         }
+
+        public async Task<double> GetRecommendedFinalControlMark(int studentId, int scheduleId)
+        {
+            return 0.0;
+        }
     }
 }

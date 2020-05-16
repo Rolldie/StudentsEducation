@@ -1,5 +1,4 @@
-﻿using StudentsEducation.Domain.Validators;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace StudentsEducation.Domain.Entities

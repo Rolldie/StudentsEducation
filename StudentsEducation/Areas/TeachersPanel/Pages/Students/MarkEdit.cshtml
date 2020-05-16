@@ -5,9 +5,48 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-@if(Model.AddMode)
+@if (Model.AddMode)
 {
-    <h1>Добавление оценки</h1>    
+    <h1>Добавление оценки</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post"  asp-route-returnUrl="@Model.ReturnUrl" >
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Mark.MarkValue" class="control-label"></label>
+                    <input asp-for="Mark.MarkValue" class="form-control" />
+                    <span asp-validation-for="Mark.MarkValue" class="text-danger"></span>
+                </div>
+                @if (Model.ShowDateFields)
+                {
+                    <h6>Для этой работы и группы не были найдены промежутки дат, после их задания, они будут распостранены на всю группу!</h6>
+                    <div class="form-group">
+                        <label asp-for="Mark.DateAdd" class="control-label"></label>
+                        <input asp-for="Mark.DateAdd" class="form-control" />
+                        <span asp-validation-for="Mark.DateAdd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mark.DateToPass" class="control-label"></label>
+                        <input asp-for="Mark.DateToPass" class="form-control" />
+                        <span asp-validation-for="Mark.DateToPass" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Mark.DateAdd" class="form-control" />
+                    <input type="hidden" asp-for="Mark.DateToPass" class="form-control" />
+                    <h4>Сроки: @Model.Mark.DateAdd.ToShortDateString()-@Model.Mark.DateToPass.ToShortDateString()</h4>
+                }
+                <input type="hidden" asp-for="Mark.WasCorrected" class="form-control" />
+                <input type="hidden" asp-for="Mark.WorkId" class="form-control" />
+                <input type="hidden" asp-for="Mark.StudentId" class="form-control" />
+                <div class="form-group">
+                    <button type="submit"class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 }
 else
 {
