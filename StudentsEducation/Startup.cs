@@ -40,7 +40,7 @@ namespace StudentsEducation
             );
             //mvc
             services.AddControllersWithViews();
-
+           
             services.AddServerSideBlazor();
             //services
             services.AddScoped<IStudentsService,StudentsService>();
@@ -58,12 +58,14 @@ namespace StudentsEducation
         {
             if (env.IsDevelopment())
             {
-
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithRedirects("~/Error?code{0}");
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseExceptionHandler("~/Error");
+                app.UseStatusCodePagesWithRedirects("~/Error?code{0}");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

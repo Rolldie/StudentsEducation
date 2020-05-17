@@ -28,14 +28,14 @@ namespace StudentsEducation.Domain.Entities
 
 
         //references
-        [Required(ErrorMessage = "Это поле является необходимым!")]
+        [Required(ErrorMessage = "Номер стунеднта является необходимым!")]
         public int StudentId { get; set; }
-        [Required(ErrorMessage = "Это поле является необходимым!")]
+        [Required(ErrorMessage = "Поле студента является необходимым!")]
         public virtual Student Student { get; set; }
-        [Required(ErrorMessage = "Это поле является необходимым!")]
+        [Required(ErrorMessage = "Номер работы является необходимым!")]
         [Display(Name ="Работа")]
         public int WorkId { get; set; }
-        [Required(ErrorMessage = "Это поле является необходимым!")]
+        [Required(ErrorMessage = "Поле работы является необходимым!")]
         public virtual Work Work { get; set; }
     }
 

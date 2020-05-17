@@ -11,7 +11,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form method="post"  asp-route-returnUrl="@Model.ReturnUrl" >
+            <form method="post" asp-route-url="@Model.ReturnUrl">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Mark.MarkValue" class="control-label"></label>
@@ -42,7 +42,7 @@
                 <input type="hidden" asp-for="Mark.WorkId" class="form-control" />
                 <input type="hidden" asp-for="Mark.StudentId" class="form-control" />
                 <div class="form-group">
-                    <button type="submit"class="btn btn-primary">Добавить</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
                 </div>
             </form>
         </div>
@@ -51,7 +51,30 @@
 else
 {
     <h1>Редактирование оценки</h1>
-}
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-route-url="@Model.ReturnUrl">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Mark.MarkValue" class="control-label"></label>
+                    <input asp-for="Mark.MarkValue" class="form-control" />
+                    <span asp-validation-for="Mark.MarkValue" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Mark.DateAdd" class="form-control" />
+                <input type="hidden" asp-for="Mark.DateToPass" class="form-control" />
+                <h4>Сроки: @Model.Mark.DateAdd.ToShortDateString()-@Model.Mark.DateToPass.ToShortDateString()</h4>
+                <input type="hidden" asp-for="Mark.WasCorrected" class="form-control" />
+                <input type="hidden" asp-for="Mark.WorkId" class="form-control" />
+                <input type="hidden" asp-for="Mark.StudentId" class="form-control" />
+                <input type="hidden" asp-for="Mark.Id" class="form-control" />
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+ }
 
 
 

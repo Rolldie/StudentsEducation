@@ -1,0 +1,55 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.Students.Skips.IndexModel
+
+@{
+    ViewData["Title"] = "Пропуски";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Пропуски</h1>
+<h6>Студент: @Model.Student.Name | Номер зачетной книжки: @Model.Student.GradeBookNumber</h6>
+<a asp-area="TeachersPanel" asp-page="/Skips" asp-route-SkipsFor="@Model.Schedule.GroupId">Вернуться к списку пропусков</a>
+<p>
+    <a asp-page="Create" asp-route-id="@Model.Student.Id" asp-route-schId="@Model.Schedule.Id">Добавить пропуск</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Skips.First().Information)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Skips.First().IsGood)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Skips.First().Date)
+            </th>
+            <th>
+                Предмет
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Skips) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsGood)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @item.Schedule.Subject.Name @item.Schedule.StartsIn.ToShortDateString()-@item.Schedule.EndsIn.ToShortDateString()
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id" >Изменить</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -137,13 +137,13 @@ else
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        Groups = await service.GetCatherdaGroupsAsync(CathedraId);
+        Groups = (await service.GetCatherdaGroupsAsync(CathedraId)).OrderByDescending(e=>e.EndEducationDate);
         if (Cathedras == null) Cathedras = await service.GetCathedrasAsync();
         StateHasChanged();
     }
     public async Task Edit(int id)
     {
-        Groups = Groups.Where(e => e.Cathedra.Id == CathedraId);
+        Groups = Groups.Where(e => e.Cathedra.Id == CathedraId).OrderByDescending(e => e.EndEducationDate);
         if (Cathedras == null) Cathedras = await service.GetCathedrasAsync();
         if (Group != null && Group.Id == id)
         {

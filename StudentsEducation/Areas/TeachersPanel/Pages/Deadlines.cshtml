@@ -4,14 +4,14 @@
     ViewData["Title"] = "Сроки сдачи";
 }
 
-<h4>Изменение сроков сдачи</h4>
+<h4>Сроки сдачи</h4>
 
 <div class="list-group">
     <div class="list-group-item row">
         <h4>Группа и предмет:</h4>
         <form>
             <select class="form-control custom-select col-6" asp-for="MarksBy" asp-items="ViewBag.Schedules"></select>
-            <input type="submit" class="btn btn-primary" value="Получить для изменения" />
+            <input type="submit" class="btn btn-primary" value="Просмотреть" />
         </form>
     </div>
 </div>
@@ -32,7 +32,7 @@
                     var mark = work.Marks.Where(e => e.Student.GroupId == Model.ScheduleForView.GroupId).FirstOrDefault();
                     <tr>
                         <td>
-                            <a asp-page="Works/Index" asp-route-id="@work.Id">@work.Name</a>
+                            @work.Name
                         </td>
                         @if (mark == null)
                         {

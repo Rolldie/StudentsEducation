@@ -141,7 +141,23 @@ namespace StudentsEducation.Domain.Services
 
         public async Task<double> GetRecommendedFinalControlMark(int studentId, int scheduleId)
         {
-            return 0.0;
+            double result = 0;
+            var schedule = await _scheduleRepository.GetByIdAsync(scheduleId);
+            var student = schedule.Group.Students.FirstOrDefault(e => e.Id == studentId);
+            var marks = student.Marks.Where(e => e.Work.SubjectId == schedule.SubjectId);
+            var worksForFinalControl = schedule.Subject.Works;
+            int allCount = worksForFinalControl.Count();
+            double sumPercents = 0;
+            foreach(var work in worksForFinalControl)
+            {
+                int low = work.ControlType.LowValue;
+                int high = work.ControlType.HighValue;
+                var mark = marks.FirstOrDefault(e => e.WorkId == work.Id);
+                if(mark!=null) 
+                    sumPercents +=  (mark.MarkValue - low)/(high - low); 
+            }
+            result=sumPercents / allCount;
+            return result;
         }
     }
 }

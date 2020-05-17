@@ -10,7 +10,7 @@
             else
             {
                 <ul class="list-unstyled">
-                    @foreach (var item in Schedules)
+                    @foreach (var item in Schedules.OrderByDescending(e=>e.EndsIn))
                     {
 
                         <li class="small text-info">

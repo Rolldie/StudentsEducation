@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
 using StudentsEducation.Infrastructure.Services;
@@ -26,30 +27,39 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages.Students
         }
         public bool ShowDateFields { get; set; }
 
+        public string ReturnUrl { get; set; }
 
         [BindProperty]
         public Mark Mark { get; set; }
-        public bool AddMode { get; set; } = true;
-        public string ReturnUrl { get; set; }
-        public async Task<IActionResult> OnGetAsync(int ?workId, int ?stId)
+        public bool AddMode { get; set; } 
+        public async Task<IActionResult> OnGetAsync(int? workId, int? stId, string url)
         {
+            if (!workId.HasValue || !stId.HasValue) return NotFound();
+           
+            return await BuildPage(workId.Value,stId.Value,url);
+        }
+        public Student Student { get; set; }
+        public Work Work { get; set; }
+
+        public async Task<IActionResult> BuildPage(int workId,int stId,string url)
+        {
+            ReturnUrl = url;
             AddMode = false;
             ShowDateFields = true;
-            if (!workId.HasValue || !stId.HasValue) return NotFound();
-            var student = await _stService.GetStudentAsync(stId.Value);
-            if (student == null) return NotFound();
-            var work = await _subjService.GetWorkAsync(workId.Value);
-            if (work == null) return NotFound();
-            Mark = student.Marks.FirstOrDefault(e => e.WorkId == workId.Value);
+            Student = await _stService.GetStudentAsync(stId);
+            if (Student == null) return NotFound();
+            Work = await _subjService.GetWorkAsync(workId);
+            if (Work == null) return NotFound();
+            Mark = Student.Marks.FirstOrDefault(e => e.WorkId == workId);
             if (Mark == null)
             {
                 AddMode = true;
                 Mark = new Mark();
                 Mark.WasCorrected = true;
-                Mark.Work = work;
-                Mark.Student = student;
-                var group = student.Group;
-                var resmark = group.Students.SelectMany(e => e.Marks).FirstOrDefault(e=>e.WorkId==work.Id);
+                Mark.WorkId = Work.Id;
+                Mark.StudentId = Student.Id;
+                var group = Student.Group;
+                var resmark = group.Students.SelectMany(e => e.Marks).FirstOrDefault(e => e.WorkId == Work.Id);
                 if (resmark != null)
                 {
                     Mark.DateAdd = resmark.DateAdd;
@@ -60,28 +70,34 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages.Students
             return Page();
         }
 
-
-
-        public async Task<IActionResult> OnPostAsync(string returnUrl=null)
+        public async Task<IActionResult> OnPostAsync(string url=null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            url = url ?? Url.Content("~/");
+            Mark.Student = await _stService.GetStudentAsync(Mark.StudentId);
+            Mark.Work = await _subjService.GetWorkAsync(Mark.WorkId);
+            ModelState.Remove("Mark.Student");
+            ModelState.Remove("Mark.Work");
             if(!ModelState.IsValid)
             {
-                return Page();
+                return await BuildPage(Mark.WorkId, Mark.StudentId, url);
             }
             try
             {
-                if (AddMode)
-                    await _stService.AddNewMarkToStudentAsync(Mark, Mark.Student.Id);
+                if (Mark.Id == 0)
+                    await _stService.AddNewMarkToStudentAsync(Mark, Mark.StudentId);
                 else
+                {
+                    Mark.WasCorrected = true;
                     await _stService.UpdateMarkAsync(Mark);
+                }
             }
             catch(Microsoft.EntityFrameworkCore.DbUpdateException ex)
             {
                 ModelState.AddModelError("DbException", "Произошла ошибка! " + ex.Message);
+                return await BuildPage(Mark.WorkId, Mark.StudentId, url);
             }
 
-            return LocalRedirect(returnUrl);
+            return Redirect(url);
         }
 
 

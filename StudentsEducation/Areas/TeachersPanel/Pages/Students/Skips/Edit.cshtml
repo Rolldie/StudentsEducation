@@ -1,0 +1,48 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.Students.Skips.EditModel
+
+@{
+    ViewData["Title"] = "Изменение";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Изменить</h1>
+
+<h4>Пропуск</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Skip.Information" class="control-label"></label>
+                <input asp-for="Skip.Information" class="form-control" />
+                <span asp-validation-for="Skip.Information" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="Skip.Date"> (@Model.Skip.Schedule.StartsIn.ToShortDateString()-@Model.Skip.Schedule.EndsIn.ToShortDateString()) </label>
+                <input asp-for="Skip.Date" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control"/>
+                <span asp-validation-for="Skip.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Skip.IsGood" /> @Html.DisplayNameFor(model => model.Skip.IsGood)
+                </label>
+            </div>
+            <input asp-for="Skip.StudentId" type="hidden" />
+            <input asp-for="Skip.ScheduleId" class="form-control" type="hidden"/>
+            <input type="hidden" asp-for="Skip.Id" />
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" asp-route-studId="@Model.Skip.StudentId" asp-route-schId="@Model.Skip.ScheduleId">Вернуться к списку пропусков</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

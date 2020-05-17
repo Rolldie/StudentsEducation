@@ -1,8 +1,49 @@
 ﻿@page
 @model StudentsEducation.Web.Areas.TeachersPanel.Pages.FinalMarksModel
 @{
-    ViewData["Title"] = "FinalMarks";
+    ViewData["Title"] = "Зачеты";
 }
 
-<h1>FinalMarks</h1>
+<h4>Зачеты</h4>
 
+<div class="list-group">
+    <div class="list-group-item row">
+        <h4>Группа и предмет:</h4>
+        <form>
+            <select class="form-control custom-select col-6" asp-for="fCBy" asp-items="ViewBag.Schedules"></select>
+            <input type="submit" class="btn btn-primary" value="Получить или обновить" />
+        </form>
+    </div>
+</div>
+@section BodyTables{
+    @if (Model.fCBy > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Студент
+                    </th>
+                    <th>
+                        Итоговый бал
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.ScheduleForView.Group.Students)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="Students/Edit" asp-route-id="@student.Id">@student.Name</a>
+                        </td>
+                        <td>
+                            <a asp-page="Students/FinalEdit" asp-route-url="@Url.Page("FinalMarks", new {fCBy=Model.fCBy})" asp-route-schId="@Model.ScheduleForView.Id" asp-route-stId="@student.Id">
+                            @(await Model.GetFinalControl(student))
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

@@ -13,6 +13,7 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
         public static string Marks => "Marks";
         public static string Deadlines => "Deadlines";
         public static string Skips => "Skips";
+        public static string FinalMarks => "FinalMarks";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -21,6 +22,7 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
         public static string DeadlinesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Deadlines);
 
         public static string SkipsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Skips);
+        public static string FinalMarksNavClass(ViewContext viewContext) => PageNavClass(viewContext, FinalMarks);
         private static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string

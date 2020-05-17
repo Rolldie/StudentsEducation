@@ -157,7 +157,6 @@ namespace StudentsEducation.Domain.Services
             var student = mark.Student;
             if (student != null)
             {
-                mark.Student = student;
                 var controlType = mark.Work.ControlType;
                 if (controlType.LowValue <= mark.MarkValue && controlType.HighValue >= mark.MarkValue)
                 {

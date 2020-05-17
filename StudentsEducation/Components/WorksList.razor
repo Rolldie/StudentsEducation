@@ -12,7 +12,7 @@ else
     @if (!Editable)
     {
 <ul class="list-unstyled">
-    @foreach (var elem in Works)
+    @foreach (var elem in Works.OrderBy(e=>e.WorkNumber))
     {
     <li class="small text-info">@elem.Name | @elem.ControlType.ControlName</li>
     }
@@ -23,7 +23,7 @@ else
         @if (!AddingMode)
         {
 <ul class="list-unstyled">
-    @foreach (var elem in Works)
+    @foreach (var elem in Works.OrderBy(e=>e.WorkNumber))
     {
         <li class="small text-info">
             @elem.Name | @elem.ControlType.ControlName

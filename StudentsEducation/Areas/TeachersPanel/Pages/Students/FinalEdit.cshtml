@@ -1,0 +1,65 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.Students.FinalEditModel
+@{
+    ViewData["Title"] = "Итоговая оценка";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h4>@(await Model.GetRecommendedFinal(Model.Student.Id,Model.Schedule.Id))</h4>
+@if (Model.AddMode)
+{
+    <h1>Добавление итога</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-route-url="@Model.ReturnUrl" asp-route-schId="@Model.Schedule.Id">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Control.MarkValue" class="control-label"></label>
+                    <input asp-for="Control.MarkValue" class="form-control" />
+                    <span asp-validation-for="Control.MarkValue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Control.Date" class="control-label"></label>
+                    <input asp-for="Control.Date" class="form-control" />
+                    <span asp-validation-for="Control.Date" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Control.WasModified" class="form-control" />
+                <input type="hidden" asp-for="Control.StudentId" class="form-control" />
+                <input type="hidden" asp-for="Control.SubjectId" class="form-control" />
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <h1>Редактирование оценки</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-route-url="@Model.ReturnUrl" asp-route-schId="@Model.Schedule.Id">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Control.MarkValue" class="control-label"></label>
+                    <input asp-for="Control.MarkValue" class="form-control" />
+                    <span asp-validation-for="Control.MarkValue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Control.Date" class="control-label"></label>
+                    <input asp-for="Control.Date" class="form-control" />
+                    <span asp-validation-for="Control.Date" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Control.StudentId" class="form-control" />
+                <input type="hidden" asp-for="Control.SubjectId" class="form-control" />
+                <input type="hidden" asp-for="Control.WasModified" class="form-control" />
+                <input type="hidden" asp-for="Control.Id" class="form-control" />
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}

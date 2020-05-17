@@ -1,0 +1,47 @@
+﻿@page
+@model StudentsEducation.Web.Areas.TeachersPanel.Pages.Students.Skips.DeleteModel
+
+@{
+    ViewData["Title"] = "Удаление";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Удаление</h1>
+<h6>Студент: @Model.Skip.Student.Name | Номер зачетной книжки: @Model.Skip.Student.GradeBookNumber</h6>
+<h3>Вы действительно хотите удалить пропуск?</h3>
+<div>
+    <h4>Пропуск</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Skip.Information)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Skip.Information)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Skip.IsGood)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Skip.IsGood)
+        </dd>
+        <dd class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Skip.Student.GradeBookNumber)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Skip.Student.GradeBookNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Запись расписания
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Skip.Schedule.Subject.Name @Model.Skip.Schedule.StartsIn.ToShortDateString()-@Model.Skip.Schedule.EndsIn.ToShortDateString()
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Skip.Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-page="./Index" asp-route-studId="@Model.Skip.StudentId" asp-route-schId="@Model.Skip.ScheduleId">Вернуться к списку пропусков</a>
+    </form>
+</div>

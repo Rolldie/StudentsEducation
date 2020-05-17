@@ -41,7 +41,9 @@
                         @foreach(var subject in Model.SubjectsForView.OrderBy(e=>e.Name))
                         {
                             <td>
-                                @(await Model.GetSkipsByAsync(subject.Schedules.First(e=>e.SubjectId==subject.Id && e.GroupId==Model.GroupForView.Id).Id,student.Id))
+                                <a asp-page="Students/Skips/Index" asp-route-schId="@Model.GroupForView.Schedules.First(e=>e.SubjectId==subject.Id).Id" asp-route-studId="@student.Id">
+                                    @(await Model.GetSkipsByAsync(subject.Schedules.First(e=>e.SubjectId==subject.Id && e.GroupId==Model.GroupForView.Id).Id,student.Id))
+                                </a>
                             </td>
                         }
                     </tr>

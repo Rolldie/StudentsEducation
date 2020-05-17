@@ -43,8 +43,9 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
             public string Text { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int ?SkipsFor)
         {
+            if (SkipsFor.HasValue) this.SkipsFor = SkipsFor.Value;
             var user = await _service.GetCurrentUser(HttpContext);
             if (string.IsNullOrEmpty(user.DbId))
                 return RedirectToPage(Url.Content("~/Error"), new { ErrorMessage = "Ошибка, нет пользователя в Базе данных!" });
