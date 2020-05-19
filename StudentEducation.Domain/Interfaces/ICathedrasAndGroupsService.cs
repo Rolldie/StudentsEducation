@@ -7,8 +7,6 @@ namespace StudentsEducation.Domain.Interfaces
 {
     public interface ICathedrasAndGroupsService
     {
-        Services.CathedraManageService CathedraManageService { get; set; }
-
         public Task<IEnumerable<Cathedra>> GetCathedrasAsync();
         public Task<Cathedra> GetCathedraByIdAsync(int cathedraId);
         public Task<IEnumerable<Group>> GetGroupsAsync();
