@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StudentsEducation.Domain.Services
 {
-    public class StudentsService:IStudentsService
+    public  class StudentsService : IStudentsService
     {
         private readonly IAsyncRepository<Student> _studContext;
         private readonly IAsyncRepository<Mark> _markContext;
@@ -17,9 +17,9 @@ namespace StudentsEducation.Domain.Services
         private readonly IAsyncRepository<Skip> _skipsContext;
         private readonly IAsyncRepository<Subject> _subjContext;
         private readonly IAsyncRepository<Schedule> _schContext;
-        public StudentsService(IAsyncRepository<Student> studContext, 
-            IAsyncRepository<Mark> markContext, 
-            IAsyncRepository<FinalControl> finalControlContext, 
+        public StudentsService(IAsyncRepository<Student> studContext,
+            IAsyncRepository<Mark> markContext,
+            IAsyncRepository<FinalControl> finalControlContext,
             IAsyncRepository<Skip> skipsContext,
             IAsyncRepository<Subject> subjectContext,
             IAsyncRepository<Schedule> scheduleContext)
@@ -32,8 +32,8 @@ namespace StudentsEducation.Domain.Services
             _schContext = scheduleContext;
         }
 
-        public  async Task<IEnumerable<Student>> GetStudentsAsync()=>await _studContext.GetAsync(null,null);
-       
+        public async Task<IEnumerable<Student>> GetStudentsAsync() => await _studContext.GetAsync(null, null);
+
         public async Task<IEnumerable<Student>> GetStudentsByGroupAsync(int id) =>
             await _studContext.GetAsync(e => e.Group.Id == id, null);
 
@@ -103,7 +103,7 @@ namespace StudentsEducation.Domain.Services
             }
         }
 
-        public async  Task<IEnumerable<FinalControl>> GetFinalControlsByStudentAsync(int studentId)
+        public async Task<IEnumerable<FinalControl>> GetFinalControlsByStudentAsync(int studentId)
         {
             var student = await _studContext.GetByIdAsync(studentId);
             if (student == null) return null;
@@ -118,16 +118,16 @@ namespace StudentsEducation.Domain.Services
             await _studContext.UpdateAsync(student);
         }
 
-        public async  Task DeleteStudentAsync(int id)
+        public async Task DeleteStudentAsync(int id)
         {
             var student = await _studContext.GetByIdAsync(id);
             if (student != null) await _studContext.DeleteAsync(student.Id);
         }
 
-        public async Task<Mark> AddNewMarkToStudentAsync(Mark mark,int studentId)
+        public async Task<Mark> AddNewMarkToStudentAsync(Mark mark, int studentId)
         {
             var student = await _studContext.GetByIdAsync(studentId);
-            if(student!=null)
+            if (student != null)
             {
                 mark.Student = student;
                 var controlType = mark.Work.ControlType;
@@ -140,13 +140,13 @@ namespace StudentsEducation.Domain.Services
                         {
                             return await _markContext.CreateAsync(mark);
                         }
-                        catch(DbUpdateException ex)
+                        catch (DbUpdateException ex)
                         {
                             throw ex;
                         }
                     }
                     else throw new DbUpdateException("Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)!");
-                } 
+                }
                 else throw new DbUpdateException("Оценка выходит за границы заданого типа контроля!");
             }
             return null;
@@ -161,7 +161,7 @@ namespace StudentsEducation.Domain.Services
                 if (controlType.LowValue <= mark.MarkValue && controlType.HighValue >= mark.MarkValue)
                 {
                     var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
-                    if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >=mark.DateToPass)
+                    if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >= mark.DateToPass)
                     {
                         try
                         {
@@ -185,7 +185,7 @@ namespace StudentsEducation.Domain.Services
             if (mark != null) await _markContext.DeleteAsync(id);
         }
 
-        public async Task<FinalControl> AddNewFinalControlToStudentAsync(FinalControl finalControl,int studentId)
+        public async Task<FinalControl> AddNewFinalControlToStudentAsync(FinalControl finalControl, int studentId)
         {
             var student = await _studContext.GetByIdAsync(studentId);
             if (student != null)
@@ -202,7 +202,7 @@ namespace StudentsEducation.Domain.Services
             return null;
         }
 
-        private bool ValidateMark(double value,ControlType type)
+        private bool ValidateMark(double value, ControlType type)
         {
             if (value >= type.LowValue && value <= type.HighValue)
                 return true;
@@ -233,14 +233,14 @@ namespace StudentsEducation.Domain.Services
             var cntrl = await _finalControlContext.GetByIdAsync(id);
             if (cntrl != null) await _finalControlContext.DeleteAsync(id);
         }
-        public async Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId,bool showFinalControlledSubjects)
+        public async Task<IEnumerable<Subject>> GetSubjectsByStudentAsync(int studentId, bool showFinalControlledSubjects)
         {
             var student = await _studContext.GetByIdAsync(studentId);
-            
+
             if (student != null)
             {
                 var subjects = student.Group.Schedules.Select(e => e.Subject);
-                if(showFinalControlledSubjects)
+                if (showFinalControlledSubjects)
                 {
                     return subjects;
                 }
@@ -269,13 +269,13 @@ namespace StudentsEducation.Domain.Services
         public async Task<Skip> AddNewSkipToStudentAsync(Skip skip, int studentId)
         {
             var student = await _studContext.GetByIdAsync(studentId);
-            if(student!=null)
+            if (student != null)
             {
                 skip.Student = student;
                 if (skip.Date >= skip.Schedule.StartsIn && skip.Date <= skip.Schedule.EndsIn)
                 {
                     var skips = await _skipsContext.GetAllAsync();
-                    if (skips.Where(e => e.StudentId == student.Id && e.Date==skip.Date).Count() >= 4) 
+                    if (skips.Where(e => e.StudentId == student.Id && e.Date == skip.Date).Count() >= 4)
                         throw new DbUpdateException("Пропусков не может быть больше 4 за день!");
                     else return await _skipsContext.CreateAsync(skip);
                 }
@@ -293,7 +293,7 @@ namespace StudentsEducation.Domain.Services
                 {
                     var skips =
                         await _skipsContext.GetDetachedAllAsync();
-                    if (skips.Where(e => e.StudentId == student.Id && e.Date == skip.Date && e.Id !=skip.Id).Count() >= 4)
+                    if (skips.Where(e => e.StudentId == student.Id && e.Date == skip.Date && e.Id != skip.Id).Count() >= 4)
                         throw new DbUpdateException("Пропусков не может быть больше 4 за день!");
                     else
                     {
@@ -311,7 +311,7 @@ namespace StudentsEducation.Domain.Services
 
         public async Task<double> GetAcademicPerfomanceAsync(int studentId, int scheduleId)
         {
-            double result=0;
+            double result = 0;
             var student = await _studContext.GetByIdAsync(studentId);
             if (student == null) return 0;
             var schedule = await _schContext.GetByIdAsync(scheduleId);
@@ -322,7 +322,7 @@ namespace StudentsEducation.Domain.Services
             foreach (var work in subject.Works)
             {
                 var controlType = work.ControlType;
-                if(work.Marks.Where(e => e.StudentId == student.Id && e.WasCorrected && controlType.SatisfactorilyValue<=e.MarkValue).Count()>0)
+                if (work.Marks.Where(e => e.StudentId == student.Id && e.WasCorrected && controlType.SatisfactorilyValue <= e.MarkValue).Count() > 0)
                     sum++;
             }
             result = sum / subject.Works.Count();

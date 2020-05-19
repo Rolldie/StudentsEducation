@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudentsEducation.Domain.Services;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Web.Areas.Account.Services;
 using StudentsEducation.Infrastructure.Data;
 using StudentsEducation.Infrastructure.Repository;
 

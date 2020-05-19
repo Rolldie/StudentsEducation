@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Web.Areas.Account.Data;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {

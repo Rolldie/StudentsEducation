@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-namespace StudentsEducation.Infrastructure.Identity.Data
+namespace StudentsEducation.Web.Areas.Account.Data
 {
     public class Role: IdentityRole
     {

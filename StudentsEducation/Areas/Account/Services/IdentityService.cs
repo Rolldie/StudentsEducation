@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Web.Areas.Account.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StudentsEducation.Infrastructure.Services
+namespace StudentsEducation.Web.Areas.Account.Services
 {
     public class IdentityService
     {

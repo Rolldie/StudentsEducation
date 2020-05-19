@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StudentsEducation.Domain.Entities
 {
     [Display(Name = "Работа")]
-    public class Work:BaseEntity, ITypedByControl
+    public class Work:BaseEntity
     {
         [Required]
         [StringLength(200)]
@@ -26,10 +26,5 @@ namespace StudentsEducation.Domain.Entities
         public virtual ControlType ControlType { get; set; }
         public virtual IEnumerable<Mark> Marks { get; set; }
 
-        //interface method to use MarkValidation in subentities
-        public ControlType GetControlType()
-        {
-            return ControlType;
-        }
     }
 }

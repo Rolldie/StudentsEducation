@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StudentsEducation.Infrastructure.Identity;
-using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Web.Areas.Account.Data;
 
 [assembly: HostingStartup(typeof(StudentsEducation.Web.Areas.Account.IdentityHostingStartup))]
 namespace StudentsEducation.Web.Areas.Account

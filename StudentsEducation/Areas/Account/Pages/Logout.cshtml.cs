@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Web.Areas.Account.Services;
 
 namespace StudentsEducation.Web.Areas.Account.Pages
 {

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Razor;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Web.Areas.Account.Services;
 
 namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
 {

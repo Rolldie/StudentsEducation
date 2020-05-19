@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Web.Areas.Account.Services;
 
 namespace StudentsEducation.Web.Areas.Account.Pages
 {

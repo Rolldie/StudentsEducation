@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using StudentsEducation.Infrastructure.Identity.Data;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Web.Areas.Account.Data;
+using StudentsEducation.Web.Areas.Account.Services;
 
 namespace StudentsEducation.Web.Areas.Admin.Pages.Roles
 {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentsEducation.Domain.Entities;
 using StudentsEducation.Domain.Interfaces;
-using StudentsEducation.Infrastructure.Services;
+using StudentsEducation.Web.Areas.Account.Services; 
 
 namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
 {

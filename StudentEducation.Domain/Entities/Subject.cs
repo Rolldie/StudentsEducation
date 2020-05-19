@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StudentsEducation.Domain.Entities
 {
     [Display(Name = "Предмет")]
-    public class Subject:BaseEntity, ITypedByControl
+    public class Subject:BaseEntity
     {
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [StringLength(200)]
@@ -22,11 +22,5 @@ namespace StudentsEducation.Domain.Entities
         public virtual IEnumerable<Schedule> Schedules { get; set; }
         public virtual IEnumerable<FinalControl> FinalControls { get; set; }
 
-
-        //interface methods to use in MarkValidation
-        public ControlType GetControlType()
-        {
-            return ControlType;
-        }
     }
 }

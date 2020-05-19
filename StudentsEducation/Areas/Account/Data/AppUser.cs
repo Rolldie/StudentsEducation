@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
-namespace StudentsEducation.Infrastructure.Identity.Data
+namespace StudentsEducation.Web.Areas.Account.Data
 {
     public class AppUser:IdentityUser
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Web.Areas.Account.Data;
 
-namespace StudentsEducation.Infrastructure.Identity
+namespace StudentsEducation.Web.Areas.Account.Data
 {
     public class AccountDbContext:IdentityDbContext
     {

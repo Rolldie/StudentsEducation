@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using StudentsEducation.Infrastructure.Identity.Data;
+using StudentsEducation.Web.Areas.Account.Data;
 
 namespace StudentsEducation.Web.Areas.Account.Pages.Manage
 {
