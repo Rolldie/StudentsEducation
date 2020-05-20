@@ -15,20 +15,17 @@ namespace StudentsEducation.Domain.Services
         private readonly IAsyncRepository<Mark> _markContext;
         private readonly IAsyncRepository<FinalControl> _finalControlContext;
         private readonly IAsyncRepository<Skip> _skipsContext;
-        private readonly IAsyncRepository<Subject> _subjContext;
         private readonly IAsyncRepository<Schedule> _schContext;
         public StudentsService(IAsyncRepository<Student> studContext,
             IAsyncRepository<Mark> markContext,
             IAsyncRepository<FinalControl> finalControlContext,
             IAsyncRepository<Skip> skipsContext,
-            IAsyncRepository<Subject> subjectContext,
             IAsyncRepository<Schedule> scheduleContext)
         {
             _studContext = studContext;
             _markContext = markContext;
             _finalControlContext = finalControlContext;
             _skipsContext = skipsContext;
-            _subjContext = subjectContext;
             _schContext = scheduleContext;
         }
 
@@ -136,18 +133,24 @@ namespace StudentsEducation.Domain.Services
                     var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
                     if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >= mark.DateToPass)
                     {
-                        try
+                        var marks = await _markContext.GetAllAsync();
+                        var resmark = marks.FirstOrDefault(e => e.WorkId == mark.WorkId && e.Student.GroupId== student.GroupId);
+                        if (resmark == null || (mark.DateAdd == resmark.DateAdd && mark.DateToPass == resmark.DateToPass))
                         {
-                            return await _markContext.CreateAsync(mark);
+                            try
+                            {
+                                return await _markContext.CreateAsync(mark);
+                            }
+                            catch (DbUpdateException ex)
+                            {
+                                throw ex;
+                            }
                         }
-                        catch (DbUpdateException ex)
-                        {
-                            throw ex;
-                        }
+                        else throw new DbUpdateException($"Данные о промежутках принятия работ для группы должны быть для всех студентов одинаковы!{resmark.DateAdd.ToShortDateString()}  по {resmark.DateToPass.ToShortDateString()}");
                     }
-                    else throw new DbUpdateException("Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)!");
+                    else throw new DbUpdateException($"Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)! {schedule.StartsIn.ToShortDateString()} по {schedule.EndsIn.ToShortDateString()}");
                 }
-                else throw new DbUpdateException("Оценка выходит за границы заданого типа контроля!");
+                else throw new DbUpdateException($"Оценка выходит за границы заданого типа контроля! {controlType.LowValue} по {controlType.HighValue}");
             }
             return null;
         }
@@ -163,18 +166,33 @@ namespace StudentsEducation.Domain.Services
                     var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
                     if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >= mark.DateToPass)
                     {
-                        try
+                        var marks = await _markContext.GetAllAsync();
+                        var resmark = marks.FirstOrDefault(e => e.WorkId == mark.WorkId && e.Id!=mark.Id && e.Student.GroupId==student.GroupId);
+                        if (resmark == null || (mark.DateAdd == resmark.DateAdd && mark.DateToPass == resmark.DateToPass))
                         {
-                            await _markContext.UpdateAsync(mark);
+                            try
+                            {
+                                var markThatsUpdating = await _markContext.GetByIdAsync(mark.Id);
+                                markThatsUpdating.DateAdd = mark.DateAdd;
+                                markThatsUpdating.DateToPass = mark.DateToPass;
+                                markThatsUpdating.MarkValue = mark.MarkValue;
+                                markThatsUpdating.StudentId = mark.StudentId;
+                                markThatsUpdating.Student = mark.Student;
+                                markThatsUpdating.WasCorrected = mark.WasCorrected;
+                                markThatsUpdating.Work = mark.Work;
+                                markThatsUpdating.WorkId = mark.WorkId;
+                                await _markContext.UpdateAsync(markThatsUpdating);
+                            }
+                            catch (DbUpdateException ex)
+                            {
+                                throw ex;
+                            }
                         }
-                        catch (DbUpdateException ex)
-                        {
-                            throw ex;
-                        }
+                        else throw new DbUpdateException($"Данные о промежутках принятия работ для группы должны быть для всех студентов одинаковы!{resmark.DateAdd.ToShortDateString()}  по {resmark.DateToPass.ToShortDateString()}");
                     }
-                    else throw new DbUpdateException("Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)!");
+                    else throw new DbUpdateException($"Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)! {schedule.StartsIn.ToShortDateString()} по {schedule.EndsIn.ToShortDateString()}");
                 }
-                else throw new DbUpdateException("Оценка выходит за границы заданого типа контроля!");
+                else throw new DbUpdateException($"Оценка выходит за границы заданого типа контроля! {controlType.LowValue} по {controlType.HighValue}s");
             }
             else throw new DbUpdateException("Не удалось найти студента!");
         }

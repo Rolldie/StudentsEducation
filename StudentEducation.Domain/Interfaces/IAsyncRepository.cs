@@ -18,7 +18,5 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, 
                 IOrderedQueryable<T>> orderBy = null);
-
-
     }
 }
