@@ -11,9 +11,6 @@ namespace StudentsEducation.Web.Pages
     [Authorize]
     public class IndexModel : PageModel
     {
-        public IndexModel(ICathedrasAndGroupsService service)
-        {
-        }
         public IActionResult OnGet()
         {
             return Page();
