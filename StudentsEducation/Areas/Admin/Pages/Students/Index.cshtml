@@ -29,12 +29,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Students[0].GradeBookNumber)
             </th>
+
             <th>Имя группы</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Students) {
+        @foreach (var item in Model.Students)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -43,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.GradeBookNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem=>item.Group.Name)
+                @Html.DisplayFor(modelItem => item.Group.Name)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Изменить</a> |

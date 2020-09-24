@@ -12,14 +12,17 @@ namespace StudentsEducation.Domain.Entities
         [StringLength(30,ErrorMessage ="Длина строки превышает 30 символов")]
         [Display(Name = "Имя группы")]
         public string Name { get; set; }
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [Range(1,9)]
         [Display(Name = "Номер курса")]
         public int CourseNumber{ get; set; }
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Начало обучения")]
         public DateTime StartEducationDate { get; set; }
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [DataType(DataType.Date)]
         [Display(Name = "Конец обучения")]
@@ -27,11 +30,13 @@ namespace StudentsEducation.Domain.Entities
         public DateTime EndEducationDate{get; set;}
 
 
-        //references
         [Required(ErrorMessage = "Это поле является необходимым!")]
         public int CathedraId { get; set; }
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         public virtual Cathedra Cathedra { get; set; }
+
+
         public virtual IEnumerable<Student> Students { get; set; }
         public virtual IEnumerable<Schedule> Schedules { get; set; }
     }

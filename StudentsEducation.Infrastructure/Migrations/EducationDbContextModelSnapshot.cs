@@ -87,10 +87,10 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.Property<double>("MarkValue")
                         .HasColumnType("float");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("WasModified")
@@ -98,9 +98,9 @@ namespace StudentsEducation.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("ScheduleId");
 
-                    b.HasIndex("StudentId", "SubjectId")
+                    b.HasIndex("StudentId", "ScheduleId")
                         .IsUnique();
 
                     b.ToTable("FinalControls");
@@ -156,6 +156,9 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.Property<double>("MarkValue")
                         .HasColumnType("float");
 
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
@@ -166,6 +169,8 @@ namespace StudentsEducation.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
 
                     b.HasIndex("StudentId");
 
@@ -349,17 +354,45 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.ToTable("Works");
                 });
 
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.WorksSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WorkId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("WorksSchedule");
+                });
+
             modelBuilder.Entity("StudentsEducation.Domain.Entities.FinalControl", b =>
                 {
-                    b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
+                    b.HasOne("StudentsEducation.Domain.Entities.Schedule", "Schedule")
                         .WithMany("FinalControls")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentsEducation.Domain.Entities.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
+                    b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
+                        .WithMany("FinalControls")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -375,6 +408,12 @@ namespace StudentsEducation.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentsEducation.Domain.Entities.Mark", b =>
                 {
+                    b.HasOne("StudentsEducation.Domain.Entities.Schedule", "Schedule")
+                        .WithMany("Marks")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("StudentsEducation.Domain.Entities.Student", "Student")
                         .WithMany("Marks")
                         .HasForeignKey("StudentId")
@@ -451,6 +490,21 @@ namespace StudentsEducation.Infrastructure.Migrations
                     b.HasOne("StudentsEducation.Domain.Entities.Subject", "Subject")
                         .WithMany("Works")
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("StudentsEducation.Domain.Entities.WorksSchedule", b =>
+                {
+                    b.HasOne("StudentsEducation.Domain.Entities.Schedule", "Schdeule")
+                        .WithMany("WorksSchedules")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentsEducation.Domain.Entities.Work", "Work")
+                        .WithMany("WorksSchedules")
+                        .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

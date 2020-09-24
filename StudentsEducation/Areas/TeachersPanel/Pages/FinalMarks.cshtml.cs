@@ -62,7 +62,7 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages
 
         public async Task<double> GetFinalControl(Student student)
         {
-            var finalcontrol = student.FinalControls.FirstOrDefault(e => e.SubjectId == ScheduleForView.SubjectId);
+           var finalcontrol = student.FinalControls.FirstOrDefault(e => e.Schedule.SubjectId == ScheduleForView.SubjectId);
             return finalcontrol != null ? finalcontrol.MarkValue : 0;
         }
     }

@@ -16,7 +16,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task UpdateAsync(T entity);
         public Task<T> FindAsync(int id);
         public Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, 
+                Func<IQueryable<T>, 
                 IOrderedQueryable<T>> orderBy = null);
     }
 }

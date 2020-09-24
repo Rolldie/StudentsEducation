@@ -46,13 +46,13 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages.Students
             if (Student == null) return NotFound();
             Schedule = Student.Group.Schedules.FirstOrDefault(e => e.Id == schId);
             if (Schedule == null) return NotFound();
-            Control = Student.FinalControls.FirstOrDefault(e => e.SubjectId == Schedule.SubjectId);
+         //   Control = Student.FinalControls.FirstOrDefault(e => e.SubjectId == Schedule.SubjectId);
             if (Control == null)
             {
                 AddMode = true;
                 Control = new FinalControl();
                 Control.WasModified = true;
-                Control.SubjectId = Schedule.SubjectId;
+             //   Control.SubjectId = Schedule.SubjectId;
                 Control.StudentId = Student.Id;
                 Control.Date = DateTime.Now;
             }
@@ -69,7 +69,7 @@ namespace StudentsEducation.Web.Areas.TeachersPanel.Pages.Students
             if (!schId.HasValue) return NotFound();
             url = url ?? Url.Content("~/");
             Control.Student = await _stService.GetStudentAsync(Control.StudentId);
-            Control.Subject = await _subjService.GetSubjectAsync(Control.SubjectId);
+         //   Control.Subject = await _subjService.GetSubjectAsync(Control.SubjectId);
             ModelState.Remove("Control.Student");
             ModelState.Remove("Control.Subject");
             if (!ModelState.IsValid)

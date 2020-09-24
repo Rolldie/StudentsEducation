@@ -19,7 +19,8 @@ namespace StudentsEducation.Domain.Services
         private readonly IAsyncRepository<Subject> _subjectRepository;
         public TeacherManageService(IAsyncRepository<Group> groupRepository,
             IAsyncRepository<Teacher> teacherRepository,
-            IAsyncRepository<Schedule> scheduleRepository,IAsyncRepository<Subject> subjectRepository)
+            IAsyncRepository<Schedule> scheduleRepository,
+            IAsyncRepository<Subject> subjectRepository)
         {
             _groupRepository = groupRepository;
             _teacherRepository = teacherRepository;

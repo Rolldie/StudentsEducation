@@ -24,9 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.FinalControl.First().WasModified)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinalControl.First().Subject)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -42,9 +39,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.WasModified)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.Name)
-            </td>
+            
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.StudentId" asp-route-fcId="@item.Id">Изменить</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>

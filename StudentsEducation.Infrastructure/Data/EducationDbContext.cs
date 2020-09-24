@@ -16,6 +16,7 @@ namespace StudentsEducation.Infrastructure.Data
         public virtual DbSet<FinalControl> FinalControls { get; set; }
         public virtual DbSet<Mark> Marks { get; set; }
         public virtual DbSet<Skip> Skips { get; set; }
+        public virtual DbSet<WorksSchedule> WorksSchedules { get; set; }
         public EducationDbContext(DbContextOptions<EducationDbContext> options):base(options)
         {
             Database.EnsureCreated();
@@ -56,7 +57,11 @@ namespace StudentsEducation.Infrastructure.Data
             });
             modelBuilder.Entity<FinalControl>(entity =>
             {
-                entity.HasIndex(e => new { e.StudentId, e.SubjectId }).IsUnique();
+                entity.HasIndex(e => new { e.StudentId, e.ScheduleId }).IsUnique();
+            });
+            modelBuilder.Entity<WorksSchedule>(entity =>
+            {
+                entity.HasIndex(e => new { e.ScheduleId, e.WorkId }).IsUnique();
             });
         }
 

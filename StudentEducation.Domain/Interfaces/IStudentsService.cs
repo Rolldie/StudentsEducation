@@ -14,7 +14,7 @@ namespace StudentsEducation.Domain.Interfaces
         public Task<Student> GetStudentAsync(int id);
         public Task<Mark> GetMarkAsync(int id);
         public Task<Skip> GetSkipAssync(int id);
-        public Task<FinalControl> GetFinalControl(int id);
+        public Task<FinalControl> GetFinalControlAsync(int id);
         public Task<IEnumerable<Mark>> GetMarksByStudentAsync(int studentId);
         public Task<IEnumerable<Skip>> GetSkipsByStudentAsync(int studentId);
         public Task<IEnumerable<FinalControl>> GetFinalControlsByStudentAsync(int studentId);

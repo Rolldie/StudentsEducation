@@ -6,7 +6,6 @@ namespace StudentsEducation.Domain.Entities
     [Display(Name = "Итоговый контроль")]
     public class FinalControl : BaseEntity
     {
-
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [Range(-1,9999)]
         [Display(Name = "Оценка")]
@@ -16,21 +15,22 @@ namespace StudentsEducation.Domain.Entities
         [DataType(DataType.Date)]
         [Display(Name = "Дата")]
         public DateTime Date { get; set; }
+
         [Display(Name ="Было изменено")]
         public bool WasModified { get; set; }
 
-        //references
 
         [Required(ErrorMessage = "Это поле является необходимым!")]
-        [Display(Name = "Предмет")]
-        public int SubjectId { get; set; }
+        [Display(Name = "Расписание")]
+        public int ScheduleId { get; set; }
         [Required(ErrorMessage = "Это поле является необходимым!")]
-        public virtual Subject Subject { get; set; }
+        public virtual Schedule Schedule { get; set; }
+
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name = "Студент")]
         public int StudentId { get; set; }
         [Required(ErrorMessage = "Это поле является необходимым!")]
         public virtual Student Student { get; set; }
-
     }
 }

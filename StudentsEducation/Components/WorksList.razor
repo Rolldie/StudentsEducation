@@ -11,76 +11,70 @@ else
 {
     @if (!Editable)
     {
-<ul class="list-unstyled">
-    @foreach (var elem in Works.OrderBy(e=>e.WorkNumber))
-    {
-    <li class="small text-info">@elem.Name | @elem.ControlType.ControlName</li>
-    }
-</ul>
+    <ul class="list-unstyled">
+        @foreach (var elem in Works.OrderBy(e=>e.WorkNumber))
+        {
+            <li class="small text-info">@elem.Name | @elem.ControlType.ControlName</li>
+        }
+    </ul>
     }
     else
     {
         @if (!AddingMode)
         {
-<ul class="list-unstyled">
-    @foreach (var elem in Works.OrderBy(e=>e.WorkNumber))
-    {
-        <li class="small text-info">
-            @elem.Name | @elem.ControlType.ControlName
-            <button class="btn btn-link" @onclick="@(async () => await Edit(elem.Id))">Изменить</button>
-            <button class="btn btn-link" @onclick="@(async () => await Delete(elem.Id))">Удалить</button>
-        </li>
-        @if (Work != null && Work.Id == elem.Id)
-        {
-<EditForm Model="@EditWork">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="form-group">
-        <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
-        <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
-            @foreach (var cType in ControlTypes)
-                                {
-                <option value="@cType.Id">@cType.ControlName</option>
-                                }
-            /**/
-            /**/
-            /**/
-            /**/
-            /**/
+            <ul class="list-unstyled">
+                @foreach (var elem in Works.OrderBy(e=>e.WorkNumber))
+                {
+                    <li class="small text-info">
+                        @elem.Name | @elem.ControlType.ControlName
+                        <button class="btn btn-link" @onclick="@(()=>Edit(elem.Id))">Изменить</button>
+                        <button class="btn btn-link" @onclick="@(async () => await Delete(elem.Id))">Удалить</button>
+                    </li>
+                    @if (Work != null && Work.Id == elem.Id)
+                    {
+                        <EditForm Model="@EditWork">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <div class="form-group">
+                                <InputLabel TItem="ControlType" aspfor="@nameof(ControlType.ControlName)" />
+                                <InputSelectInt class="dropdown form-control" @bind-Value="SelectedControlId">
+                                    @foreach (var cType in ControlTypes)
+                                    {
+                                        <option value="@cType.Id">@cType.ControlName</option>
+                                                        }
+                                </InputSelectInt>
+                            </div>
+                            <div class="form-group">
+                                <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)" />
+                                <InputSelectInt class="dropdown form-control" @bind-Value="SelectedSubjectId">
+                                    @foreach (var sbj in Subjects)
+                                                        {
+                                        <option value="@sbj.Id">@sbj.Name</option>
+                                                        }
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
 
-        </InputSelectInt>
-    </div>
-    <div class="form-group">
-        <InputLabel TItem="Subject" aspfor="@nameof(Subject.Name)" />
-        <InputSelectInt class="dropdown form-control" @bind-Value="SelectedSubjectId">
-            @foreach (var sbj in Subjects)
-                                {
-                <option value="@sbj.Id">@sbj.Name</option>
-                                }
-            /**/
-            /**/
-            /**/
-            /**/
-            /**/
-
-        </InputSelectInt>
-    </div>
-    <div class="form-group">
-        <InputLabel TItem="Work" aspfor="@nameof(EditWork.WorkNumber)"></InputLabel>
-        <InputNumber class="form-control" id="nameNum" @bind-Value="EditWork.WorkNumber" />
-    </div>
-    <div class="form-group">
-        <InputLabel TItem="Work" aspfor="@nameof(EditWork.Name)"></InputLabel>
-        <InputText class="form-control" id="nameEd" @bind-Value="EditWork.Name" />
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
-        <button type="button" class="btn btn-danger" @onclick="@(async () => await Edit(elem.Id))">Не сохранять</button>
-    </div>
-</EditForm>
-        }
-    }
-</ul>
+                                </InputSelectInt>
+                            </div>
+                            <div class="form-group">
+                                <InputLabel TItem="Work" aspfor="@nameof(EditWork.WorkNumber)"></InputLabel>
+                                <InputNumber class="form-control" id="nameNum" @bind-Value="EditWork.WorkNumber" />
+                            </div>
+                            <div class="form-group">
+                                <InputLabel TItem="Work" aspfor="@nameof(EditWork.Name)"></InputLabel>
+                                <InputText class="form-control" id="nameEd" @bind-Value="EditWork.Name" />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" @onclick="ValidateUpdating">Сохранить</button>
+                                <button type="button" class="btn btn-danger" @onclick="@(() => Edit(elem.Id))">Не сохранять</button>
+                            </div>
+                        </EditForm>
+                     }
+                 }
+            </ul>
             <button type="button" class="btn btn-primary" @onclick="@(() => { AddingMode = !AddingMode; StateHasChanged(); })">Добавить работу к предмету</button>
         }
         else
@@ -162,7 +156,7 @@ else
         if (ControlTypes == null) ControlTypes = await typeRepository.GetAllAsync();
         StateHasChanged();
     }
-    public async Task Edit(int id)
+    public void Edit(int id)
     {
         Works = Works.Where(e => e.Subject.Id == SubjectId);
 
@@ -205,7 +199,7 @@ else
                 Work.Subject = EditWork.Subject;
                 Work.ControlType = EditWork.ControlType;
                 await service.UpdateWorkAsync(Work);
-                await Edit(Work.Id);
+                Edit(Work.Id);
                 SelectedControlId = 0;
                 SelectedSubjectId = 0;
             }

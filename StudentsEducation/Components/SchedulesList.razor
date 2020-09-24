@@ -31,7 +31,6 @@
                                                     {
                                             <option value="@elem.Id">@elem.Name</option>
                                                     }
-                                        /**/
                                     </InputSelectInt>
                                 </div>
                                 <div class="form-group">
@@ -42,7 +41,6 @@
                                                     {
                                             <option value="@elem.Id">@elem.Name</option>
                                                     }
-                                        /**/
                                     </InputSelectInt>
                                 </div>
                                 <div class="form-group">
@@ -53,7 +51,6 @@
                                                     {
                                             <option value="@elem.Id">@elem.Name</option>
                                                     }
-                                        /**/
                                     </InputSelectInt>
                                 </div>
                                 <div class="form-group">
@@ -70,7 +67,6 @@
                                 </div>
                             </EditForm>
                         }
-
                     }
                 </ul>
                 @if (AddingMode)
@@ -86,7 +82,6 @@
                                         {
                                     <option value="@elem.Id">@elem.Name</option>
                                         }
-                                /**/
                             </InputSelectInt>
                         </div>
                         <div class="form-group">
@@ -254,6 +249,5 @@
     {
         await service.DeleteScheduleAsync(id);
         Schedules = Schedules.Where(e => e.Id != id);
-        //   StateHasChanged();
     }
 }

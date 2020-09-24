@@ -49,7 +49,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            FinalControl.Subject = await _subjService.GetSubjectAsync(FinalControl.SubjectId);
+            FinalControl.Schedule.Subject = await _subjService.GetSubjectAsync(FinalControl.Schedule.SubjectId);
             ModelState.Remove("FinalControl.Subject");
             ModelState.Remove("FinalControl.Student");
             if (!ModelState.IsValid)

@@ -32,7 +32,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
 
         public async Task<IActionResult> InitFields(int fcId)
         {
-            FinalControl = await _studService.GetFinalControl(fcId);
+            FinalControl = await _studService.GetFinalControlAsync(fcId);
             Student = FinalControl.Student;
             ViewData["SubjectId"] = new SelectList(await _studService.GetSubjectsByStudentAsync(Student.Id,true), "Id", "Name");
             return Page();
@@ -52,7 +52,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            FinalControl.Subject = await _subjService.GetSubjectAsync(FinalControl.SubjectId);
+         //  FinalControl.Schedule= await _subjService.GetSubjectAsync(FinalControl.ScheduleId);
             FinalControl.Student = await _studService.GetStudentAsync(FinalControl.StudentId);
             ModelState.Remove("FinalControl.Subject");
             ModelState.Remove("FinalControl.Student");

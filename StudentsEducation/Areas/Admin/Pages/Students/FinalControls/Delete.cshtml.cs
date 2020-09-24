@@ -31,7 +31,7 @@ namespace StudentsEducation.Web.Areas.Admin.Pages.Students.FinalControls
 
             FinalControl = await _context.FinalControls
                 .Include(f => f.Student)
-                .Include(f => f.Subject).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(f => f.Schedule).FirstOrDefaultAsync(m => m.Id == id);
 
             if (FinalControl == null)
             {

@@ -10,6 +10,7 @@ namespace StudentsEducation.Domain.Entities
         [StringLength(500)]
         [Display(Name = "Пояснение к пропуску")]
         public string Information { get; set; }
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         [Display(Name = "Уважительный")]
         public bool IsGood { get; set; }
@@ -19,9 +20,11 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name ="День пропуска")]
         public DateTime Date { get; set; }
 
-        //references
+        
         public int StudentId { get; set; }
         public virtual Student Student { get; set; }
+
+
         [Required(ErrorMessage = "Это поле является необходимым!")]
         public int ScheduleId { get; set; }
         [Required(ErrorMessage = "Это поле является необходимым!")]

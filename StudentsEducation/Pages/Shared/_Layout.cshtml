@@ -37,16 +37,14 @@
                     </ul>
                 </div>
             </div>
+            <partial name="_CookieConsentPartial" />
         </nav>
     </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
+    <div class="container">  
         <main role="main" class="pb-3">
-
             @RenderBody()
         </main>
     </div>
-
     <f1ooter class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - EduSys 
@@ -55,7 +53,7 @@
     <script src="_framework/blazor.server.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/popper/popper.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script><!--4.0.0 beta old but works, don't know why-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

@@ -74,7 +74,7 @@ namespace StudentsEducation.Domain.Services
             return await _skipsContext.GetByIdAsync(id);
         }
 
-        public async Task<FinalControl> GetFinalControl(int id)
+        public async Task<FinalControl> GetFinalControlAsync(int id)
         {
             return await _finalControlContext.GetByIdAsync(id);
         }
@@ -130,29 +130,23 @@ namespace StudentsEducation.Domain.Services
                 var controlType = mark.Work.ControlType;
                 if (controlType.LowValue <= mark.MarkValue && controlType.HighValue >= mark.MarkValue)
                 {
-                    var schedule = mark.Student.Group.Schedules.Where(e => e.SubjectId == mark.Work.SubjectId).FirstOrDefault();
-                    if (schedule.StartsIn <= mark.DateAdd && schedule.EndsIn >= mark.DateToPass)
+                    var schedule = mark.Schedule;
+                    if(schedule.EndsIn>=mark.DateToPass && schedule.StartsIn <= mark.DateAdd) 
                     {
-                        var marks = await _markContext.GetAllAsync();
-                        var resmark = marks.FirstOrDefault(e => e.WorkId == mark.WorkId && e.Student.GroupId== student.GroupId);
-                        if (resmark == null || (mark.DateAdd == resmark.DateAdd && mark.DateToPass == resmark.DateToPass))
+                        try
                         {
-                            try
-                            {
-                                return await _markContext.CreateAsync(mark);
-                            }
-                            catch (DbUpdateException ex)
-                            {
-                                throw ex;
-                            }
+                            return await _markContext.CreateAsync(mark);
                         }
-                        else throw new DbUpdateException($"Данные о промежутках принятия работ для группы должны быть для всех студентов одинаковы!{resmark.DateAdd.ToShortDateString()}  по {resmark.DateToPass.ToShortDateString()}");
+                        catch (DbUpdateException ex)
+                        {
+                            throw ex;
+                        }
                     }
                     else throw new DbUpdateException($"Промежуток приема работы выходит за рамки промежутка преподавания этого предмета для этого студенты (группы)! {schedule.StartsIn.ToShortDateString()} по {schedule.EndsIn.ToShortDateString()}");
                 }
                 else throw new DbUpdateException($"Оценка выходит за границы заданого типа контроля! {controlType.LowValue} по {controlType.HighValue}");
             }
-            return null;
+            throw new DbUpdateException("Не был найден студент!");
         }
 
         public async Task UpdateMarkAsync(Mark mark)
@@ -209,9 +203,9 @@ namespace StudentsEducation.Domain.Services
             if (student != null)
             {
                 finalControl.Student = student;
-                if (ValidateMark(finalControl.MarkValue, finalControl.Subject.ControlType))
+                if (ValidateMark(finalControl.MarkValue, finalControl.Schedule.Subject.ControlType))
                 {
-                    if (student.Group.Schedules.Any(e => e.SubjectId == finalControl.SubjectId))
+                    if (student.Group.Schedules.Any(e => e.Id == finalControl.ScheduleId))
                         return await _finalControlContext.CreateAsync(finalControl);
                     else throw new DbUpdateException("Такого предмета не было у этого студента!");
                 }
@@ -235,9 +229,9 @@ namespace StudentsEducation.Domain.Services
             if (student != null)
             {
                 finalControl.Student = student;
-                if (ValidateMark(finalControl.MarkValue, finalControl.Subject.ControlType))
+                if (ValidateMark(finalControl.MarkValue, finalControl.Schedule.Subject.ControlType))
                 {
-                    if (student.Group.Schedules.Any(e => e.SubjectId == finalControl.SubjectId))
+                    if (student.Group.Schedules.Any(e => e.Id == finalControl.ScheduleId))
                         await _finalControlContext.UpdateAsync(finalControl);
                     else throw new DbUpdateException("Такого предмета не было у этого студента!");
                 }
@@ -263,7 +257,7 @@ namespace StudentsEducation.Domain.Services
                     return subjects;
                 }
                 {
-                    var studSubj = student.FinalControls.Select(e => e.Subject);
+                    var studSubj = student.FinalControls.Select(e => e.Schedule.Subject);
                     return subjects.Except(studSubj);
                 }
             }

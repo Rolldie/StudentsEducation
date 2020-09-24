@@ -22,12 +22,8 @@ namespace StudentsEducation
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //also some services are in the identity/IdentityHostingStartup
-                
-            //db
             services.AddDbContext<EducationDbContext>(options => 
                 options.UseLazyLoadingProxies().EnableSensitiveDataLogging()
                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -38,44 +34,37 @@ namespace StudentsEducation
                 options.Conventions.AuthorizeAreaFolder("TeachersPanel", "/", "IsTeacher");
             }
             );
-            //mvc
-            services.AddControllersWithViews();
-           
+         
             services.AddServerSideBlazor();
+            
             //services
             services.AddScoped<IStudentsService,StudentsService>();
             services.AddScoped<ICathedrasAndGroupsService,CathedraManageService>();
             services.AddScoped<IdentityService>();
             services.AddScoped<ITeachersAndScheduleSerivce, TeacherManageService>();
             services.AddScoped<ISubjectAndWorksService, SubjectManageService>();
-            //repos injection
             services.AddScoped(typeof(IAsyncRepository<>),typeof(EFRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStatusCodePagesWithRedirects("~/Error?code{0}");
+            app.UseExceptionHandler("/Error");
+
             if (env.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseStatusCodePagesWithRedirects("~/Error?code{0}");
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
-                app.UseExceptionHandler("~/Error");
-                app.UseStatusCodePagesWithRedirects("~/Error?code{0}");
                 app.UseHsts();
-            }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
             app.UseCookiePolicy();
-            //identity
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

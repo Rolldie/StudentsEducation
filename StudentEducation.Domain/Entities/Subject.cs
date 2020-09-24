@@ -14,13 +14,12 @@ namespace StudentsEducation.Domain.Entities
         public string Name { get; set; }
 
 
-
-        //references
         public int ControlTypeId { get; set; }
         public virtual ControlType ControlType { get; set; }
-        public virtual IEnumerable<Work> Works { get; set; }
+
+
         public virtual IEnumerable<Schedule> Schedules { get; set; }
-        public virtual IEnumerable<FinalControl> FinalControls { get; set; }
+        public virtual IEnumerable<Work> Works { get; set; }
 
     }
 }

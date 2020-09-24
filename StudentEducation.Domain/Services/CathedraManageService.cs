@@ -10,7 +10,8 @@ namespace StudentsEducation.Domain.Services
     {
         private readonly IAsyncRepository<Cathedra> _cathedraRepository;
         private readonly IAsyncRepository<Group> _groupRepository;
-        public CathedraManageService(IAsyncRepository<Cathedra> repository,IAsyncRepository<Group> groupRepository)
+        public CathedraManageService(IAsyncRepository<Cathedra> repository,
+            IAsyncRepository<Group> groupRepository)
         {
             _cathedraRepository = repository;
             _groupRepository = groupRepository;
@@ -79,11 +80,10 @@ namespace StudentsEducation.Domain.Services
             if (group == null) return 0;
             double result = 0;
             var schedules = group.Schedules.Where(e=>e.StartsIn>=start && e.EndsIn<=end);
-            var subjectsToPass = schedules.Select(e => e.Subject);
-            double allSubjects = subjectsToPass.Count() * group.Students.Count();
-            result = group.Students.SelectMany(e => e.FinalControls.Where(m => m.MarkValue >= m.Subject.ControlType.SatisfactorilyValue && m.StudentId == e.Id)).Count() / allSubjects;
+            var marks = schedules.SelectMany(e => e.Marks.Where(m=>m.Work.ControlType.SatisfactorilyValue<=m.MarkValue));
+            var allSubj = schedules.SelectMany(e => e.Subject.Works);
+            result = (double)marks.Count() / allSubj.Count();
             return result;
-
         }
     }
 }

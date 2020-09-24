@@ -11,6 +11,7 @@ namespace StudentsEducation.Domain.Entities
         [Display(Name = "ФИО преподавателя")]
         public string Name { get; set; }
 
+
         public virtual IEnumerable<Schedule> Schedules { get; set; }
 
     }
